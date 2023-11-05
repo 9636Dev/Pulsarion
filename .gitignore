@@ -1,0 +1,11 @@
+/.vs/
+/.vscode/
+/bin/
+/bin-int/
+
+# Configuration files
+Makefile
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
