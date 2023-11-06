@@ -2,9 +2,13 @@
 
 #include <string>
 
+#define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; }\
+    virtual EventType GetEventType() const override	{ return GetStaticType(); }\
+    virtual const std::string GetName() const override { return #type; }
+
 namespace Pulsarion
 {
-    enum class PULSARION_API EventType
+    enum class PULSARION_API EventType : std::int32_t
     {
         None = 0,
         WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
@@ -13,7 +17,7 @@ namespace Pulsarion
         MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
     };
 
-    enum class PULSARION_API EventCategory
+    enum class PULSARION_API EventCategory : std::int32_t
     {
         None = 0,
         Application = 1 << 0,
@@ -28,23 +32,22 @@ namespace Pulsarion
         friend class EventDispatcher;
 
     public:
+        Event() : m_Handled(false)
+        {
+
+        }
         virtual ~Event() = default;
         Event(const Event&) = delete;
         virtual Event& operator=(const Event&) = delete;
         Event(Event&&) = default;
         virtual Event& operator=(Event&&) = default;
 
-        virtual EventType GetType() const = 0;
-        virtual EventCategory GetCategory() const = 0;
-        virtual const char* GetName() const = 0;
+        virtual EventType GetEventType() const = 0;
+        virtual std::int32_t GetCategoryFlags() const = 0;
+        virtual const std::string GetName() const = 0;
         virtual std::string ToString() const = 0;
-
-        virtual bool IsInCategory(EventCategory category) const = 0;
-        virtual bool IsHandled() const = 0;
-
-        virtual operator bool() const = 0;
     private:
-        bool m_Handled = false;
+        bool m_Handled;
     };
 
     class EventDispatcher
@@ -60,7 +63,7 @@ namespace Pulsarion
         template <typename T, typename F>
         bool Dispatch(const F& func)
         {
-            if (m_Event.GetType() == T::GetStaticType())
+            if (m_Event.GetEventType() == T::GetStaticType())
             {
                 m_Event.m_Handled |= func(static_cast<T&>(m_Event));
                 return true;

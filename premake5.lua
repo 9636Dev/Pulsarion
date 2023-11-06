@@ -1,4 +1,8 @@
+OUTPUT_DIR = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 PULSARION_CURRENT_DIR = os.getcwd()
+PULSARION_LIB_COPY_DIRS = {
+    PULSARION_CURRENT_DIR .. "/bin/" .. OUTPUT_DIR .. "/PulsarionExamples",
+}
 
 workspace "Pulsarion"
     configurations { "Debug", "Release", "Dist" }
@@ -28,11 +32,6 @@ workspace "Pulsarion"
             Pulsarion.include_dirs.root,
             Pulsarion.include_dirs.glm,
             Pulsarion.include_dirs.glfw,
-        }
-
-        postbuildcommands
-        {
-            ("{COPY} " .. Pulsarion.output_dir .. "/* " .. "bin/" .. OUTPUT_DIR .. "/%{prj.name}")
         }
 
         links
@@ -65,7 +64,10 @@ workspace "Pulsarion"
             }
 
         filter "configurations:Debug"
-            defines "PLS_DEBUG"
+            defines {
+                "PLS_DEBUG",
+                "SPDLOG_ACTIVE_LEVEL=0",
+            }
             runtime "Debug"
             symbols "on"
 

@@ -1,8 +1,15 @@
 ---@diagnostic disable: undefined-field
-OUTPUT_DIR = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+if (not OUTPUT_DIR) then
+    OUTPUT_DIR = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+end
 
 if (not PULSARION_CURRENT_DIR) then
     print("PULSARION_CURRENT_DIR must be defined!")
+end
+
+if (not PULSARION_LIB_COPY_DIRS) then
+    PULSARION_LIB_COPY_DIRS = {}
+    print("PULSARION_LIB_COPY_DIRS was not defined, using empty table.")
 end
 
 Pulsarion = {
@@ -45,6 +52,11 @@ project "Pulsarion"
         "src/**.cpp",
     }
 
+    links
+    {
+        "GLFW",
+    }
+
     includedirs
     {
         Pulsarion.include_dirs.root,
@@ -52,6 +64,14 @@ project "Pulsarion"
         Pulsarion.include_dirs.glfw,
         Pulsarion.include_dirs.spdlog,
     }
+
+    local commands = {}
+    for _, dir in ipairs(PULSARION_LIB_COPY_DIRS) do
+        local command = "{COPY} " .. Pulsarion.output_dir .. " " .. dir
+        table.insert(commands, command)
+    end
+
+    postbuildcommands(commands)
 
     pchheader "Pulsarionpch.h"
     pchsource "src/Pulsarionpch.cpp"
@@ -65,6 +85,9 @@ project "Pulsarion"
             Pulsarion.defines.windows,
             "PLS_BUILD_DLL",
         }
+
+        -- Suprress DLL interface warnings
+        disablewarnings { "4251" }
 
     filter "system:linux"
         systemversion "latest"
@@ -85,7 +108,10 @@ project "Pulsarion"
         }
 
     filter "configurations:Debug"
-        defines "PLS_DEBUG"
+        defines {
+            "PLS_DEBUG",
+            "SPDLOG_ACTIVE_LEVEL=0",
+        }
         runtime "Debug"
         symbols "on"
 

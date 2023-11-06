@@ -21,7 +21,7 @@ namespace Pulsarion::OpenGL
     class GL
     {
     public:
-        static void Init();
+        static void Init(const GLVersion& version);
         static void Terminate();
     };
 }

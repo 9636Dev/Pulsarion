@@ -1,7 +1,14 @@
-#include <iostream>
-#include "Pulsarion/Test.h"
+#include "Pulsarion.h"
+#include <memory>
 
+using namespace Pulsarion;
 int main(int argc, char** argv) {
-    std::cout << "Hello, World!" << std::endl;
-    return Test::Run();
+    std::unique_ptr<Window> window = CreateWindowPointer(WindowProperties());
+
+    while (window->IsOpen())
+    {
+        window->OnFrame();
+    }
+
+    return 0;
 }

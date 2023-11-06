@@ -27,7 +27,7 @@
 
 #define PLS_EXPAND_MACRO(x) x
 #define PLS_STRINGIFY_MACRO(x) #x
-#define PLS_RUN_IF_DEBUG(x) if constexpr (PS_DEBUG) { x; }
+#define PLS_RUN_IF_DEBUG(x) if constexpr (PLS_DEBUG) { x; }
 
 #define PLS_ENABLE_ASSERTS
 #define SPD_LOG_ACTIVE_LEVEL 0
@@ -37,4 +37,14 @@
 
 #if defined(PLS_ENABLE_ASSERTS) && !defined(PLS_DISABLE_ASSERTS)
 #include "Assert.h"
+#endif
+
+
+// Backends
+#ifdef PLS_PLATFORM_WINDOWS
+#define PLS_USE_GLFW_WINDOW
+#define PLS_USE_OPENGL_RENDERER
+#elif defined(PLS_PLATFORM_MACOS)
+#define PLS_USE_GLFW_WINDOW
+#define PLS_USE_OPENGL_RENDERER
 #endif
