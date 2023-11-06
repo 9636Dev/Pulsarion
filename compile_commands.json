@@ -1,0 +1,519 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/cocoa_init.o",
+      "src/cocoa_init.m"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/cocoa_init.m",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/cocoa_init.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/cocoa_joystick.o",
+      "src/cocoa_joystick.m"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/cocoa_joystick.m",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/cocoa_joystick.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/cocoa_monitor.o",
+      "src/cocoa_monitor.m"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/cocoa_monitor.m",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/cocoa_monitor.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/cocoa_time.o",
+      "src/cocoa_time.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/cocoa_time.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/cocoa_time.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/cocoa_window.o",
+      "src/cocoa_window.m"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/cocoa_window.m",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/cocoa_window.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/context.o",
+      "src/context.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/context.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/context.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/egl_context.o",
+      "src/egl_context.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/egl_context.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/egl_context.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/init.o",
+      "src/init.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/init.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/init.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/input.o",
+      "src/input.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/input.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/input.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/monitor.o",
+      "src/monitor.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/monitor.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/monitor.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/nsgl_context.o",
+      "src/nsgl_context.m"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/nsgl_context.m",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/nsgl_context.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/null_init.o",
+      "src/null_init.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/null_init.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/null_init.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/null_joystick.o",
+      "src/null_joystick.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/null_joystick.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/null_joystick.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/null_monitor.o",
+      "src/null_monitor.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/null_monitor.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/null_monitor.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/null_window.o",
+      "src/null_window.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/null_window.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/null_window.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/osmesa_context.o",
+      "src/osmesa_context.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/osmesa_context.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/osmesa_context.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/platform.o",
+      "src/platform.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/platform.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/platform.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/posix_module.o",
+      "src/posix_module.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/posix_module.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/posix_module.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/posix_thread.o",
+      "src/posix_thread.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/posix_thread.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/posix_thread.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/vulkan.o",
+      "src/vulkan.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/vulkan.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/vulkan.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-D_GLFW_COCOA",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/GLFW/window.o",
+      "src/window.c"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/src/window.c",
+    "output": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/vender/glfw/bin-int/Debug-macosx-x86_64/GLFW/window.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-x",
+      "c++-header",
+      "-DPLS_PLATFORM_MACOS",
+      "-DPLS_BUILD_DLL",
+      "-DPLS_DEBUG",
+      "-Isrc",
+      "-Ivender/glm",
+      "-Ivender/glfw/include",
+      "-Ivender/spdlog/include",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-std=c++20",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "../bin-int/Debug-macosx-x86_64/Pulsarion/Pulsarionpch.h.gch",
+      "src/Pulsarionpch.h"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/src/Pulsarionpch.h",
+    "output": "/Users/henny.wang/Documents/Pulsarion/bin-int/Debug-macosx-x86_64/Pulsarion/Pulsarionpch.h.gch"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-DPLS_PLATFORM_MACOS",
+      "-DPLS_BUILD_DLL",
+      "-DPLS_DEBUG",
+      "-Isrc",
+      "-Ivender/glm",
+      "-Ivender/glfw/include",
+      "-Ivender/spdlog/include",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-std=c++20",
+      "-mmacosx-version-min=10.17",
+      "-include",
+      "../bin-int/Debug-macosx-x86_64/Pulsarion/Pulsarionpch.h",
+      "-include",
+      "Pulsarionpch.h",
+      "-c",
+      "-o",
+      "../bin-int/Debug-macosx-x86_64/Pulsarion/Test.o",
+      "src/Pulsarion/Test.cpp"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/src/Pulsarion/Test.cpp",
+    "output": "/Users/henny.wang/Documents/Pulsarion/bin-int/Debug-macosx-x86_64/Pulsarion/Test.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-DPLS_PLATFORM_MACOS",
+      "-DPLS_BUILD_DLL",
+      "-DPLS_DEBUG",
+      "-Isrc",
+      "-Ivender/glm",
+      "-Ivender/glfw/include",
+      "-Ivender/spdlog/include",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-std=c++20",
+      "-mmacosx-version-min=10.17",
+      "-include",
+      "../bin-int/Debug-macosx-x86_64/Pulsarion/Pulsarionpch.h",
+      "-include",
+      "Pulsarionpch.h",
+      "-c",
+      "-o",
+      "../bin-int/Debug-macosx-x86_64/Pulsarion/File.o",
+      "src/Pulsarion/Util/File.cpp"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/src/Pulsarion/Util/File.cpp",
+    "output": "/Users/henny.wang/Documents/Pulsarion/bin-int/Debug-macosx-x86_64/Pulsarion/File.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-DPLS_PLATFORM_MACOS",
+      "-DPLS_BUILD_DLL",
+      "-DPLS_DEBUG",
+      "-Isrc",
+      "-Ivender/glm",
+      "-Ivender/glfw/include",
+      "-Ivender/spdlog/include",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-std=c++20",
+      "-mmacosx-version-min=10.17",
+      "-include",
+      "../bin-int/Debug-macosx-x86_64/Pulsarion/Pulsarionpch.h",
+      "-include",
+      "Pulsarionpch.h",
+      "-c",
+      "-o",
+      "../bin-int/Debug-macosx-x86_64/Pulsarion/Log.o",
+      "src/Pulsarion/Util/Log.cpp"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/src/Pulsarion/Util/Log.cpp",
+    "output": "/Users/henny.wang/Documents/Pulsarion/bin-int/Debug-macosx-x86_64/Pulsarion/Log.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-DPLS_PLATFORM_MACOS",
+      "-DPLS_BUILD_DLL",
+      "-DPLS_DEBUG",
+      "-Isrc",
+      "-Ivender/glm",
+      "-Ivender/glfw/include",
+      "-Ivender/spdlog/include",
+      "-m64",
+      "-fPIC",
+      "-g",
+      "-std=c++20",
+      "-mmacosx-version-min=10.17",
+      "-include",
+      "../bin-int/Debug-macosx-x86_64/Pulsarion/Pulsarionpch.h",
+      "-include",
+      "Pulsarionpch.h",
+      "-c",
+      "-o",
+      "../bin-int/Debug-macosx-x86_64/Pulsarion/Pulsarionpch.o",
+      "src/Pulsarionpch.cpp"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion/Pulsarion",
+    "file": "/Users/henny.wang/Documents/Pulsarion/Pulsarion/src/Pulsarionpch.cpp",
+    "output": "/Users/henny.wang/Documents/Pulsarion/bin-int/Debug-macosx-x86_64/Pulsarion/Pulsarionpch.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-DPLS_PLATFORM_MACOS",
+      "-DPLS_DEBUG",
+      "-Iexamples",
+      "-IPulsarion/src",
+      "-IPulsarion/vender/glm",
+      "-IPulsarion/vender/glfw/include",
+      "-m64",
+      "-g",
+      "-std=c++20",
+      "-mmacosx-version-min=10.17",
+      "-c",
+      "-o",
+      "bin-int/Debug-macosx-x86_64/PulsarionExamples/Application.o",
+      "examples/Application.cpp"
+    ],
+    "directory": "/Users/henny.wang/Documents/Pulsarion",
+    "file": "/Users/henny.wang/Documents/Pulsarion/examples/Application.cpp",
+    "output": "/Users/henny.wang/Documents/Pulsarion/bin-int/Debug-macosx-x86_64/PulsarionExamples/Application.o"
+  }
+]

@@ -3,9 +3,9 @@ A structure to store generic transform data, used for the Graphical Object.
 
 # Requirements
  - [ ] 2D and 3D versions
- - [ ] Storage of translation std::array
- - [ ] Storage of scale std::array
- - [ ] Storage of rotation std::array
+ - [ ] Storage of translation glm::vec
+ - [ ] Storage of scale glm::vec
+ - [ ] Storage of rotation glm::vec
  - [ ] Function to get the transform as a matrix of dimension + 1 by dimension + 1
 	 - [ ] Should cache the matrix result as calculations will require matrix multiplication
  - [ ] Specialized constructors for 2D and 3D versions, as 2D rotation is 1 value, and 3D is 3

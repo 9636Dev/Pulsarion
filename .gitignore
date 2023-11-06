@@ -1,7 +1,9 @@
 /.vs/
+/.cache/
 /.vscode/
 /bin/
 /bin-int/
+/compile_commands.json/
 
 # Configuration files
 Makefile

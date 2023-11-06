@@ -1,0 +1,162 @@
+{
+  "main": {
+    "id": "5b91b6e14e870aa1",
+    "type": "split",
+    "children": [
+      {
+        "id": "2eceb492285c0a1b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cb8d1e60a5efd4d0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "design/Vertex.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "077acf28fbea9ff8",
+    "type": "split",
+    "children": [
+      {
+        "id": "fd323c22348ed60c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "419227cd0978ad4f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "07c0b4a6ce0eb376",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "8ac9ac6bf3ce20fb",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "f453c77bf16cd2b8",
+    "type": "split",
+    "children": [
+      {
+        "id": "96f6d492fda7009a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "91dad153022b8e2e",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "design/Vertex.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "7f80af48f788648d",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "design/Vertex.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "5d5d061020b9bb8e",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "7f0c1666633a2d6a",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "design/Vertex.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "cb8d1e60a5efd4d0",
+  "lastOpenFiles": [
+    "design/InterleavedVertex.md",
+    "design/Mesh.md",
+    "design/Vertex.md",
+    "design/Material.md",
+    "design/Renderer.md",
+    "design/ShaderManager.md",
+    "design/Transform.md",
+    "Untitled.canvas",
+    "design/GraphicalObject.md",
+    "design/E - UsageType.md"
+  ]
+}

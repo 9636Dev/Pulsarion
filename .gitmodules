@@ -1,3 +1,6 @@
 [submodule "Pulsarion/vender/glfw"]
 	path = Pulsarion/vender/glfw
 	url = https://github.com/HW9636/glfw
+[submodule "Pulsarion/vender/spdlog"]
+	path = Pulsarion/vender/spdlog
+	url = https://github.com/gabime/spdlog
