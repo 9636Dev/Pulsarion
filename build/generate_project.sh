@@ -1,3 +1,3 @@
-# !bin/sh
-cd ../
-vender/premake5 gmake2
+#!/bin/sh
+
+premake5 gmake

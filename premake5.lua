@@ -56,7 +56,7 @@ workspace "Pulsarion"
                 Pulsarion.defines.linux,
             }
 
-        filter "system:macos"
+        filter "system:macosx"
             systemversion "10.17"
 
             defines

@@ -1,7 +1,7 @@
 #include "Pulsarionpch.h"
 #include "Test.h"
 
-int Test() 
+int Test::Run()
 {
     return 1;
 }
