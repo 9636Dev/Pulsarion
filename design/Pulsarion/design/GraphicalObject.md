@@ -22,3 +22,5 @@ A object representing an object that is renderable, and is the only object the r
 # Variables
 [[Util Modifiable]]\<[[Transform]]> - The transform data, which is wrapped in a Modifiable to allow for efficient caching.
 std::shared_ptr\<[[Material]]> - The material data, which is a shared pointer pointing to a material
+
+# Functions

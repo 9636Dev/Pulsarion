@@ -11,6 +11,7 @@ Pulsarion = {
         root = os.getcwd() .. "/src",
         glm = os.getcwd() .. "/vender/glm",
         glfw = os.getcwd() .. "/vender/glfw/include",
+        spdlog = os.getcwd() .. "/vender/spdlog/include",
     },
     defines = {
         windows = "PLS_PLATFORM_WINDOWS",
@@ -49,6 +50,7 @@ project "Pulsarion"
         Pulsarion.include_dirs.root,
         Pulsarion.include_dirs.glm,
         Pulsarion.include_dirs.glfw,
+        Pulsarion.include_dirs.spdlog,
     }
 
     pchheader "Pulsarionpch.h"
