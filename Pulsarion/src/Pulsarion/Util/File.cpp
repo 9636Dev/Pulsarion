@@ -3,10 +3,17 @@
 
 namespace Pulsarion
 {
-    File::File(const std::string& path)
-        : m_Path(path), m_Content(), m_CacheContent(false)
+    File::File(const std::string& path, bool absolute)
+        : m_CacheContent(false), m_Content(std::nullopt)
     {
-
+        if (absolute)
+        {
+            m_Path = std::filesystem::absolute(path);
+        }
+        else
+        {
+            m_Path = std::filesystem::relative(path);
+        }
     }
 
     File::~File()
@@ -21,7 +28,7 @@ namespace Pulsarion
         {
             m_Content = std::make_optional<Modifiable<std::string>>(other.m_Content->GetConst());
         }
-        else m_Content = std::optional();
+        else m_Content = std::optional<Modifiable<std::string>>();
     }
 
     File::File(File&& other) noexcept
@@ -38,7 +45,7 @@ namespace Pulsarion
         {
             m_Content = std::make_optional<Modifiable<std::string>>(other.m_Content->GetConst());
         }
-        else m_Content = std::optional();
+        else m_Content = std::nullopt;
         return *this;
     }
 
@@ -49,100 +56,146 @@ namespace Pulsarion
         return *this;
     }
 
-    const std::string& File::GetPath() const noexcept
+    std::filesystem::path File::GetAbsolutePath() const noexcept
     {
-        return m_Path;
-    }
-
-    std::string File::GetContent(bool ignoreCached) const
-    {
-        if (!m_Content.has_value() || ignoreCached)
+        if (m_Path.is_absolute())
         {
-            std::ifstream file(m_Path);
-            if (!file.is_open())
-            {
-                PLS_LOG_ERROR("Failed to open file: {0}", m_Path);
-                return ""; // TODO: Throw exception
-            }
-            std::stringstream ss;
-            ss << file.rdbuf();
-            file.close();
-            if (m_CacheContent)
-                m_Content->Set(ss.str());
-            else
-                return ss.str();
+            return m_Path;
         }
-        return m_Content->GetConst();
+        else
+        {
+            return std::filesystem::absolute(m_Path);
+        }
     }
 
-    void File::UpdateContent() const {
-        if (!m_Content.has_value() || !m_Content->IsDirty()) return;
-        WriteContent(m_Content->GetConst());
-        m_Content->SetDirty(false);
+    std::optional<std::filesystem::path> File::GetRelativePath() const noexcept
+    {
+        if (m_Path.is_relative())
+            return m_Path;
+        
+        else if (m_Path.has_relative_path())
+            return std::filesystem::relative(m_Path);
+        return std::nullopt;
+    }
+
+    std::string File::GetFileName() const noexcept
+    {
+        return m_Path.filename().string();
+    }
+
+    std::string File::GetFileNameWithoutExtension() const noexcept
+    {
+        return m_Path.stem().string();
+    }
+
+    std::string File::GetExtension() const noexcept
+    {
+        if (m_Path.has_extension())
+            return m_Path.extension().string();
+        return "";
+    }
+
+    bool File::IsDirectory() const noexcept
+    {
+        return std::filesystem::is_directory(m_Path);
+    }
+
+    bool File::IsFile() const noexcept
+    {
+        return std::filesystem::is_regular_file(m_Path);
+    }
+
+    bool File::Exists() const noexcept
+    {
+        return std::filesystem::exists(m_Path);
+    }
+
+    void File::CreateDirectories() const
+    {
+        std::filesystem::create_directories(m_Path);
+    }
+
+    void File::CreateNewFile() const
+    {
+        std::ofstream file(m_Path);
+        file.close();
+    }
+
+    std::string File::GetContent() const
+    {
+        if (m_Content.has_value())
+        {
+            return m_Content->GetConst();
+        }
+
+        std::ifstream file(m_Path);
+        std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+        file.close();
+        if (m_CacheContent)
+        {
+            m_Content = std::make_optional<Modifiable<std::string>>(content);
+        }
+
+        return content;
     }
 
     void File::SetContent(const std::string& content)
     {
         if (m_CacheContent)
-            m_Content = Modifiable<std::string>(content);
-        else
-            WriteContent(content);
-    }
-
-    void File::WriteContent(const std::string& content) const
-    {
-        std::ofstream file(m_Path);
-        if (!file.is_open())
         {
-            PLS_LOG_ERROR("Failed to open file: {0}", m_Path);
-            return; // TODO: Throw exception
+            if (!m_Content.has_value())
+                m_Content = std::make_optional<Modifiable<std::string>>(content);
+            else
+                m_Content->Set(content);
         }
-        file << content;
-        file.close();
+        else
+        {
+            std::ofstream file(m_Path);
+            file << content;
+            file.close();
+        }
     }
 
     void File::AppendContent(const std::string& content)
     {
         if (m_CacheContent)
-            m_Content->Get() = m_Content->GetConst() + content;
+        {
+            if (!m_Content.has_value())
+                m_Content = std::make_optional<Modifiable<std::string>>(content);
+            else
+                m_Content->Set(m_Content->GetConst() + content);
+        }
         else
-            SetContent(m_Content->GetConst() + content);
-    }
-
-    bool File::Exists() const noexcept
-    {
-        std::ifstream file(m_Path);
-        return file.good();
-    }
-
-    bool File::CreateFile() const
-    {
-        if (Exists()) return false;
-        std::ofstream file(m_Path);
-        if (!file.is_open())
         {
-            PLS_LOG_ERROR("Failed to create file: {0}", m_Path);
-            return false;
+            std::ofstream file(m_Path, std::ios_base::app);
+            file << content;
+            file.close();
         }
-        file.close();
-        return true;
     }
 
-    bool File::DeleteFile() const
+    void File::ClearContent()
     {
-        if (!Exists()) return false;
-        if (std::remove(m_Path.c_str()) == -1)
+        if (m_CacheContent)
         {
-            PLS_LOG_ERROR("Failed to delete file: {0}", m_Path);
-            return false;
+            if (!m_Content.has_value())
+                m_Content = std::make_optional<Modifiable<std::string>>("");
+            else
+                m_Content->Set("");
         }
-        return true;
+        else
+        {
+            std::ofstream file(m_Path);
+            file.close();
+        }
     }
 
-    void File::CacheContent(bool cache)
+    void File::UpdateContent() const
     {
-        if (m_CacheContent && !cache)
-            UpdateContent();
-        m_CacheContent = cache;
+        if (m_Content.has_value())
+        {
+            std::ofstream file(m_Path);
+            file << m_Content->GetConst();
+            file.close();
+        }
     }
 }
