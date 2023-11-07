@@ -2,6 +2,7 @@ OUTPUT_DIR = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 PULSARION_CURRENT_DIR = os.getcwd()
 PULSARION_LIB_COPY_DIRS = {
     PULSARION_CURRENT_DIR .. "/bin/" .. OUTPUT_DIR .. "/PulsarionExamples/",
+    PULSARION_CURRENT_DIR .. "/bin/" .. OUTPUT_DIR .. "/PulsarionTests/"
 }
 
 workspace "Pulsarion"
@@ -16,7 +17,6 @@ workspace "Pulsarion"
         kind "ConsoleApp"
         language "C++"
         cppdialect "C++20"
-        staticruntime "on"
 
         targetdir ("bin/" .. OUTPUT_DIR .. "/%{prj.name}/")
         objdir ("bin-int/" .. OUTPUT_DIR .. "/%{prj.name}/")
@@ -32,7 +32,6 @@ workspace "Pulsarion"
             "examples",
             Pulsarion.include_dirs.root,
             Pulsarion.include_dirs.glm,
-            Pulsarion.include_dirs.glfw,
         }
 
         links
@@ -87,7 +86,6 @@ workspace "Pulsarion"
         kind "ConsoleApp"
         language "C++"
         cppdialect "C++20"
-        staticruntime "on"
 
         targetdir ("bin/" .. OUTPUT_DIR .. "/%{prj.name}/")
         objdir ("bin-int/" .. OUTPUT_DIR .. "/%{prj.name}/")
@@ -101,10 +99,8 @@ workspace "Pulsarion"
         includedirs
         {
             "tests",
-            "stfcpp/include",
             Pulsarion.include_dirs.root,
             Pulsarion.include_dirs.glm,
-            Pulsarion.include_dirs.glfw,
         }
 
         links

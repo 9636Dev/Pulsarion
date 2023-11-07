@@ -48,3 +48,12 @@
 #define PLS_USE_GLFW_WINDOW
 #define PLS_USE_OPENGL_RENDERER
 #endif
+
+namespace Pulsarion
+{
+    class PULSARION_API Initializers
+    {
+    public:
+        static void InitLogger();
+    };
+}

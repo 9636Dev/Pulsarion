@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Pulsarion/Core/PulsarionCore.h"
 #include "Modifiable.h"
 
 #include <string>
@@ -8,7 +9,7 @@
 
 namespace Pulsarion
 {
-    class File
+    class PULSARION_API File
     {
     public:
         File(const std::string& path, bool absolute = true);
@@ -26,8 +27,10 @@ namespace Pulsarion
         bool Exists() const noexcept;
         std::string GetFileNameWithoutExtension() const noexcept;
         std::string GetExtension() const noexcept;
-        void CreateDirectories() const;
-        void CreateNewFile() const;
+        File GetParent() const;
+        bool CreateDirectories() const;
+        bool CreateNewFile() const;
+        bool Delete() const;
 
         std::string GetContent() const;
         void SetContent(const std::string& content);

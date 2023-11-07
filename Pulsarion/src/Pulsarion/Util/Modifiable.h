@@ -1,5 +1,7 @@
 #pragma once
 
+#include <forward_list>
+
 namespace Pulsarion {
 
     template<typename T>
@@ -63,20 +65,9 @@ namespace Pulsarion {
             m_Dirty = dirty;
         }
 
-        template<typename T>
-        inline static Modifiable<T> Emplace(T&& value)
-        {
-            return Modifiable<T>(value);
-        }
-
         inline explicit operator T&() noexcept { return Get(); }
-        inline operator const T&() const noexcept { return GetConst(); };
+        inline explicit operator const T&() const noexcept { return GetConst(); };
     private:
-        inline Modifiable(T&& value)
-                : m_Value(std::move(value)), m_Dirty(false)
-        {
-
-        }
 
         T m_Value;
         bool m_Dirty;

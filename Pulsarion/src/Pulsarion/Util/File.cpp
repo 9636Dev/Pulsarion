@@ -18,7 +18,7 @@ namespace Pulsarion
 
     File::~File()
     {
-
+        UpdateContent();
     }
 
     File::File(const File& other) noexcept
@@ -110,15 +110,38 @@ namespace Pulsarion
         return std::filesystem::exists(m_Path);
     }
 
-    void File::CreateDirectories() const
+    File File::GetParent() const
     {
-        std::filesystem::create_directories(m_Path);
+        return File(m_Path.parent_path().string());
     }
 
-    void File::CreateNewFile() const
+    bool File::CreateDirectories() const
+    {
+        try {
+            return std::filesystem::create_directories(m_Path);
+        }
+        catch (std::filesystem::filesystem_error& e)
+        {
+            PLS_LOG_WARN("File::CreateDirectories Error: {}", e.what());
+            return false;
+        }
+    }
+
+    bool File::CreateNewFile() const
     {
         std::ofstream file(m_Path);
+        if (file.good())
+        {
+            file.close();
+            return true;
+        }
         file.close();
+        return false;
+    }
+
+    bool File::Delete() const
+    {
+        return std::filesystem::remove(m_Path);
     }
 
     std::string File::GetContent() const
@@ -129,8 +152,10 @@ namespace Pulsarion
         }
 
         std::ifstream file(m_Path);
-        std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+        std::stringstream ss;
+        ss << file.rdbuf();
         file.close();
+        std::string content = ss.str();
         if (m_CacheContent)
         {
             m_Content = std::make_optional<Modifiable<std::string>>(content);
@@ -191,11 +216,12 @@ namespace Pulsarion
 
     void File::UpdateContent() const
     {
-        if (m_Content.has_value())
+        if (m_Content.has_value() && m_Content->IsDirty())
         {
             std::ofstream file(m_Path);
             file << m_Content->GetConst();
             file.close();
+            m_Content->SetDirty(false);
         }
     }
 }
