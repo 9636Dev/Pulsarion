@@ -107,6 +107,15 @@ project "Pulsarion"
             "PLS_BUILD_DLL",
         }
 
+        links
+        {
+            "Cocoa.framework",
+            "OpenGL.framework",
+            "CoreFoundation.framework",
+            "IOKit.framework",
+            "CoreVideo.framework",
+   	    }
+
     filter "configurations:Debug"
         defines {
             "PLS_DEBUG",

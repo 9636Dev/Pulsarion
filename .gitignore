@@ -3,7 +3,7 @@
 /.vscode/
 /bin/
 /bin-int/
-/compile_commands.json/
+/compile_commands.json
 
 # Configuration files
 Makefile
@@ -11,3 +11,4 @@ Makefile
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
+*.make
