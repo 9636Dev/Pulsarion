@@ -139,7 +139,7 @@ namespace Pulsarion
         return std::make_unique<GLFWWindow>(windowProperties);
     }
 
-    GLFWWindow::GLFWWindow(const WindowProperties& properties) : m_Data()
+    GLFWWindow::GLFWWindow(const WindowProperties& properties) : m_Data(), m_FrameTimes()
     {
         m_Data.Width = properties.GetWidth();
         m_Data.Height = properties.GetHeight();
@@ -170,6 +170,8 @@ namespace Pulsarion
 
     void GLFWWindow::OnFrame() const
     {
+        
+        
         glfwSwapBuffers(m_Window);
         glfwPollEvents();
     }

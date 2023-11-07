@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <string>
+#include <deque>
 
 struct GLFWwindow;
 
@@ -37,12 +38,16 @@ namespace Pulsarion
         [[nodiscard]] const std::string& GetTitle() const noexcept override;
         void SetTitle(const std::string& title) override;
 
+        float GetAverageFrameTime();
+        float GetAverageFps();
+        
     private:
         void SetupCallbacks();
         static void DefaultEventCallback(const Event& event);
 
         GLFWwindow* m_Window;
         WindowData m_Data;
+        std::deque<float> m_FrameTimes;
     };
 }
 
