@@ -50,6 +50,9 @@ namespace Pulsarion
         [[nodiscard]] virtual std::uint32_t GetHeight() const noexcept = 0;
         [[nodiscard]] virtual const std::string& GetTitle() const noexcept = 0;
         virtual void SetTitle(const std::string& title) = 0;
+
+        virtual float GetAverageFrameTime() const = 0;
+        virtual float GetAverageFps() const = 0;
     };
 
     extern PULSARION_API std::unique_ptr<Window> CreateWindowPointer(const WindowProperties& windowProperties);

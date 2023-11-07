@@ -38,8 +38,8 @@ namespace Pulsarion
         [[nodiscard]] const std::string& GetTitle() const noexcept override;
         void SetTitle(const std::string& title) override;
 
-        float GetAverageFrameTime();
-        float GetAverageFps();
+        float GetAverageFrameTime() const override;
+        float GetAverageFps() const override;
         
     private:
         void SetupCallbacks();
@@ -47,7 +47,7 @@ namespace Pulsarion
 
         GLFWwindow* m_Window;
         WindowData m_Data;
-        std::deque<float> m_FrameTimes;
+        mutable std::deque<std::uint64_t> m_FrameTimes;
     };
 }
 

@@ -8,6 +8,8 @@ int main(int argc, char** argv) {
     while (window->IsOpen())
     {
         window->OnFrame();
+        float fps = window->GetAverageFps();
+        window->SetTitle("Pulsarion - FPS: " + std::to_string(fps));
     }
 
     return 0;

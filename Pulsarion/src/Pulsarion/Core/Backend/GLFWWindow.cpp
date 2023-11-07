@@ -170,10 +170,32 @@ namespace Pulsarion
 
     void GLFWWindow::OnFrame() const
     {
-        
+        if (m_FrameTimes.size() >= 50)
+        {
+            m_FrameTimes.pop_front();
+        }
+        static std::uint64_t lastTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+        std::uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+        m_FrameTimes.push_back(currentTime - lastTime);
+        lastTime = currentTime;
         
         glfwSwapBuffers(m_Window);
         glfwPollEvents();
+    }
+
+    float GLFWWindow::GetAverageFrameTime() const
+    {
+        float average = 0.0f;
+        for (auto& time : m_FrameTimes)
+        {
+            average += time;
+        }
+        return average / m_FrameTimes.size();
+    }
+
+    float GLFWWindow::GetAverageFps() const
+    {
+        return 1000.0f / GetAverageFrameTime();
     }
 
     void GLFWWindow::SetEventCallback(const EventCallbackFunction& callback)

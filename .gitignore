@@ -1,6 +1,7 @@
 /.vs/
 /.cache/
 /.vscode/
+/.idea/
 /bin/
 /bin-int/
 /compile_commands.json
