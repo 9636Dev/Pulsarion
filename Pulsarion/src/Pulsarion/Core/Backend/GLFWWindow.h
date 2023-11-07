@@ -1,4 +1,5 @@
 #pragma once
+#include "Pulsarion/Core/PulsarionCore.h"
 #ifdef PLS_USE_GLFW_WINDOW
 #include "Pulsarion/Window.h"
 
@@ -22,7 +23,7 @@ namespace Pulsarion
     class GLFWWindow : public Window
     {
     public:
-        GLFWWindow(const WindowProperties& windowProperties);
+        explicit GLFWWindow(const WindowProperties& windowProperties);
         ~GLFWWindow() override;
 
         void Close() override;
@@ -38,9 +39,14 @@ namespace Pulsarion
         [[nodiscard]] const std::string& GetTitle() const noexcept override;
         void SetTitle(const std::string& title) override;
 
-        float GetAverageFrameTime() const override;
-        float GetAverageFps() const override;
-        
+        [[nodiscard]] float GetAverageFrameTime() const override;
+        [[nodiscard]] float GetAverageFps() const override;
+        [[nodiscard]] std::size_t GetFrameTimeCount() const override;
+        void SetFrameTimeCount(std::size_t count) override;
+
+        void SetCursorMode(CursorMode mode) override;
+        [[nodiscard]] CursorMode GetCursorMode() const override;
+
     private:
         void SetupCallbacks();
         static void DefaultEventCallback(const Event& event);
@@ -48,6 +54,7 @@ namespace Pulsarion
         GLFWwindow* m_Window;
         WindowData m_Data;
         mutable std::deque<std::uint64_t> m_FrameTimes;
+        std::size_t m_FrameTimeCapacity;
     };
 }
 

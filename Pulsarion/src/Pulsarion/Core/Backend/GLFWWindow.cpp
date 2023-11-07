@@ -1,15 +1,13 @@
 #include "Pulsarionpch.h"
-#ifdef PLS_USE_GLFW_WINDOW
 #include "GLFWWindow.h"
-
+#ifdef PLS_USE_GLFW_WINDOW
 #include "Pulsarion/Event/Event.h"
 #include "Pulsarion/Event/KeyEvent.h"
 #include "Pulsarion/Event/MouseEvent.h"
 #include "Pulsarion/Event/WindowEvent.h"
 
-
 #include "GLFW/glfw3.h"
-
+ 
 namespace Pulsarion
 {
     class GLFW
@@ -139,7 +137,7 @@ namespace Pulsarion
         return std::make_unique<GLFWWindow>(windowProperties);
     }
 
-    GLFWWindow::GLFWWindow(const WindowProperties& properties) : m_Data(), m_FrameTimes()
+    GLFWWindow::GLFWWindow(const WindowProperties& properties) : m_Data(), m_FrameTimes(), m_FrameTimeCapacity(50)
     {
         m_Data.Width = properties.GetWidth();
         m_Data.Height = properties.GetHeight();
@@ -170,7 +168,7 @@ namespace Pulsarion
 
     void GLFWWindow::OnFrame() const
     {
-        if (m_FrameTimes.size() >= 50)
+        while (m_FrameTimes.size() >= m_FrameTimeCapacity)
         {
             m_FrameTimes.pop_front();
         }
@@ -235,9 +233,50 @@ namespace Pulsarion
         glfwSetWindowTitle(m_Window, title.c_str());
     }
 
+    std::size_t GLFWWindow::GetFrameTimeCount() const
+    {
+        return m_FrameTimes.size();
+    }
+
+    void GLFWWindow::SetFrameTimeCount(std::size_t count)
+    {
+        m_FrameTimeCapacity = count;
+    }
+
+    void GLFWWindow::SetCursorMode(CursorMode mode)
+    {
+        switch (mode)
+        {
+        case CursorMode::Normal:
+            glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            break;
+        case CursorMode::Hidden:
+            glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+            break;
+        case CursorMode::Disabled:
+            glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            break;
+        }
+    }
+
+    CursorMode GLFWWindow::GetCursorMode() const
+    {
+        switch (glfwGetInputMode(m_Window, GLFW_CURSOR))
+        {
+        case GLFW_CURSOR_NORMAL:
+            return CursorMode::Normal;
+        case GLFW_CURSOR_HIDDEN:
+            return CursorMode::Hidden;
+        case GLFW_CURSOR_DISABLED:
+            return CursorMode::Disabled;
+        default:
+            return CursorMode::Normal;
+        }
+    }
+
     void GLFWWindow::DefaultEventCallback(const Event& event)
     {
-        PLS_LOG_TRACE("Event Trigerred: {0}", event.ToString());
+        PLS_LOG_TRACE("Event Triggered: {0}", event.ToString());
     }
 
     void GLFWWindow::SetupCallbacks()

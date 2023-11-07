@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "design/Vertex.md",
+                "file": "design/Util/Util Modifiable.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "design/Vertex.md",
+                "file": "design/Util/Util Modifiable.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "design/Vertex.md",
+                "file": "design/Util/Util Modifiable.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "design/Vertex.md"
+                "file": "design/Util/Util Modifiable.md"
               }
             }
           }
@@ -148,9 +148,9 @@
   },
   "active": "cb8d1e60a5efd4d0",
   "lastOpenFiles": [
+    "design/Vertex.md",
     "design/InterleavedVertex.md",
     "design/Mesh.md",
-    "design/Vertex.md",
     "design/Material.md",
     "design/Renderer.md",
     "design/ShaderManager.md",

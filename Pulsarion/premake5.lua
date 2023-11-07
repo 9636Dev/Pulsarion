@@ -25,8 +25,8 @@ Pulsarion = {
         linux = "PLS_PLATFORM_LINUX",
         macos = "PLS_PLATFORM_MACOS",
     },
-    output_dir = PULSARION_CURRENT_DIR .. "/bin/" .. OUTPUT_DIR .. "/Pulsarion",
-    object_dir = PULSARION_CURRENT_DIR .. "/bin-int/" .. OUTPUT_DIR .. "/Pulsarion"
+    output_dir = PULSARION_CURRENT_DIR .. "/bin/" .. OUTPUT_DIR .. "/Pulsarion/",
+    object_dir = PULSARION_CURRENT_DIR .. "/bin-int/" .. OUTPUT_DIR .. "/Pulsarion/"
 }
 GLFW = {
     static_runtime = true,
@@ -67,7 +67,7 @@ project "Pulsarion"
 
     local commands = {}
     for _, dir in ipairs(PULSARION_LIB_COPY_DIRS) do
-        local command = "{COPY} " .. Pulsarion.output_dir .. " " .. dir
+        local command = "{COPY} " .. Pulsarion.output_dir .. "/* " .. dir
         table.insert(commands, command)
     end
 
@@ -99,7 +99,7 @@ project "Pulsarion"
         }
 
     filter "system:macosx"
-        systemversion "10.17"
+        systemversion "10.15"
 
         defines
         {

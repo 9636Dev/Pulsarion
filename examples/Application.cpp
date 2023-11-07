@@ -2,14 +2,17 @@
 #include <memory>
 
 using namespace Pulsarion;
+
 int main(int argc, char** argv) {
     std::unique_ptr<Window> window = CreateWindowPointer(WindowProperties());
+    window->SetVSync(false);
+    window->SetFrameTimeCount(500);
+    window->SetCursorMode(CursorMode::Hidden);
 
     while (window->IsOpen())
     {
         window->OnFrame();
-        float fps = window->GetAverageFps();
-        window->SetTitle("Pulsarion - FPS: " + std::to_string(fps));
+        window->SetTitle("Pulsarion - FPS: " + std::to_string(window->GetAverageFps()) + " - " + std::to_string(window->GetAverageFrameTime()) + "ms");
     }
 
     return 0;

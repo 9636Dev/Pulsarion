@@ -6,6 +6,13 @@
 
 namespace Pulsarion
 {
+    enum class PULSARION_API CursorMode
+    {
+        Normal = 0,
+        Hidden = 1,
+        Disabled = 2
+    };
+
     class PULSARION_API WindowProperties
     {
     public:
@@ -53,6 +60,12 @@ namespace Pulsarion
 
         virtual float GetAverageFrameTime() const = 0;
         virtual float GetAverageFps() const = 0;
+        [[nodiscard]] virtual std::size_t GetFrameTimeCount() const = 0;
+        virtual void SetFrameTimeCount(std::size_t count) = 0;
+
+        virtual void SetCursorMode(CursorMode mode) = 0;
+        [[nodiscard]] virtual CursorMode GetCursorMode() const = 0;
+
     };
 
     extern PULSARION_API std::unique_ptr<Window> CreateWindowPointer(const WindowProperties& windowProperties);

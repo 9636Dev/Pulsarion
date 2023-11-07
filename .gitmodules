@@ -4,3 +4,6 @@
 [submodule "Pulsarion/vender/spdlog"]
 	path = Pulsarion/vender/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "tests/stfcpp"]
+	path = tests/stfcpp
+	url = https://github.com/HW9636/stfcpp
