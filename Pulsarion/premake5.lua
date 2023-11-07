@@ -41,6 +41,7 @@ project "Pulsarion"
     kind "SharedLib"
     language "C++"
     cppdialect "C++20"
+    staticruntime "off"
 
     targetdir (Pulsarion.output_dir)
     objdir (Pulsarion.object_dir)

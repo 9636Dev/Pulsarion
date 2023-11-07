@@ -17,6 +17,7 @@ workspace "Pulsarion"
         kind "ConsoleApp"
         language "C++"
         cppdialect "C++20"
+        staticruntime "off"
 
         targetdir ("bin/" .. OUTPUT_DIR .. "/%{prj.name}/")
         objdir ("bin-int/" .. OUTPUT_DIR .. "/%{prj.name}/")
@@ -86,6 +87,7 @@ workspace "Pulsarion"
         kind "ConsoleApp"
         language "C++"
         cppdialect "C++20"
+        staticruntime "off"
 
         targetdir ("bin/" .. OUTPUT_DIR .. "/%{prj.name}/")
         objdir ("bin-int/" .. OUTPUT_DIR .. "/%{prj.name}/")
