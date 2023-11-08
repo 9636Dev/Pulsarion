@@ -5,7 +5,7 @@
 #include <string>
 
 #include "Pulsarion/Core/PulsarionCore.h"
-#include "Event/Event.h"
+#include "Pulsarion/Event/Event.h"
 
 namespace Pulsarion
 {

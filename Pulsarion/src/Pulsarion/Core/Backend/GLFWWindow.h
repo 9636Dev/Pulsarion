@@ -1,7 +1,7 @@
 #pragma once
 #include "Pulsarion/Core/PulsarionCore.h"
 #ifdef PLS_USE_GLFW_WINDOW
-#include "Pulsarion/Window.h"
+#include "Pulsarion/Core/Window.h"
 
 #include <memory>
 #include <string>

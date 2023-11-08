@@ -1,5 +1,3 @@
-require 'premake-ecc'
-
 OUTPUT_DIR = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 PULSARION_CURRENT_DIR = os.getcwd()
 PULSARION_LIB_COPY_DIRS = {
@@ -42,6 +40,7 @@ workspace "Pulsarion"
             "Pulsarion",
         }
 
+
         filter "system:windows"
             systemversion "latest"
 
@@ -75,7 +74,10 @@ workspace "Pulsarion"
             symbols "on"
 
         filter "configurations:Release"
-            defines "PLS_RELEASE"
+            defines {
+                "PLS_RELEASE",
+                "_GLIBCXX_DEBUG",
+            }
             runtime "Release"
             optimize "on"
 

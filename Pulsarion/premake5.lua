@@ -78,6 +78,10 @@ project "Pulsarion"
     pchsource "src/Pulsarionpch.cpp"
     forceincludes "Pulsarionpch.h"
 
+    filter "action:xcode4"
+        pchheader "src/Pulsarionpch.h"
+        pchsource "src/Pulsarionpch.cpp"
+
     filter "system:windows"
         systemversion "latest"
 
@@ -121,6 +125,7 @@ project "Pulsarion"
         defines {
             "PLS_DEBUG",
             "SPDLOG_ACTIVE_LEVEL=0",
+            "_GLIBCXX_DEBUG",
         }
         runtime "Debug"
         symbols "on"
