@@ -2,6 +2,9 @@
 
 #include <memory>
 #include <functional>
+#include <string>
+
+#include "Pulsarion/Core/PulsarionCore.h"
 #include "Event/Event.h"
 
 namespace Pulsarion

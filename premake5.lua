@@ -1,3 +1,5 @@
+require 'premake-ecc'
+
 OUTPUT_DIR = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 PULSARION_CURRENT_DIR = os.getcwd()
 PULSARION_LIB_COPY_DIRS = {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Pulsarion/Core/PulsarionCore.h"
 #include <string>
 
 #define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; }\

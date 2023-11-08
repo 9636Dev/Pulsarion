@@ -36,7 +36,6 @@ GLFW = {
 
 include "vender/glfw"
 
-
 project "Pulsarion"
     kind "SharedLib"
     language "C++"
@@ -67,6 +66,8 @@ project "Pulsarion"
 
     local commands = {}
     for _, dir in ipairs(PULSARION_LIB_COPY_DIRS) do
+        local mkdir_command = "{MKDIR} " .. dir
+        table.insert(commands, mkdir_command)
         local command = "{COPY} " .. Pulsarion.output_dir .. "/* " .. dir
         table.insert(commands, command)
     end

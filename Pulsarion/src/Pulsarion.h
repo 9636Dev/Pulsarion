@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Pulsarion/Util/File.h"
-
 #include "Pulsarion/Core/PulsarionCore.h"
-#include "Pulsarion/Window.h"
+#include "Pulsarion/Util/File.h"
+#include "Pulsarion/Core/Window.h"

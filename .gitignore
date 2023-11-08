@@ -13,3 +13,4 @@ Makefile
 *.vcxproj.filters
 *.vcxproj.user
 *.make
+.DS_Store
