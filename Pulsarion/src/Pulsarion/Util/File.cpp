@@ -1,6 +1,8 @@
 #include "Pulsarionpch.h"
 #include "File.h"
 
+#include <system_error>
+
 namespace Pulsarion
 {
     File::File(const std::string& path, bool absolute)
@@ -18,10 +20,10 @@ namespace Pulsarion
 
     File::~File()
     {
-        UpdateContent();
+        (void)UpdateContent();
     }
 
-    File::File(const File& other) noexcept
+    File::File(const File& other)
         : m_Path(other.m_Path), m_CacheContent(other.m_CacheContent)
     {
         if (other.m_Content.has_value())
@@ -31,13 +33,13 @@ namespace Pulsarion
         else m_Content = std::optional<Modifiable<std::string>>();
     }
 
-    File::File(File&& other) noexcept
+    File::File(File&& other)
         : m_Path(std::move(other.m_Path)), m_Content(std::move(other.m_Content)), m_CacheContent(other.m_CacheContent)
     {
 
     }
 
-    File& File::operator=(const File& other) noexcept
+    File& File::operator=(const File& other)
     {
         m_Path = other.m_Path;
         m_CacheContent = other.m_CacheContent;
@@ -49,14 +51,14 @@ namespace Pulsarion
         return *this;
     }
 
-    File& File::operator=(File&& other) noexcept
+    File& File::operator=(File&& other)
     {
         m_Path = std::move(other.m_Path);
         m_Content = std::move(other.m_Content);
         return *this;
     }
 
-    std::filesystem::path File::GetAbsolutePath() const noexcept
+    std::filesystem::path File::GetAbsolutePath() const
     {
         if (m_Path.is_absolute())
         {
@@ -68,7 +70,7 @@ namespace Pulsarion
         }
     }
 
-    std::optional<std::filesystem::path> File::GetRelativePath() const noexcept
+    std::optional<std::filesystem::path> File::GetRelativePath() const
     {
         if (m_Path.is_relative())
             return m_Path;
@@ -78,34 +80,34 @@ namespace Pulsarion
         return std::nullopt;
     }
 
-    std::string File::GetFileName() const noexcept
+    std::string File::GetFileName() const
     {
         return m_Path.filename().string();
     }
 
-    std::string File::GetFileNameWithoutExtension() const noexcept
+    std::string File::GetFileNameWithoutExtension() const
     {
         return m_Path.stem().string();
     }
 
-    std::string File::GetExtension() const noexcept
+    std::string File::GetExtension() const
     {
         if (m_Path.has_extension())
             return m_Path.extension().string();
         return "";
     }
 
-    bool File::IsDirectory() const noexcept
+    bool File::IsDirectory() const
     {
         return std::filesystem::is_directory(m_Path);
     }
 
-    bool File::IsFile() const noexcept
+    bool File::IsFile() const
     {
         return std::filesystem::is_regular_file(m_Path);
     }
 
-    bool File::Exists() const noexcept
+    bool File::Exists() const
     {
         return std::filesystem::exists(m_Path);
     }
@@ -115,16 +117,14 @@ namespace Pulsarion
         return File(m_Path.parent_path().string());
     }
 
-    bool File::CreateDirectories() const
+    Result<bool, std::error_code> File::CreateDirectories() const
     {
-        try {
-            return std::filesystem::create_directories(m_Path);
-        }
-        catch (std::filesystem::filesystem_error& e)
-        {
-            PLS_LOG_WARN("File::CreateDirectories Error: {}", e.what());
-            return false;
-        }
+        std::error_code errorCode;    
+        bool result = std::filesystem::create_directories(m_Path, errorCode);
+        if (errorCode.value() == 0)
+            return Result<bool, std::error_code>::Ok(result);
+
+        return Result<bool, std::error_code>::Fail(errorCode);
     }
 
     bool File::CreateNewFile() const
@@ -139,32 +139,66 @@ namespace Pulsarion
         return false;
     }
 
-    bool File::Delete() const
+    Result<bool, std::error_code> File::Delete() const
     {
-        return std::filesystem::remove(m_Path);
+        std::error_code errorCode;
+        bool result = std::filesystem::remove(m_Path, errorCode);
+        if (errorCode.value() == 0)
+            return Result<bool, std::error_code>::Ok(result);
+
+        return Result<bool, std::error_code>::Fail(errorCode);
     }
 
-    std::string File::GetContent() const
+    std::optional<std::string> File::ReadFile() const
     {
-        if (m_Content.has_value())
-        {
-            return m_Content->GetConst();
-        }
-
         std::ifstream file(m_Path);
+        if (!file.good())
+        {
+            file.close();
+            return std::nullopt;
+        }
         std::stringstream ss;
         ss << file.rdbuf();
         file.close();
-        std::string content = ss.str();
+        return ss.str();
+    }
+
+    std::optional<std::string> File::GetContent() const
+    {
+        if (m_Content.has_value())
+        {
+            if (m_Content->IsDirty())
+            {
+                // Write changes to file
+                if (!UpdateContent())
+                {
+                    return std::nullopt;
+                }
+                auto content = ReadFile();
+                if (content.has_value())
+                {
+                    m_Content->Set(content.value());
+                }
+                else
+                {
+                    m_Content.reset();
+                    return std::nullopt;
+                }
+            }
+            return m_Content->GetConst();
+        }
+        auto content = ReadFile();
+        if (!content.has_value())
+            return std::nullopt;
         if (m_CacheContent)
         {
-            m_Content = std::make_optional<Modifiable<std::string>>(content);
+            m_Content = std::make_optional<Modifiable<std::string>>(content.value());
         }
 
         return content;
     }
 
-    void File::SetContent(const std::string& content)
+    bool File::SetContent(const std::string& content)
     {
         if (m_CacheContent)
         {
@@ -176,12 +210,18 @@ namespace Pulsarion
         else
         {
             std::ofstream file(m_Path);
+            if (!file.good())
+            {
+                file.close();
+                return false;
+            }
             file << content;
             file.close();
         }
+        return true;
     }
 
-    void File::AppendContent(const std::string& content)
+    bool File::AppendContent(const std::string& content)
     {
         if (m_CacheContent)
         {
@@ -193,12 +233,18 @@ namespace Pulsarion
         else
         {
             std::ofstream file(m_Path, std::ios_base::app);
+            if (!file.good())
+            {
+                file.close();
+                return false;
+            }
             file << content;
             file.close();
         }
+        return true;
     }
 
-    void File::ClearContent()
+    bool File::ClearContent()
     {
         if (m_CacheContent)
         {
@@ -210,11 +256,17 @@ namespace Pulsarion
         else
         {
             std::ofstream file(m_Path);
+            if (!file.good())
+            {
+                file.close();
+                return false;
+            }
             file.close();
         }
+        return true;
     }
 
-    void File::UpdateContent() const
+    bool File::UpdateContent() const
     {
         if (m_Content.has_value() && m_Content->IsDirty())
         {
@@ -222,6 +274,36 @@ namespace Pulsarion
             file << m_Content->GetConst();
             file.close();
             m_Content->SetDirty(false);
+            return true;
         }
+        return false;
+    }
+
+    bool File::IsUsingCachedContent() const noexcept
+    {
+        return m_CacheContent;
+    }
+
+    void File::SetCacheContent(bool cache) noexcept
+    {
+        if (m_CacheContent && !cache)
+        {
+            if (!UpdateContent())
+            {
+                PLS_LOG_WARN("[File] Could not update file content!");
+            }
+            ClearCachedContent();
+        }
+        m_CacheContent = cache;
+    }
+
+    bool File::ClearCachedContent() const
+    {
+        if (m_Content.has_value())
+        {
+            m_Content.reset();
+            return true;
+        }
+        return false;
     }
 }

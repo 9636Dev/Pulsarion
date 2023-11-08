@@ -3,6 +3,8 @@
 #include "Pulsarion/Core/PulsarionCore.h"
 #include "Modifiable.h"
 
+#include "Result.h"
+
 #include <string>
 #include <optional>
 #include <filesystem>
@@ -14,30 +16,40 @@ namespace Pulsarion
     public:
         File(const std::string& path, bool absolute = true);
         ~File();
-        File(const File&) noexcept;
-        File(File&&) noexcept;
-        File& operator=(const File&) noexcept;
-        File& operator=(File&&) noexcept;
+        File(const File&);
+        File(File&&);
+        File& operator=(const File&);
+        File& operator=(File&&);
 
-        std::filesystem::path GetAbsolutePath() const noexcept;
-        std::optional<std::filesystem::path> GetRelativePath() const noexcept;
-        std::string GetFileName() const noexcept;
-        bool IsDirectory() const noexcept;
-        bool IsFile() const noexcept;
-        bool Exists() const noexcept;
-        std::string GetFileNameWithoutExtension() const noexcept;
-        std::string GetExtension() const noexcept;
-        File GetParent() const;
-        bool CreateDirectories() const;
-        bool CreateNewFile() const;
-        bool Delete() const;
+        [[nodiscard]] std::filesystem::path GetAbsolutePath() const;
+        [[nodiscard]] std::optional<std::filesystem::path> GetRelativePath() const;
+        [[nodiscard]] std::string GetFileName() const;
+        [[nodiscard]] bool IsDirectory() const;
+        [[nodiscard]] bool IsFile() const;
+        [[nodiscard]] bool Exists() const;
+        [[nodiscard]] std::string GetFileNameWithoutExtension() const;
+        [[nodiscard]] std::string GetExtension() const;
+        [[nodiscard]] File GetParent() const;
+        [[nodiscard]] Result<bool, std::error_code> CreateDirectories() const;
+        [[nodiscard]] bool CreateNewFile() const;
+        [[nodiscard]] Result<bool, std::error_code> Delete() const;
 
-        std::string GetContent() const;
-        void SetContent(const std::string& content);
-        void AppendContent(const std::string& content);
-        void ClearContent();
-        void UpdateContent() const;
+        [[nodiscard]] std::optional<std::string> GetContent() const;
+        [[nodiscard]] bool SetContent(const std::string& content);
+        [[nodiscard]] bool AppendContent(const std::string& content);
+        [[nodiscard]] bool ClearContent();
+        [[nodiscard]] bool UpdateContent() const;
+
+        bool IsUsingCachedContent() const noexcept;
+        void SetCacheContent(bool cache) noexcept;
+        /// <summary>
+        /// Clears the cached content, without calling UpdateContent().
+        /// </summary>
+        /// <returns>Whether of not the content was cleared. (False if not using cache)</returns>
+        bool ClearCachedContent() const;
     private:
+        [[nodiscard]] std::optional<std::string> ReadFile() const;
+
         std::filesystem::path m_Path;
         mutable std::optional<Modifiable<std::string>> m_Content;
         bool m_CacheContent;

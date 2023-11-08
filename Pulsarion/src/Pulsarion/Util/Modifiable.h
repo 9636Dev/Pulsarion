@@ -8,8 +8,15 @@ namespace Pulsarion {
     class Modifiable {
     public:
         template <typename... Args>
-        inline Modifiable(Args&&... args)
-            : m_Value(std::forward<Args>(args)...), m_Dirty(false)
+        static Modifiable<T> Create(Args&&... args)
+        {
+            T value(std::forward<Args>(args)...);
+            return Modifiable<T>(std::move(value));
+        }
+
+        
+        inline Modifiable(T value)
+            : m_Value(value), m_Dirty(false)
         {
 
         }
@@ -64,13 +71,10 @@ namespace Pulsarion {
         {
             m_Dirty = dirty;
         }
-
-        inline explicit operator T&() noexcept { return Get(); }
-        inline explicit operator const T&() const noexcept { return GetConst(); };
     private:
 
         T m_Value;
         bool m_Dirty;
     };
-
+    
 }
