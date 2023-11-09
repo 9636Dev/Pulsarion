@@ -2,8 +2,8 @@
 /.cache/
 /.vscode/
 /.idea/
-/bin/
-/bin-int/
+bin
+bin-int
 /compile_commands.json
 
 # Configuration files

@@ -40,6 +40,9 @@ workspace "Pulsarion"
             "Pulsarion",
         }
 
+        -- Suprress DLL interface warnings
+        disablewarnings { "4251" }
+
 
         filter "system:windows"
             systemversion "latest"
@@ -113,6 +116,9 @@ workspace "Pulsarion"
         {
             "Pulsarion",
         }
+
+        -- Suprress DLL interface warnings
+        disablewarnings { "4251" }
 
         filter "system:windows"
             systemversion "latest"

@@ -29,15 +29,16 @@ project "GLEW"
 		"src/glew.c",
 	}
 
-	defines
-	{
-		"GLEW_STATIC"
-	}
 
 	includedirs 
 	{
 		"include"
 	}
+
+    defines
+    {
+        "GLEW_STATIC"
+    }
 
 	filter "action:vs*"
 		buildoptions { "/wd4996", "/wd4133" }
@@ -47,6 +48,11 @@ project "GLEW"
 
 	filter "system:windows"
 		systemversion "latest"
+
+        links
+        {
+            "opengl32.lib"
+        }
 
     filter "system:macosx"
         systemversion "10.13"

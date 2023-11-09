@@ -19,7 +19,7 @@ Pulsarion = {
         glm = os.getcwd() .. "/vender/glm",
         glfw = os.getcwd() .. "/vender/glfw/include",
         spdlog = os.getcwd() .. "/vender/spdlog/include",
-        glew = os.getcwd() .. "/vender/glew",
+        glew = os.getcwd() .. "/vender/glew/include",
     },
     defines = {
         windows = "PLS_PLATFORM_WINDOWS",
@@ -63,6 +63,11 @@ project "Pulsarion"
     {
         "GLFW",
         "GLEW",
+    }
+
+    defines
+    {
+        "GLEW_STATIC"
     }
 
     includedirs

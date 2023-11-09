@@ -7,6 +7,7 @@
 #include "Pulsarion/Event/WindowEvent.h"
 
 #include "GLFW/glfw3.h"
+#include "Pulsarion/Core/Backend/OpenGL/GL.h"
  
 namespace Pulsarion
 {
@@ -56,6 +57,17 @@ namespace Pulsarion
                     PLS_LOG_FATAL("Could not request OpenGL version higher than 3.3!");
                     std::abort();
                 }
+
+                glfwMakeContextCurrent(window);
+                OpenGL::GLVersion version;
+                OpenGL::GL::Init(version);
+
+                if (version.Major != s_GLVersionMajor || version.Minor != s_GLVersionMinor)
+                {
+                    PLS_LOG_WARN("Requested OpenGL version {0}.{1}, but got {2}.{3}!", s_GLVersionMajor, s_GLVersionMinor, version.Major, version.Minor);
+                    s_GLVersionMajor = version.Major;
+                    s_GLVersionMinor = version.Minor;
+                }
             }
             else
             {
@@ -88,6 +100,7 @@ namespace Pulsarion
             if (--s_WindowCount != 0)
                 return;
 
+            OpenGL::GL::Terminate();
             glfwTerminate();
         }
 
@@ -147,6 +160,7 @@ namespace Pulsarion
         m_Window = GLFW::NewWindow(properties);
         glfwMakeContextCurrent(m_Window);
         glfwSetWindowUserPointer(m_Window, &m_Data);
+
         SetVSync(true);
         SetupCallbacks();
     }
