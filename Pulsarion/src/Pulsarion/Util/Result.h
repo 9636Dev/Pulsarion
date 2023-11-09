@@ -6,13 +6,13 @@
 
 namespace Pulsarion
 {
+    struct OkTag {};
+    struct FailTag {};
+
     template<typename T, typename F>
     class Result
     {
     public:
-        struct OkTag {};
-        struct FailTag {};
-
         inline static Result<T, F> Ok(const T& value)
         {
             return Result(value, OkTag{});
@@ -23,30 +23,30 @@ namespace Pulsarion
             return Result(failure, FailTag{});
         }
 
-        inline Result(const T& value, const OkTag& tag = {})
+        inline explicit Result(const T& value, [[maybe_unused]] const OkTag& tag = {})
         {
             m_Value = std::move(value);
             m_IsSuccess = true;
         }
 
-        inline Result(const F& failure, const FailTag& tag = {})
+        inline explicit Result(const F& failure, [[maybe_unused]] const FailTag& tag = {})
         {
             m_Value = std::move(failure);
             m_IsSuccess = false;
         }
 
-        inline bool IsSuccess() const noexcept
+        [[nodiscard]] inline bool IsSuccess() const noexcept
         {
             return m_IsSuccess;
         }
 
-        inline bool IsFailure() const noexcept
+        [[nodiscard]] inline bool IsFailure() const noexcept
         {
             return !m_IsSuccess;
         }
 
 
-        inline const std::optional<T> Get() noexcept
+        inline std::optional<T> Get() noexcept
         {
             if (m_IsSuccess)
             {
@@ -68,6 +68,71 @@ namespace Pulsarion
 
     private:
         std::variant<T, F> m_Value;
+        bool m_IsSuccess;
+    };
+
+    // Same type
+    template <typename T>
+    class Result<T, T> {
+        // Same function, just store data, and not std::variant
+    public:
+        inline static Result<T, T> Ok(const T& value)
+        {
+            return Result(value, true);
+        }
+
+        inline static Result<T, T> Fail(const T& failure) {
+            return Result(failure, false);
+        }
+
+        inline Result(const T& value, bool isSuccess)
+        {
+            m_Value = std::move(value);
+            m_IsSuccess = isSuccess;
+        }
+
+        inline Result(const T& value, const OkTag& tag = {}) : Result(value, true)
+        {
+
+        }
+
+        inline Result(const T& value, const FailTag& tag = {}) : Result(value, false)
+        {
+
+        }
+
+        [[nodiscard]] inline bool IsSuccess() const noexcept
+        {
+            return m_IsSuccess;
+        }
+
+        [[nodiscard]] inline bool IsFailure() const noexcept
+        {
+            return !m_IsSuccess;
+        }
+
+        std::optional<T> Get() noexcept
+        {
+            if (m_IsSuccess)
+            {
+                static_assert(std::is_copy_constructible_v<T>, "[Result] Type 'T' must be copy constructible!");
+                return std::make_optional<T>(m_Value);
+            }
+            else return std::nullopt;
+        }
+
+        std::optional<T> GetFailure() noexcept
+        {
+            if (!m_IsSuccess)
+            {
+                static_assert(std::is_copy_constructible_v<T>, "[Result] Type 'T' must be copy constructible!");
+                return std::make_optional<T>(m_Value);
+            }
+            else return std::nullopt;
+        }
+
+    private:
+        T m_Value;
         bool m_IsSuccess;
     };
 }

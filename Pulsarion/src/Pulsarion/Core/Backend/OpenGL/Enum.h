@@ -6,16 +6,16 @@ namespace Pulsarion::OpenGL
 {
     enum class PULSARION_API PolygonFace : std::uint32_t
     {
-        FRONT = 0x0404,
-        BACK = 0x0405,
-        FRONT_AND_BACK = 0x0408
+        Front = 0x0404,
+        Back = 0x0405,
+        FrontAndBack = 0x0408
     };
 
     enum class PULSARION_API PolygonMode : std::uint32_t
     {
-        POINT = 0x1B00,
-        LINE = 0x1B01,
-        FILL = 0x1B02
+        Point = 0x1B00,
+        Line = 0x1B01,
+        Fill = 0x1B02
     };
 
     enum class PULSARION_API TextureWrap : std::uint32_t {

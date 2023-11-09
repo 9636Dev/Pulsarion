@@ -11,7 +11,9 @@ namespace Pulsarion {
         static Modifiable<T> Create(Args&&... args)
         {
             T value(std::forward<Args>(args)...);
-            return Modifiable<T>(std::move(value));
+            Modifiable<T> temp =  Modifiable<T>(std::move(value));
+            temp.SetDirty(true);
+            return temp;
         }
 
         
