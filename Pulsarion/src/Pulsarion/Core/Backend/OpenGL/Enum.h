@@ -19,97 +19,97 @@ namespace Pulsarion::OpenGL
     };
 
     enum class PULSARION_API TextureWrap : std::uint32_t {
-        REPEAT = 0x2901,
-        MIRRORED_REPEAT = 0x8370,
-        CLAMP_TO_EDGE = 0x812F,
-        CLAMP_TO_BORDER = 0x812D
+        Repeat = 0x2901,
+        MirroredRepeat = 0x8370,
+        ClampToEdge = 0x812F,
+        ClampToBorder = 0x812D
     };
 
     enum class PULSARION_API TextureUnit : std::uint32_t {
-        TEXTURE0 = 0x84C0,
-        TEXTURE1 = 0x84C1,
-        TEXTURE2 = 0x84C2,
-        TEXTURE3 = 0x84C3,
-        TEXTURE4 = 0x84C4,
-        TEXTURE5 = 0x84C5,
-        TEXTURE6 = 0x84C6,
-        TEXTURE7 = 0x84C7,
-        TEXTURE8 = 0x84C8,
-        TEXTURE9 = 0x84C9,
-        TEXTURE10 = 0x84CA,
-        TEXTURE11 = 0x84CB,
-        TEXTURE12 = 0x84CC,
-        TEXTURE13 = 0x84CD,
-        TEXTURE14 = 0x84CE,
-        TEXTURE15 = 0x84CF,
+        Texture0 = 0x84C0,
+        Texture1 = 0x84C1,
+        Texture2 = 0x84C2,
+        Texture3 = 0x84C3,
+        Texture4 = 0x84C4,
+        Texture5 = 0x84C5,
+        Texture6 = 0x84C6,
+        Texture7 = 0x84C7,
+        Texture8 = 0x84C8,
+        Texture9 = 0x84C9,
+        Texture10 = 0x84CA,
+        Texture11 = 0x84CB,
+        Texture12 = 0x84CC,
+        Texture13 = 0x84CD,
+        Texture14 = 0x84CE,
+        Texture15 = 0x84CF,
     };
 
     enum class PULSARION_API TextureFilter : std::uint32_t {
-        NEAREST = 0x2600,
-        LINEAR = 0x2601,
-        NEAREST_MIPMAP_NEAREST = 0x2700,
-        LINEAR_MIPMAP_NEAREST = 0x2701,
-        NEAREST_MIPMAP_LINEAR = 0x2702,
-        LINEAR_MIPMAP_LINEAR = 0x2703
+        Nearest = 0x2600,
+        Linear = 0x2601,
+        NearestMipmapNearest = 0x2700,
+        LinearMipmapNearest = 0x2701,
+        NearestMipmapLinear = 0x2702,
+        LinearMipmapLinear = 0x2703
     };
 
     enum class PULSARION_API GetParameterI : std::uint32_t {
-        VERTEX_ARRAY_BINDING = 0x85B5,
-        ARRAY_BUFFER_BINDING = 0x8894,
-        ELEMENT_ARRAY_BUFFER_BINDING = 0x8895,
-        MAX_VERTEX_ATTRIBS = 0x8869,
-        CURRENT_PROGRAM = 0x8B8D,
-        FRAMEBUFFER_BINDING = 0x8CA6,
-        MAX_COMBINED_TEXTURE_IMAGE_UNITS = 0x8B4D,
+        VertexArrayBinding = 0x85B5,
+        ArrayBufferBinding = 0x8894,
+        ElementArrayBufferBinding = 0x8895,
+        MaxVertexAttribs = 0x8869,
+        CurrentProgram = 0x8B8D,
+        FrameBufferBinding = 0x8CA6,
+        MaxCombinedTextureImageUnits = 0x8B4D,
     };
 
     enum class PULSARION_API DrawMode : std::uint32_t {
-        POINTS = 0x0000,
-        LINES = 0x0001,
-        LINE_LOOP = 0x0002,
-        LINE_STRIP = 0x0003,
-        TRIANGLES = 0x0004,
-        TRIANGLE_STRIP = 0x0005,
-        TRIANGLE_FAN = 0x0006
+        Points = 0x0000,
+        Lines = 0x0001,
+        LineLoop = 0x0002,
+        LineStrip = 0x0003,
+        Triangles = 0x0004,
+        TriangleStrip = 0x0005,
+        TriangleFan = 0x0006
     };
 
     enum class PULSARION_API TextureParameter : std::uint32_t
     {
-        DEPTH_STENCIL_TEXTURE_MODE = 0x90EA,
-        TEXTURE_BASE_LEVEL = 0x813C,
-        TEXTURE_COMPARE_FUNC = 0x884D,
-        TEXTURE_COMPARE_MODE = 0x884C,
-        TEXTURE_LOD_BIAS = 0x8501,
-        TEXTURE_MIN_FILTER = 0x2801,
-        TEXTURE_MAG_FILTER = 0x2800,
-        TEXTURE_MIN_LOD = 0x813A,
-        TEXTURE_MAX_LOD = 0x813B,
-        TEXTURE_MAX_LEVEL = 0x813D,
-        TEXTURE_SWIZZLE_R = 0x8E42,
-        TEXTURE_SWIZZLE_G = 0x8E43,
-        TEXTURE_SWIZZLE_B = 0x8E44,
-        TEXTURE_SWIZZLE_A = 0x8E45,
-        TEXTURE_WRAP_S = 0x2802,
-        TEXTURE_WRAP_T = 0x2803,
-        TEXTURE_WRAP_R = 0x8072
+        DepthStencilTextureMode = 0x90EA,
+        TextureBaseLevel = 0x813C,
+        TextureCompareFunc = 0x884D,
+        TextureCompareMode = 0x884C,
+        TextureLodBias = 0x8501,
+        TextureMinFilter = 0x2801,
+        TextureMagFilter = 0x2800,
+        TextureMinLod = 0x813A,
+        TextureMaxLod = 0x813B,
+        TextureMaxLevel = 0x813D,
+        TextureSwizzleR = 0x8E42,
+        TextureSwizzleG = 0x8E43,
+        TextureSwizzleB = 0x8E44,
+        TextureSwizzleA = 0x8E45,
+        TextureWrapS = 0x2802,
+        TextureWrapT = 0x2803,
+        TextureWrapR = 0x8072
     };
 
     enum class PULSARION_API InternalFormat : std::uint32_t
     {
-        DEPTH_COMPONENT = 0x1902,
-        DEPTH_STENCIL = 0x84F9,
-        RED = 0x1903,
+        DepthComponent = 0x1902,
+        DepthStencil = 0x84F9,
+        Red = 0x1903,
         RG = 0x8227,
         RGB = 0x1907,
         RGBA = 0x1908,
         R8 = 0x8229,
-        R8_SNORM = 0x8F94,
+        R8_SNorm = 0x8F94,
         R16 = 0x822A,
-        R16_SNORM = 0x8F98,
+        R16_SNorm = 0x8F98,
         RG8 = 0x822B,
-        RG8_SNORM = 0x8F95,
+        RG8_SNorm = 0x8F95,
         RG16 = 0x822C,
-        RG16_SNORM = 0x8F99,
+        RG16_SNorm = 0x8F99,
         R3_G3_B2 = 0x2A10,
         RGB4 = 0x804F,
         RGB5 = 0x8050,
@@ -139,138 +139,138 @@ namespace Pulsarion::OpenGL
 
     enum class PULSARION_API PixelFormat : std::uint32_t
     {
-        DEPTH_COMPONENT = 0x1902,
-        DEPTH_STENCIL = 0x84F9,
-        RED = 0x1903,
+        DepthComponent = 0x1902,
+        DepthStencil = 0x84F9,
+        Red = 0x1903,
         RG = 0x8227,
         RGB = 0x1907,
         RGBA = 0x1908,
         BGR = 0x80E0,
         BGRA = 0x80E1,
-        RED_INTEGER = 0x8D94,
-        RG_INTEGER = 0x8228,
-        RGB_INTEGER = 0x8D98,
-        RGBA_INTEGER = 0x8D99,
-        BGR_INTEGER = 0x8D9A,
-        BGRA_INTEGER = 0x8D9B,
-        STENCIL_INDEX = 0x1901
+        RedInteger = 0x8D94,
+        RGInteger = 0x8228,
+        RGBInteger = 0x8D98,
+        RGBAInteger = 0x8D99,
+        BGRInteger = 0x8D9A,
+        BGRAInteger = 0x8D9B,
+        StencilIndex = 0x1901
     };
 
     enum class PULSARION_API PixelType : std::uint32_t
     {
-        UNSIGNED_BYTE = 0x1401,
-        BYTE = 0x1400,
-        UNSIGNED_SHORT = 0x1403,
-        SHORT = 0x1402,
-        UNSIGNED_INT = 0x1405,
-        INT = 0x1404,
-        FLOAT = 0x1406,
-        UNSIGNED_BYTE_3_3_2 = 0x8032,
-        UNSIGNED_BYTE_2_3_3_REV = 0x8362,
-        UNSIGNED_SHORT_5_6_5 = 0x8363,
-        UNSIGNED_SHORT_5_6_5_REV = 0x8364,
-        UNSIGNED_SHORT_4_4_4_4 = 0x8033,
-        UNSIGNED_SHORT_4_4_4_4_REV = 0x8365,
-        UNSIGNED_SHORT_5_5_5_1 = 0x8034,
-        UNSIGNED_SHORT_1_5_5_5_REV = 0x8366,
-        UNSIGNED_INT_8_8_8_8 = 0x8035,
-        UNSIGNED_INT_8_8_8_8_REV = 0x8367,
-        UNSIGNED_INT_10_10_10_2 = 0x8036,
-        UNSIGNED_INT_2_10_10_10_REV = 0x8368
+        UnsignedByte = 0x1401,
+        Byte = 0x1400,
+        UnsignedShort = 0x1403,
+        Short = 0x1402,
+        UnsignedInt = 0x1405,
+        Int = 0x1404,
+        Float = 0x1406,
+        UnsignedByte_3_3_2 = 0x8032,
+        UnsignedByte_2_3_3_REV = 0x8362,
+        UnsignedShort_5_6_5 = 0x8363,
+        UnsignedShort5_6_5_REV = 0x8364,
+        UnsignedShort4_4_4_4 = 0x8033,
+        UnsignedShort4_4_4_4_REV = 0x8365,
+        UnsignedShort5_5_5_1 = 0x8034,
+        UnsignedShort1_5_5_5_REV = 0x8366,
+        UnsignedInt8_8_8_8 = 0x8035,
+        UnsignedInt8_8_8_8_REV = 0x8367,
+        UnsignedInt10_10_10_2 = 0x8036,
+        UnsignedInt2_10_10_10_REV = 0x8368
     };
 
     enum class PULSARION_API TextureTarget : std::uint32_t
     {
-        TEXTURE_1D = 0x0DE0,
-        TEXTURE_2D = 0x0DE1,
-        TEXTURE_3D = 0x806F,
-        TEXTURE_1D_ARRAY = 0x8C18,
-        TEXTURE_2D_ARRAY = 0x8C1A,
-        TEXTURE_RECTANGLE = 0x84F5,
-        TEXTURE_CUBE_MAP = 0x8513,
-        TEXTURE_CUBE_MAP_ARRAY = 0x9009,
-        TEXTURE_BUFFER = 0x8C2A,
-        TEXTURE_2D_MULTISAMPLE = 0x9100,
-        TEXTURE_2D_MULTISAMPLE_ARRAY = 0x9102
+        Texture1D = 0x0DE0,
+        Texture2D = 0x0DE1,
+        Texture3D = 0x806F,
+        Texture1DArray = 0x8C18,
+        Texture2DArray = 0x8C1A,
+        TextureRectangle = 0x84F5,
+        TextureCubeMap = 0x8513,
+        TextureCubeMapArray = 0x9009,
+        TextureBuffer = 0x8C2A,
+        Texture2DMultisample = 0x9100,
+        Texture2DMultisampleArray = 0x9102
     };
 
     enum class PULSARION_API BufferTarget : std::uint32_t {
-        ARRAY_BUFFER = 0x8892,
-        ATOMIC_COUNTER_BUFFER = 0x92C0,
-        COPY_READ_BUFFER = 0x8F36,
-        COPY_WRITE_BUFFER = 0x8F37,
-        DRAW_INDIRECT_BUFFER = 0x8F3F,
-        DISPATCH_INDIRECT_BUFFER = 0x90EE,
-        ELEMENT_ARRAY_BUFFER = 0x8893,
-        PIXEL_PACK_BUFFER = 0x88EB,
-        PIXEL_UNPACK_BUFFER = 0x88EC,
-        QUERY_BUFFER = 0x9192,
-        SHADER_STORAGE_BUFFER = 0x90D2,
-        TEXTURE_BUFFER = 0x8C2A,
-        TRANSFORM_FEEDBACK_BUFFER = 0x8C8E,
-        UNIFORM_BUFFER = 0x8A11
+        ArrayBuffer = 0x8892,
+        AtomicCounterBuffer = 0x92C0,
+        CopyReadBuffer = 0x8F36,
+        CopyWriteBuffer = 0x8F37,
+        DrawIndirectBuffer = 0x8F3F,
+        DispatchIndirectBuffer = 0x90EE,
+        ElementArrayBuffer = 0x8893,
+        PixelPackBuffer = 0x88EB,
+        PixelUnpackBuffer = 0x88EC,
+        QueryBuffer = 0x9192,
+        ShaderStorageBuffer = 0x90D2,
+        TextureBuffer = 0x8C2A,
+        TransformFeedbackBuffer = 0x8C8E,
+        UniformBuffer = 0x8A11
     };
 
     enum class PULSARION_API BufferUsage : std::uint32_t {
-        STREAM_DRAW = 0x88E0,
-        STREAM_READ = 0x88E1,
-        STREAM_COPY = 0x88E2,
-        STATIC_DRAW = 0x88E4,
-        STATIC_READ = 0x88E5,
-        STATIC_COPY = 0x88E6,
-        DYNAMIC_DRAW = 0x88E8,
-        DYNAMIC_READ = 0x88E9,
-        DYNAMIC_COPY = 0x88EA
+        StraemDraw = 0x88E0,
+        StreamRead = 0x88E1,
+        StreamCopy = 0x88E2,
+        StaticDraw = 0x88E4,
+        StaticRead = 0x88E5,
+        StaticCopy = 0x88E6,
+        DynamicDraw = 0x88E8,
+        DynamicDraw = 0x88E9,
+        DYnamicCopy = 0x88EA
     };
 
     enum class PULSARION_API ShaderType : std::uint32_t {
-        VERTEX_SHADER = 0x8B31,
-        FRAGMENT_SHADER = 0x8B30,
-        GEOMETRY_SHADER = 0x8DD9,
-        TESS_CONTROL_SHADER = 0x8E88,
-        TESS_EVALUATION_SHADER = 0x8E87,
-        COMPUTE_SHADER = 0x91B9
+        VertexShader = 0x8B31,
+        FragmentShader = 0x8B30,
+        GeometryShader = 0x8DD9,
+        TessControlShader = 0x8E88,
+        TessEvaluateShader = 0x8E87,
+        ComputeShader = 0x91B9
     };
 
-    enum class PULSARION_API GLType : std::uint32_t {
-        BYTE = 0x1400,
-        UNSIGNED_BYTE = 0x1401,
-        SHORT = 0x1402,
-        UNSIGNED_SHORT = 0x1403,
-        INT = 0x1404,
-        UNSIGNED_INT = 0x1405,
-        FLOAT = 0x1406,
-        FIXED = 0x140C,
-        DOUBLE = 0x140A,
-        HALF_FLOAT = 0x140B
+    enum class PULSARION_API Type : std::uint32_t {
+        Byte = 0x1400,
+        UnsignedByte = 0x1401,
+        Short = 0x1402,
+        UnsignedShort = 0x1403,
+        Int = 0x1404,
+        UnsignedInt = 0x1405,
+        Float = 0x1406,
+        Fixed = 0x140C,
+        Double = 0x140A,
+        HalfFloat = 0x140B
     };
 
     enum class PULSARION_API ShaderParameter : std::uint32_t {
-        DELETE_STATUS = 0x8B80,
-        COMPILE_STATUS = 0x8B81,
-        INFO_LOG_LENGTH = 0x8B84,
-        SHADER_SOURCE_LENGTH = 0x8B88
+        DeleteStatus = 0x8B80,
+        CompileStatus = 0x8B81,
+        InfoLogLength = 0x8B84,
+        ShaderSourceLength = 0x8B88
     };
 
     enum class PULSARION_API ProgramParameter : std::uint32_t {
-        DELETE_STATUS = 0x8B80,
-        LINK_STATUS = 0x8B82,
-        VALIDATE_STATUS = 0x8B83,
-        INFO_LOG_LENGTH = 0x8B84,
-        ATTACHED_SHADERS = 0x8B85,
-        ACTIVE_ATTRIBUTES = 0x8B89,
-        ACTIVE_ATTRIBUTE_MAX_LENGTH = 0x8B8A,
-        ACTIVE_UNIFORMS = 0x8B86
+        DeleteStatus = 0x8B80,
+        LinkStatus = 0x8B82,
+        ValidateStatus = 0x8B83,
+        InfoLogLength = 0x8B84,
+        AttachedShaders = 0x8B85,
+        ActiveAttributes = 0x8B89,
+        ActiveAttributeMaxLength = 0x8B8A,
+        ActiveUniforms = 0x8B86
     };
 
     enum class PULSARION_API ClearTarget : std::uint32_t {
-        COLOR_BUFFER_BIT = 0x00004000,
-        DEPTH_BUFFER_BIT = 0x00000100,
-        STENCIL_BUFFER_BIT = 0x00000400,
+        ColorBufferBit = 0x00004000,
+        DepthBufferBit = 0x00000100,
+        StencilBufferBit = 0x00000400,
 
-        COLOR_AND_DEPTH_BUFFER_BIT = 0x00004000 | 0x00000100,
-        COLOR_AND_STENCIL_BUFFER_BIT = 0x00004000 | 0x00000400,
-        DEPTH_AND_STENCIL_BUFFER_BIT = 0x00000100 | 0x00000400,
-        COLOR_DEPTH_AND_STENCIL_BUFFER_BIT = 0x00004000 | 0x00000100 | 0x00000400,
+        ColorAndDepthBufferBit = 0x00004000 | 0x00000100,
+        ColorAndStencilBufferBit = 0x00004000 | 0x00000400,
+        DepthAndStencilBufferBit = 0x00000100 | 0x00000400,
+        ColorDepthAndStencilBufferBit = 0x00004000 | 0x00000100 | 0x00000400,
     };
 }

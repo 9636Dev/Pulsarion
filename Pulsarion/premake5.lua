@@ -19,6 +19,7 @@ Pulsarion = {
         glm = os.getcwd() .. "/vender/glm",
         glfw = os.getcwd() .. "/vender/glfw/include",
         spdlog = os.getcwd() .. "/vender/spdlog/include",
+        glew = os.getcwd() .. "/vender/glew",
     },
     defines = {
         windows = "PLS_PLATFORM_WINDOWS",
@@ -34,7 +35,14 @@ GLFW = {
     object_dir = "bin-int/" .. OUTPUT_DIR .. "/GLFW"
 }
 
+GLEW = {
+    static_runtime = true,
+    output_dir = "bin/" .. OUTPUT_DIR .. "/GLEW",
+    object_dir = "bin-int/" .. OUTPUT_DIR .. "/GLEW"
+}
+
 include "vender/glfw"
+include "vender/glew"
 
 project "Pulsarion"
     kind "SharedLib"
@@ -54,6 +62,7 @@ project "Pulsarion"
     links
     {
         "GLFW",
+        "GLEW",
     }
 
     includedirs
@@ -62,6 +71,7 @@ project "Pulsarion"
         Pulsarion.include_dirs.glm,
         Pulsarion.include_dirs.glfw,
         Pulsarion.include_dirs.spdlog,
+        Pulsarion.include_dirs.glew,
     }
 
     local commands = {}
@@ -125,7 +135,6 @@ project "Pulsarion"
         defines {
             "PLS_DEBUG",
             "SPDLOG_ACTIVE_LEVEL=0",
-            "_GLIBCXX_DEBUG",
         }
         runtime "Debug"
         symbols "on"
