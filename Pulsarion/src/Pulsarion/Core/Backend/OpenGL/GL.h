@@ -40,7 +40,7 @@ namespace Pulsarion::OpenGL
         static void Terminate();
 
         template<Util::GLType T>
-        static Type GetGLType();
+        static constexpr Type GetGLType();
 
         static void ClearColor(float r, float g, float b, float a);
         static void Clear(ClearTarget target);

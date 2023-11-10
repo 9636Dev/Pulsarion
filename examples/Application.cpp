@@ -7,7 +7,6 @@ int main(int argc, char** argv) {
     std::unique_ptr<Window> window = CreateWindowPointer(WindowProperties());
     window->SetVSync(false);
     window->SetFrameTimeCount(500);
-    window->SetCursorMode(CursorMode::Hidden);
 
     while (window->IsOpen())
     {

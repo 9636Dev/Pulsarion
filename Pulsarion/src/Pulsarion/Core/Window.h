@@ -19,19 +19,19 @@ namespace Pulsarion
     class PULSARION_API WindowProperties
     {
     public:
-        WindowProperties(std::uint32_t width = 1280, std::uint32_t height = 720, const std::string& title = "Pulsarion Window") noexcept
+        WindowProperties(std::int32_t width = 1280, std::int32_t height = 720, const std::string& title = "Pulsarion Window") noexcept
             : m_Width(width), m_Height(height), m_Title(title)
         {
 
         }
 
-        [[nodiscard]] std::uint32_t GetWidth() const noexcept { return m_Width; }
-        [[nodiscard]] std::uint32_t GetHeight() const noexcept { return m_Height; }
+        [[nodiscard]] std::int32_t GetWidth() const noexcept { return m_Width; }
+        [[nodiscard]] std::int32_t GetHeight() const noexcept { return m_Height; }
         [[nodiscard]] const std::string& GetTitle() const noexcept { return m_Title; }
 
      private:
-        std::uint32_t m_Width;
-        std::uint32_t m_Height;
+        std::int32_t m_Width;
+        std::int32_t m_Height;
         std::string m_Title;
     };
 

@@ -7,8 +7,14 @@
 #include "Pulsarion/Event/WindowEvent.h"
 
 #include "GLFW/glfw3.h"
+#include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+
+#ifdef PLS_USE_OPENGL_RENDERER
 #include "Pulsarion/Core/Backend/OpenGL/GL.h"
- 
+#include <backends/imgui_impl_opengl3.h>
+#endif
+
 namespace Pulsarion
 {
     class GLFW
@@ -30,6 +36,23 @@ namespace Pulsarion
             }
         }
 
+        static void ImGuiInit()
+        {
+            IMGUI_CHECKVERSION();
+            ImGui::CreateContext();
+            ImGui::StyleColorsDark();
+
+            ImGuiStyle& style = ImGui::GetStyle();
+
+            GLFWwindow* window = glfwGetCurrentContext();
+#ifdef PLS_USE_OPENGL_RENDERER
+            std::string glsl_version = "#version " + std::to_string(s_GLVersionMajor) + std::to_string(s_GLVersionMinor) + "0 core";
+            ImGui_ImplGlfw_InitForOpenGL(window, true);
+            ImGui_ImplOpenGL3_Init(glsl_version.c_str());
+#endif
+        }
+
+
         static GLFWwindow* NewWindow(const WindowProperties& properties)
         {
             Init();
@@ -50,6 +73,7 @@ namespace Pulsarion
 
                     if (window != nullptr)
                         break;
+                    PLS_LOG_DEBUG("Could not request OpenGL version {0}.{1}", versions[i], versions[i + 1]);
                 }
 
                 if (s_GLVersionMajor == 0)
@@ -92,8 +116,13 @@ namespace Pulsarion
             {
                 PLS_LOG_WARN("Tried to shutdown GLFW without a window!");
                 return;
-                
             }
+#ifdef PLS_USE_OPENGL_RENDERER
+            ImGui_ImplOpenGL3_Shutdown();
+#endif
+            ImGui_ImplGlfw_Shutdown();
+            ImGui::DestroyContext();
+
 
             glfwDestroyWindow(window);
 
@@ -110,7 +139,7 @@ namespace Pulsarion
             PLS_LOG_ERROR("GLFW Error ({0}): {1}", error, description);
         }
 
-        static GLFWwindow* RequestVersionForWindow(const WindowProperties& properties, std::uint32_t versionMajor, std::uint32_t versionMinor)
+        static GLFWwindow* RequestVersionForWindow(const WindowProperties& properties, std::int32_t versionMajor, std::int32_t versionMinor)
         {
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, versionMajor);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, versionMinor);
@@ -135,13 +164,13 @@ namespace Pulsarion
     private:
         static bool s_Initialized;
         static uint32_t s_WindowCount;
-        static uint32_t s_GLVersionMajor;
-        static uint32_t s_GLVersionMinor;
+        static int32_t s_GLVersionMajor;
+        static int32_t s_GLVersionMinor;
     };
     bool GLFW::s_Initialized = false;
     uint32_t GLFW::s_WindowCount = 0;
-    uint32_t GLFW::s_GLVersionMajor = 0;
-    uint32_t GLFW::s_GLVersionMinor = 0;
+    int32_t GLFW::s_GLVersionMajor = 0;
+    int32_t GLFW::s_GLVersionMinor = 0;
 
     std::unique_ptr<Window> CreateWindowPointer(const WindowProperties& windowProperties)
     {
@@ -163,6 +192,8 @@ namespace Pulsarion
 
         SetVSync(true);
         SetupCallbacks();
+
+        GLFW::ImGuiInit();
     }
 
     GLFWWindow::~GLFWWindow()
@@ -190,9 +221,24 @@ namespace Pulsarion
         std::uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
         m_FrameTimes.push_back(currentTime - lastTime);
         lastTime = currentTime;
-        
-        glfwSwapBuffers(m_Window);
+
+        OpenGL::GL::Clear(OpenGL::ClearTarget::ColorAndDepthBufferBit);
+
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        ImGui::Begin("FPS");
+        ImGui::Text("FPS: %.1f", GetAverageFps());
+        ImGui::Text("Frame Time: %.3f ms", GetAverageFrameTime());
+        ImGui::Text("Frame Time Count: %zu", GetFrameTimeCount());
+        ImGui::End();
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         glfwPollEvents();
+        glfwSwapBuffers(m_Window);
     }
 
     float GLFWWindow::GetAverageFrameTime() const

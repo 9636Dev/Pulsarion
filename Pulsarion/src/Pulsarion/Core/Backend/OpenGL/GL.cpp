@@ -6,8 +6,8 @@
 namespace Pulsarion::OpenGL
 {
 #ifdef PLS_DEBUG
-    #define PLS_GLCall(func, ...) do { func(__VA_ARGS__); CheckError(#func, __LINE__); } while (0)
-    #define PLS_GLCallR(func, ...) [&]() { auto result = func(__VA_ARGS__); CheckError(#func, __LINE__); return result; }()
+    #define PLS_GLCall(func, ...) do { func(__VA_ARGS__); CheckError(#func, __FILE__, __LINE__); } while (0)
+    #define PLS_GLCallR(func, ...) [&]() { auto result = func(__VA_ARGS__); CheckError(#func, __FILE__, __LINE__); return result; }()
 #else
     #define PLS_GLCall(func, ...) func(__VA_ARGS__)
     #define PLS_GLCallR(func, ...) func(__VA_ARGS__)
@@ -74,6 +74,16 @@ namespace Pulsarion::OpenGL
     void GL::Terminate()
     {
         PLS_LOG_INFO("[GL] Terminating OpenGL");
+    }
+
+    void GL::ClearColor(float r, float g, float b, float a)
+    {
+        PLS_GLCall(glClearColor, r, g, b, a);
+    }
+
+    void GL::Clear(ClearTarget target)
+    {
+        PLS_GLCall(glClear, static_cast<std::uint32_t>(target));
     }
 
     void GL::CheckError(const std::string& function, const std::string& file, std::uint32_t line)

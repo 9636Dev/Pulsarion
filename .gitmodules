@@ -7,3 +7,6 @@
 [submodule "tests/stfcpp"]
 	path = tests/stfcpp
 	url = https://github.com/HW9636/stfcpp
+[submodule "Pulsarion/vender/imgui/imgui"]
+	path = Pulsarion/vender/imgui/imgui
+	url = https://github.com/ocornut/imgui

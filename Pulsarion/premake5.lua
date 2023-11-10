@@ -20,6 +20,7 @@ Pulsarion = {
         glfw = os.getcwd() .. "/vender/glfw/include",
         spdlog = os.getcwd() .. "/vender/spdlog/include",
         glew = os.getcwd() .. "/vender/glew/include",
+        imgui = os.getcwd() .. "/vender/imgui/imgui"
     },
     defines = {
         windows = "PLS_PLATFORM_WINDOWS",
@@ -57,6 +58,23 @@ project "Pulsarion"
     {
         "src/**.h",
         "src/**.cpp",
+        -- ImGui
+        "vender/imgui/imgui/imconfig.h",
+        "vender/imgui/imgui/imgui.h",
+        "vender/imgui/imgui/imgui_internal.h",
+        "vender/imgui/imgui/imgui.cpp",
+        "vender/imgui/imgui/imgui_draw.cpp",
+        "vender/imgui/imgui/imgui_widgets.cpp",
+        "vender/imgui/imgui/imgui_tables.cpp",
+        "vender/imgui/imgui/imstb_rectpack.h",
+        "vender/imgui/imgui/imstb_textedit.h",
+        "vender/imgui/imgui/imstb_truetype.h",
+        -- ImGui Backends
+        "vender/imgui/imgui/backends/imgui_impl_glfw.h",
+        "vender/imgui/imgui/backends/imgui_impl_glfw.cpp",
+        "vender/imgui/imgui/backends/imgui_impl_opengl3.h",
+        "vender/imgui/imgui/backends/imgui_impl_opengl3.cpp",
+
     }
 
     links
@@ -77,6 +95,7 @@ project "Pulsarion"
         Pulsarion.include_dirs.glfw,
         Pulsarion.include_dirs.spdlog,
         Pulsarion.include_dirs.glew,
+        Pulsarion.include_dirs.imgui,
     }
 
     local commands = {}

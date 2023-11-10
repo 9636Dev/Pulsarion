@@ -14,8 +14,8 @@ namespace Pulsarion
     struct WindowData
     {
         std::string Title;
-        unsigned int Width;
-        unsigned int Height;
+        std::int32_t Width;
+        std::int32_t Height;
         bool VSync;
         Window::EventCallbackFunction EventCallback;
     };
