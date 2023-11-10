@@ -44,7 +44,7 @@ namespace Pulsarion::OpenGL
 
         static void ClearColor(float r, float g, float b, float a);
         static void Clear(ClearTarget target);
-        static void PolygonMode(PolygonFace face, PolygonMode mode);
+        static void SetPolygonMode(PolygonFace face, PolygonMode mode);
 
         static void GenVertexArrays(sizei_t n, VertexArray_t* arrays);
         static void GenBuffers(sizei_t n, Buffer_t* buffers);
@@ -58,11 +58,12 @@ namespace Pulsarion::OpenGL
         static void BindBuffer(BufferTarget target, Buffer_t buffer);
 
         static void BufferData(BufferTarget target, sizeiptr_t size, const void* data, BufferUsage usage);
+        static void BufferSubData(BufferTarget target, sizeiptr_t offset, sizeiptr_t size, const void* data);
 
         static void EnableVertexAttribArray(std::uint32_t index);
         static void DisableVertexAttribArray(std::uint32_t index);
         static void VertexAttribPointer(std::uint32_t index, std::int32_t size, Type type, bool normalized, sizei_t stride, const void* pointer);
-        static void VertexAttribDivisor(std::uint32_t index, uint32_t divisor);
+        static void VertexAttribDivisor(std::uint32_t index, std::uint32_t divisor);
 
         [[nodiscard]] static Shader_t CreateShader(ShaderType type);
         static void DeleteShader(Shader_t shader);
@@ -108,6 +109,7 @@ namespace Pulsarion::OpenGL
         static GLFunctionCall s_LastFunction;
         static std::uint32_t s_LogLevel;
         static bool s_IsUsingDebugCallback;
+        static VertexArray_t s_BoundVertexArray;
     };
 
     template<>

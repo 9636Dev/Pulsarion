@@ -19,6 +19,7 @@ namespace Pulsarion::OpenGL
     GLFunctionCall GL::s_LastFunction("null", __FILE__, __LINE__);
     bool GL::s_IsUsingDebugCallback = false;
     std::uint32_t GL::s_LogLevel = 0;
+    VertexArray_t GL::s_BoundVertexArray = 0;
 
     void GL::Init(GLVersion& version)
     {
@@ -84,6 +85,156 @@ namespace Pulsarion::OpenGL
     void GL::Clear(ClearTarget target)
     {
         PLS_GLCall(glClear, static_cast<std::uint32_t>(target));
+    }
+
+    void GL::SetPolygonMode(PolygonFace face, PolygonMode mode)
+    {
+        PLS_GLCall(glPolygonMode, static_cast<std::uint32_t>(face), static_cast<std::uint32_t>(mode));
+    }
+
+    void GL::GenVertexArrays(sizei_t n, VertexArray_t *arrays)
+    {
+        PLS_GLCall(glGenVertexArrays, n, arrays);
+        PLS_RUN_IF_DEBUG(for (sizei_t i = 0; i < n; i++)
+            s_VertexArrays.insert(arrays[i]));
+    }
+
+    void GL::DeleteVertexArrays(sizei_t n, const VertexArray_t *arrays)
+    {
+        PLS_GLCall(glDeleteVertexArrays, n, arrays);
+        PLS_RUN_IF_DEBUG(for (sizei_t i = 0; i < n; i++)
+            s_VertexArrays.erase(arrays[i]));
+    }
+
+    void GL::BindVertexArray(VertexArray_t array)
+    {
+        if (s_BoundVertexArray == array) return;
+        s_BoundVertexArray = array;
+        PLS_GLCall(glBindVertexArray, array);
+    }
+
+    void GL::GenBuffers(sizei_t n, Buffer_t *buffers)
+    {
+        PLS_GLCall(glGenBuffers, n, buffers);
+        PLS_RUN_IF_DEBUG(for (sizei_t i = 0; i < n; i++)
+            s_Buffers.insert(buffers[i]));
+    }
+
+    void GL::DeleteBuffers(sizei_t n, const Buffer_t *buffers)
+    {
+        PLS_GLCall(glDeleteBuffers, n, buffers);
+        PLS_RUN_IF_DEBUG(for (sizei_t i = 0; i < n; i++)
+            s_Buffers.erase(buffers[i]));
+    }
+
+    void GL::BindBuffer(BufferTarget target, Buffer_t buffer)
+    {
+        PLS_GLCall(glBindBuffer, static_cast<std::uint32_t>(target), buffer);
+    }
+
+    void GL::BufferData(BufferTarget target, sizeiptr_t size, const void *data, BufferUsage usage)
+    {
+        PLS_GLCall(glBufferData, static_cast<std::uint32_t>(target), size, data, static_cast<std::uint32_t>(usage));
+    }
+
+    void GL::BufferSubData(BufferTarget target, sizeiptr_t offset, sizeiptr_t size, const void *data)
+    {
+        PLS_GLCall(glBufferSubData, static_cast<std::uint32_t>(target), offset, size, data);
+    }
+
+    void GL::EnableVertexAttribArray(std::uint32_t index)
+    {
+        PLS_GLCall(glEnableVertexAttribArray, index);
+    }
+
+    void GL::DisableVertexAttribArray(std::uint32_t index)
+    {
+        PLS_GLCall(glDisableVertexAttribArray, index);
+    }
+
+    void GL::VertexAttribPointer(std::uint32_t index, std::int32_t size, Type type, bool normalized, sizei_t stride, const void *pointer)
+    {
+        PLS_GLCall(glVertexAttribPointer, index, size, static_cast<std::uint32_t>(type), normalized, stride, pointer);
+    }
+
+    void GL::VertexAttribDivisor(std::uint32_t index, std::uint32_t divisor)
+    {
+        PLS_GLCall(glVertexAttribDivisor, index, divisor);
+    }
+
+    Shader_t GL::CreateShader(ShaderType type)
+    {
+        return PLS_GLCallR(glCreateShader, static_cast<std::uint32_t>(type));
+    }
+
+    void GL::DeleteShader(Shader_t shader)
+    {
+        PLS_GLCall(glDeleteShader, shader);
+    }
+
+    void GL::ShaderSource(Shader_t shader, sizei_t count, const char **string, const sizei_t *length)
+    {
+        PLS_GLCall(glShaderSource, shader, count, string, length);
+    }
+
+    void GL::CompileShader(Shader_t shader)
+    {
+        PLS_GLCall(glCompileShader, shader);
+    }
+
+    void GL::GetShaderiv(Shader_t shader, ShaderParameter pname, std::int32_t *params)
+    {
+        PLS_GLCall(glGetShaderiv, shader, static_cast<std::uint32_t>(pname), params);
+    }
+
+    void GL::GetShaderInfoLog(Shader_t shader, sizei_t bufSize, sizei_t *length, char *infoLog)
+    {
+        PLS_GLCall(glGetShaderInfoLog, shader, bufSize, length, infoLog);
+    }
+
+    void GL::GetShaderSource(Shader_t shader, sizei_t bufSize, sizei_t *length, char *source)
+    {
+        PLS_GLCall(glGetShaderSource, shader, bufSize, length, source);
+    }
+
+    Program_t GL::CreateProgram()
+    {
+        return PLS_GLCallR(glCreateProgram);
+    }
+
+    void GL::DeleteProgram(Program_t program)
+    {
+        PLS_GLCall(glDeleteProgram, program);
+    }
+
+    void GL::GetProgramiv(Program_t program, ProgramParameter pname, std::int32_t* params)
+    {
+        PLS_GLCall(glGetProgramiv, program, static_cast<std::uint32_t>(pname), params);
+    }
+
+    void GL::GetProgramInfoLog(Program_t program, std::int32_t bufSize, std::int32_t* length, char* infoLog)
+    {
+        PLS_GLCall(glGetProgramInfoLog, program, bufSize, length, infoLog);
+    }
+
+    void GL::AttachShader(Program_t program, Shader_t shader)
+    {
+        PLS_GLCall(glAttachShader, program, shader);
+    }
+
+    void GL::DetachShader(Program_t program, Shader_t shader)
+    {
+        PLS_GLCall(glDetachShader, program, shader);
+    }
+
+    void GL::LinkProgram(Program_t program)
+    {
+        PLS_GLCall(glLinkProgram, program);
+    }
+
+    void GL::UseProgram(Program_t program)
+    {
+        PLS_GLCall(glUseProgram, program);
     }
 
     void GL::CheckError(const std::string& function, const std::string& file, std::uint32_t line)
