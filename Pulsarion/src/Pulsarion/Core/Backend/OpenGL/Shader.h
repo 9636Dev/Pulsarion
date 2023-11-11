@@ -5,6 +5,9 @@
 #include "Pulsarion/Util/File.h"
 
 #include <optional>
+#include <map>
+#include <cstdint>
+#include <glm/glm.hpp>
 
 namespace Pulsarion::OpenGL
 {
@@ -46,8 +49,17 @@ namespace Pulsarion::OpenGL
 
         void Use() const;
         std::string GetInfoLog() const;
-
+        
+        void SetUniform(const std::string& name, float value);
+        void SetUniform(const std::string& name, std::int32_t value);
+        void SetUniform(const std::string& name, const glm::vec2& value);
+        void SetUniform(const std::string& name, const glm::vec3& value);
+        void SetUniform(const std::string& name, const glm::vec4& value);
+        void SetUniform(const std::string& name, const glm::mat4& value);
     private:
+        std::int32_t GetUniformLocation(const std::string& name) const;
+
+        mutable std::map<std::string, std::int32_t> m_UniformLocations;
         Program_t m_Program;
     };
 }

@@ -220,22 +220,8 @@ namespace Pulsarion
         static std::uint64_t lastTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
         std::uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
         m_FrameTimes.push_back(currentTime - lastTime);
+        m_DeltaTime = (currentTime - lastTime) / 1000.0f;
         lastTime = currentTime;
-
-        //OpenGL::GL::Clear(OpenGL::ClearTarget::ColorAndDepthBufferBit);
-
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-
-        ImGui::Begin("FPS");
-        ImGui::Text("FPS: %.1f", GetAverageFps());
-        ImGui::Text("Frame Time: %.3f ms", GetAverageFrameTime());
-        ImGui::Text("Frame Time Count: %zu", GetFrameTimeCount());
-        ImGui::End();
-
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         glfwPollEvents();
         glfwSwapBuffers(m_Window);
@@ -254,6 +240,11 @@ namespace Pulsarion
     float GLFWWindow::GetAverageFps() const
     {
         return 1000.0f / GetAverageFrameTime();
+    }
+
+    float GLFWWindow::DeltaTime() const
+    {
+        return m_DeltaTime;
     }
 
     void GLFWWindow::SetEventCallback(const EventCallbackFunction& callback)

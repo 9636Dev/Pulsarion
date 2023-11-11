@@ -43,6 +43,7 @@ namespace Pulsarion
         [[nodiscard]] float GetAverageFps() const override;
         [[nodiscard]] std::size_t GetFrameTimeCount() const override;
         void SetFrameTimeCount(std::size_t count) override;
+        [[nodiscard]] float DeltaTime() const override;
 
         void SetCursorMode(CursorMode mode) override;
         [[nodiscard]] CursorMode GetCursorMode() const override;
@@ -55,6 +56,7 @@ namespace Pulsarion
         WindowData m_Data;
         mutable std::deque<std::uint64_t> m_FrameTimes;
         std::size_t m_FrameTimeCapacity;
+        mutable float m_DeltaTime;
     };
 }
 

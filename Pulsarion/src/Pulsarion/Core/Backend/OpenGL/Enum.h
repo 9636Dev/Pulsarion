@@ -4,6 +4,18 @@
 
 namespace Pulsarion::OpenGL
 {
+    enum class PULSARION_API EnableTarget : std::uint32_t
+    {
+        Blend = 0x0BE2,
+    };
+
+    enum class PULSARION_API BlendFactor : std::uint32_t
+    {
+        SourceAlpha = 0x0302,
+        OneMinusSourceAlpha = 0x0303,
+        
+    };
+
     enum class PULSARION_API PolygonFace : std::uint32_t
     {
         Front = 0x0404,

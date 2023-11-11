@@ -45,6 +45,9 @@ namespace Pulsarion::OpenGL
         static void ClearColor(float r, float g, float b, float a);
         static void Clear(ClearTarget target);
         static void SetPolygonMode(PolygonFace face, PolygonMode mode);
+        static void Enable(EnableTarget target);
+        static void Disable(EnableTarget target);
+        static void BlendFunc(BlendFactor sfactor, BlendFactor dfactor);
 
         static void GenVertexArrays(sizei_t n, VertexArray_t* arrays);
         static void GenBuffers(sizei_t n, Buffer_t* buffers);
@@ -99,6 +102,7 @@ namespace Pulsarion::OpenGL
         [[nodiscard]] static bool IsBuffer(Buffer_t buffer, bool requireBound = false);
         [[nodiscard]] static bool IsProgram(std::uint32_t program);
         [[nodiscard]] static bool IsShader(std::uint32_t shader);
+        static void SetLogLevel(std::uint32_t logLevel);
     private:
         static void PulsarGLCallback(std::uint32_t source, std::uint32_t type, std::uint32_t id, std::uint32_t severity, sizei_t msg_length, const char* message, const void* userParam);
         static void CheckError(const std::string& function, const std::string& file, std::uint32_t line);
@@ -110,6 +114,7 @@ namespace Pulsarion::OpenGL
         static std::uint32_t s_LogLevel;
         static bool s_IsUsingDebugCallback;
         static VertexArray_t s_BoundVertexArray;
+        static Program_t s_BoundProgram;
     };
 
     template<>

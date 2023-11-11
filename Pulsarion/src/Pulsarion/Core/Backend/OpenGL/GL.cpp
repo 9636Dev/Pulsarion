@@ -18,8 +18,9 @@ namespace Pulsarion::OpenGL
     GLVersion GL::s_Version;
     GLFunctionCall GL::s_LastFunction("null", __FILE__, __LINE__);
     bool GL::s_IsUsingDebugCallback = false;
-    std::uint32_t GL::s_LogLevel = 0;
+    std::uint32_t GL::s_LogLevel = 1;
     VertexArray_t GL::s_BoundVertexArray = 0;
+    Program_t GL::s_BoundProgram = 0;
 
     void GL::Init(GLVersion& version)
     {
@@ -90,6 +91,21 @@ namespace Pulsarion::OpenGL
     void GL::SetPolygonMode(PolygonFace face, PolygonMode mode)
     {
         PLS_GLCall(glPolygonMode, static_cast<std::uint32_t>(face), static_cast<std::uint32_t>(mode));
+    }
+
+    void GL::Enable(EnableTarget target)
+    {
+        PLS_GLCall(glEnable, static_cast<std::uint32_t>(target));
+    }
+
+    void GL::Disable(EnableTarget target)
+    {
+        PLS_GLCall(glDisable, static_cast<std::uint32_t>(target));
+    }
+
+    void GL::BlendFunc(BlendFactor sfactor, BlendFactor dfactor)
+    {
+        PLS_GLCall(glBlendFunc, static_cast<std::uint32_t>(sfactor), static_cast<std::uint32_t>(dfactor));
     }
 
     void GL::GenVertexArrays(sizei_t n, VertexArray_t *arrays)
@@ -172,7 +188,7 @@ namespace Pulsarion::OpenGL
         PLS_GLCall(glDeleteShader, shader);
     }
 
-    void GL::ShaderSource(Shader_t shader, sizei_t count, const char **string, const sizei_t *length)
+    void GL::ShaderSource(Shader_t shader, sizei_t count, const char** string, const std::int32_t* length)
     {
         PLS_GLCall(glShaderSource, shader, count, string, length);
     }
@@ -234,7 +250,79 @@ namespace Pulsarion::OpenGL
 
     void GL::UseProgram(Program_t program)
     {
+        if (program == s_BoundProgram) return;
         PLS_GLCall(glUseProgram, program);
+        s_BoundProgram = program;
+    }
+
+    std::int32_t GL::GetUniformLocation(Program_t program, const char* name)
+    {
+        return PLS_GLCallR(glGetUniformLocation, program, name);
+    }
+
+    void GL::Uniform1i(std::int32_t location, std::int32_t v0)
+    {
+        PLS_GLCall(glUniform1i, location, v0);
+    }
+
+    void GL::Uniform1f(std::int32_t location, float v0)
+    {
+        PLS_GLCall(glUniform1f, location, v0);
+    }
+
+    void GL::Uniform2f(std::int32_t location, float v0, float v1)
+    {
+        PLS_GLCall(glUniform2f, location, v0, v1);
+    }
+
+    void GL::Uniform3f(std::int32_t location, float v0, float v1, float v2)
+    {
+        PLS_GLCall(glUniform3f, location, v0, v1, v2);
+    }
+
+    void GL::Uniform4f(std::int32_t location, float v0, float v1, float v2, float v3)
+    {
+        PLS_GLCall(glUniform4f, location, v0, v1, v2, v3);
+    }
+
+    void GL::UniformMatrix4fv(std::int32_t location, std::int32_t count, bool transpose, const float* value)
+    {
+        PLS_GLCall(glUniformMatrix4fv, location, count, transpose, value);
+    }
+
+    void GL::GenTextures(sizei_t n, std::uint32_t* textures)
+    {
+        PLS_GLCall(glGenTextures, n, textures);
+    }
+
+    void GL::DeleteTextures(sizei_t n, const std::uint32_t* textures)
+    {
+        PLS_GLCall(glDeleteTextures, n, textures);
+    }
+
+    void GL::BindTexture(TextureTarget target, std::uint32_t texture)
+    {
+        PLS_GLCall(glBindTexture, static_cast<std::uint32_t>(target), texture);
+    }
+
+    void GL::TexImage2D(TextureTarget target, std::int32_t level, InternalFormat internalFormat, std::int32_t width, std::int32_t height, std::int32_t border, PixelFormat format, PixelType type, const void* data)
+    {
+        PLS_GLCall(glTexImage2D, static_cast<std::uint32_t>(target), level, static_cast<std::uint32_t>(internalFormat), width, height, border, static_cast<std::uint32_t>(format), static_cast<std::uint32_t>(type), data);
+    }
+
+    void GL::ActiveTexture(TextureUnit unit)
+    {
+        PLS_GLCall(glActiveTexture, static_cast<std::uint32_t>(unit));
+    }
+
+    void GL::TexParameteri(TextureTarget target, TextureParameter pname, std::int32_t param)
+    {
+        PLS_GLCall(glTexParameteri, static_cast<std::uint32_t>(target), static_cast<std::uint32_t>(pname), param);
+    }
+
+    void GL::SetLogLevel(std::uint32_t logLevel)
+    {
+        s_LogLevel = logLevel;
     }
 
     void GL::CheckError(const std::string& function, const std::string& file, std::uint32_t line)

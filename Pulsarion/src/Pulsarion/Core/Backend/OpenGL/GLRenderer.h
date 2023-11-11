@@ -12,5 +12,8 @@ namespace Pulsarion::OpenGL
 
         void Clear() override;
         void SetClearColor(glm::vec4 color) override;
+        void SetBlend(bool blend) override;
+
+        void RenderUIWindow(const UI::Window& window) override;
     };
 }

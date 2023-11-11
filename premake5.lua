@@ -12,6 +12,16 @@ workspace "Pulsarion"
 
     include "Pulsarion"
 
+    project "PulsarionResources"
+        location "resources"
+        kind "None"
+        language "C++"
+
+        files
+        {
+            "resources/**.*"
+        }
+
     project "PulsarionExamples"
         location "examples"
         kind "ConsoleApp"

@@ -115,4 +115,49 @@ namespace Pulsarion::OpenGL
         GL::GetProgramInfoLog(m_Program, length, &length, infoLog.data());
         return infoLog;
     }
+
+    std::int32_t ShaderProgram::GetUniformLocation(const std::string& name) const
+    {
+        if (m_UniformLocations.find(name) != m_UniformLocations.end())
+            return m_UniformLocations[name];
+        std::int32_t location = GL::GetUniformLocation(m_Program, name.c_str());
+        m_UniformLocations[name] = location;
+        return location;
+    }
+
+    void ShaderProgram::SetUniform(const std::string& name, std::int32_t value)
+    {
+        Use();
+        GL::Uniform1i(GetUniformLocation(name), value);
+    }
+
+    void ShaderProgram::SetUniform(const std::string& name, float value)
+    {
+        Use();
+        GL::Uniform1f(GetUniformLocation(name), value);
+    }
+
+    void ShaderProgram::SetUniform(const std::string& name, const glm::vec2& value)
+    {
+        Use();
+        GL::Uniform2f(GetUniformLocation(name), value.x, value.y);
+    }
+
+    void ShaderProgram::SetUniform(const std::string& name, const glm::vec3& value)
+    {
+        Use();
+        GL::Uniform3f(GetUniformLocation(name), value.x, value.y, value.z);
+    }
+
+    void ShaderProgram::SetUniform(const std::string& name, const glm::vec4& value)
+    {
+        Use();
+        GL::Uniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);
+    }
+
+    void ShaderProgram::SetUniform(const std::string& name, const glm::mat4& value)
+    {
+        Use();
+        GL::UniformMatrix4fv(GetUniformLocation(name), 1, false, glm::value_ptr(value));
+    }
 }
