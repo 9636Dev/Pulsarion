@@ -40,7 +40,7 @@ workspace "Pulsarion"
             "Pulsarion",
         }
 
-
+        debugdir "%{wks.location}/resources"
 
 
         filter "system:windows"
@@ -100,6 +100,8 @@ workspace "Pulsarion"
 
         targetdir ("bin/" .. OUTPUT_DIR .. "/%{prj.name}/")
         objdir ("bin-int/" .. OUTPUT_DIR .. "/%{prj.name}/")
+
+        debugdir "%{wks.location}/resources"
 
         files
         {

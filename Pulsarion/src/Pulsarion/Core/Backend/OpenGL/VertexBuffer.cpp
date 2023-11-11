@@ -3,6 +3,17 @@
 
 namespace Pulsarion::OpenGL
 {
+    VertexBufferLayout::VertexBufferLayout()
+        : m_Stride(0), m_Attributes()
+    {
+
+    }
+
+    VertexBufferLayout::~VertexBufferLayout()
+    {
+
+    }
+
     Buffer_t GenerateVertexBuffer()
     {
         Buffer_t buffer;

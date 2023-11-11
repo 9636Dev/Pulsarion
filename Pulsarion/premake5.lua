@@ -74,8 +74,12 @@ project "Pulsarion"
         "vender/imgui/imgui/backends/imgui_impl_glfw.cpp",
         "vender/imgui/imgui/backends/imgui_impl_opengl3.h",
         "vender/imgui/imgui/backends/imgui_impl_opengl3.cpp",
-
     }
+
+    filter "files:**/imgui/imgui/**.cpp" -- Warning suppression for ImGui
+        flags { "NoPCH" }
+        filter "system:windows"
+            disablewarnings { "4996" }
 
     links
     {

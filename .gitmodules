@@ -10,3 +10,6 @@
 [submodule "Pulsarion/vender/imgui/imgui"]
 	path = Pulsarion/vender/imgui/imgui
 	url = https://github.com/ocornut/imgui
+[submodule "Pulsarion/vender/glm"]
+	path = Pulsarion/vender/glm
+	url = https://github.com/g-truc/glm
