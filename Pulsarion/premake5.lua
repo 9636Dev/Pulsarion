@@ -20,7 +20,8 @@ Pulsarion = {
         glfw = os.getcwd() .. "/vender/glfw/include",
         spdlog = os.getcwd() .. "/vender/spdlog/include",
         glew = os.getcwd() .. "/vender/glew/include",
-        imgui = os.getcwd() .. "/vender/imgui/imgui"
+        imgui = os.getcwd() .. "/vender/imgui/imgui",
+        stb = os.getcwd() .. "/vender/stb",
     },
     defines = {
         windows = "PLS_PLATFORM_WINDOWS",
@@ -100,6 +101,7 @@ project "Pulsarion"
         Pulsarion.include_dirs.spdlog,
         Pulsarion.include_dirs.glew,
         Pulsarion.include_dirs.imgui,
+        Pulsarion.include_dirs.stb,
     }
 
     local commands = {}

@@ -56,6 +56,12 @@ namespace Pulsarion::OpenGL
         Texture15 = 0x84CF,
     };
 
+    static TextureUnit GetTextureUnit(std::uint32_t unit)
+    {
+        PLS_CORE_ASSERT(unit < 16, "Texture unit must be between 0 and 15!");
+        return static_cast<TextureUnit>(static_cast<std::uint32_t>(TextureUnit::Texture0) + unit);
+    }
+
     enum class PULSARION_API TextureFilter : std::uint32_t {
         Nearest = 0x2600,
         Linear = 0x2601,

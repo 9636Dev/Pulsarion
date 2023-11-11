@@ -13,3 +13,6 @@
 [submodule "Pulsarion/vender/glm"]
 	path = Pulsarion/vender/glm
 	url = https://github.com/g-truc/glm
+[submodule "Pulsarion/vender/stb/stb"]
+	path = Pulsarion/vender/stb/stb
+	url = https://github.com/nothings/stb

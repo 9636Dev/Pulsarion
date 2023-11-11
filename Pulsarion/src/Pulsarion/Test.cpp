@@ -7,6 +7,7 @@
 #include "Core/Backend/OpenGL/VertexBuffer.h"
 #include "Core/Backend/OpenGL/IndexBuffer.h"
 #include "Core/Backend/OpenGL/Shader.h"
+#include "Core/Backend/OpenGL/Texture.h"
 
 #include "UI/Window.h"
 #include "UI/Text.h"
@@ -28,22 +29,24 @@ namespace Pulsarion
         renderer->SetBlend(true);
         VertexArray va;
         VertexBuffer vb;
-        float vertices[6] = {
-            -0.5f, -0.5f,
-             0.0f,  0.5f,
-             0.5f, -0.5f
+        float vertices[16] = {
+            -0.5f,  0.5f, -1.0f, 1.0f,
+             0.5f,  0.5f,  1.0f, 1.0f,
+            -0.5f, -0.5f, -1.0f, -1.0f,
+             0.5f, -0.5f,  1.0f, -1.0f
         };
         vb.SetData(vertices, sizeof(vertices));
         VertexBufferLayout layout;
+        layout.Push<float>(2);
         layout.Push<float>(2);
         va.AddBuffer(vb, layout);
         va.Bind();
 
         IndexBuffer ib;
-        unsigned int indices[3] = { 0, 1, 2 };
+        unsigned int indices[6] = { 0, 1, 2, 1, 2, 3 };
         ib.SetData(indices, sizeof(indices));
 
-        std::optional<Shader> vertexShaderOpt = Shader::FromFile(ShaderType::VertexShader, File("assets/shaders/basic_vertex.glsl"));
+        std::optional<Shader> vertexShaderOpt = Shader::FromFile(ShaderType::VertexShader, File("assets/shaders/basic_textured_vertex.glsl"));
         if (!vertexShaderOpt)
         {
             PLS_LOG_ERROR("Failed to load vertex shader");
@@ -55,7 +58,7 @@ namespace Pulsarion
         {
             PLS_LOG_ERROR("Failed to compile vertex shader: {}", vertexShader.GetInfoLog());
         }
-        std::optional<Shader> fragmentShaderOpt = Shader::FromFile(ShaderType::FragmentShader, File("assets/shaders/basic_fragment.glsl"));
+        std::optional<Shader> fragmentShaderOpt = Shader::FromFile(ShaderType::FragmentShader, File("assets/shaders/basic_textured_fragment.glsl"));
         if (!fragmentShaderOpt)
         {
             PLS_LOG_ERROR("Failed to load fragment shader");
@@ -76,7 +79,12 @@ namespace Pulsarion
             PLS_LOG_ERROR("Failed to link shader program: {}", program.GetInfoLog());
         }
 
-        
+        Image brickImage(File("assets/textures/brick.png"));
+        Texture texture;
+        texture.DefaultSettings();
+        texture.SetData(brickImage);
+        texture.SetTextureUnit(TextureUnit::Texture0);
+
         program.Use();
 
         renderer->SetClearColor(glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
@@ -106,8 +114,9 @@ namespace Pulsarion
             renderer->Clear();
             va.Bind();
             program.Use();
+            texture.Bind();
             ib.Bind();
-            glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
             renderer->RenderUIWindow(uiWindow);
 
