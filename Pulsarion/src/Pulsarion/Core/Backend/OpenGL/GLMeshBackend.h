@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Pulsarion/Core/PulsarionCore.h"
-#include "Pulsarion/Core/Backend/Meshbackend.h"
+#include "Pulsarion/Core/Backend/MeshBackend.h"
 
 #include "VertexArray.h"
 #include "VertexBuffer.h"

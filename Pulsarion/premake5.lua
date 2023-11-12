@@ -77,10 +77,6 @@ project "Pulsarion"
         "vender/imgui/imgui/backends/imgui_impl_opengl3.cpp",
     }
 
-    filter "files:**/imgui/imgui/**.cpp" -- Warning suppression for ImGui
-        flags { "NoPCH" }
-        filter "system:windows"
-            disablewarnings { "4996" }
 
     links
     {
@@ -134,6 +130,10 @@ project "Pulsarion"
         -- Suprress DLL interface warnings
         disablewarnings { "4251" }
 
+    filter "files:**/imgui/imgui/**.cpp" -- Warning suppression for ImGui
+        flags { "NoPCH" }
+        filter "system:windows"
+            disablewarnings { "4996" }
     filter "system:linux"
         systemversion "latest"
 

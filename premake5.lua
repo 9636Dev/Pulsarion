@@ -12,15 +12,16 @@ workspace "Pulsarion"
 
     include "Pulsarion"
 
-    project "PulsarionResources"
-        location "resources"
-        kind "None"
-        language "C++"
+    filter "system:windows"
+        project "PulsarionResources"
+            location "resources"
+            kind "None"
+            language "C++"
 
-        files
-        {
-            "resources/**.*"
-        }
+            files
+            {
+                "resources/**.*"
+            }
 
     project "PulsarionExamples"
         location "examples"

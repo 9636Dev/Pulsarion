@@ -4,7 +4,7 @@
 list_executables() {
     local count=0
     local files=()
-    
+
     while IFS= read -r -d $'\0' file; do
         ((count++))
         echo "$count) $file"
@@ -22,14 +22,15 @@ list_executables() {
 
     # Get the selected file
     local exec_file=${files[$((choice - 1))]}
-    
+
     # Run the executable
     echo "Running $exec_file..."
-    "$exec_file"
-    
+    cd resources
+    "../$exec_file"
+
     # Capture the exit code
     local exit_code=$?
-    
+
     echo "Executable finished with exit code: $exit_code"
 }
 
