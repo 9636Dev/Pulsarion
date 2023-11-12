@@ -69,14 +69,14 @@ namespace Pulsarion {
             return m_Dirty;
         }
 
-        inline void SetDirty(bool dirty = true) noexcept
+        inline void SetDirty(bool dirty = true) const noexcept
         {
             m_Dirty = dirty;
         }
     private:
 
         T m_Value;
-        bool m_Dirty;
+        mutable bool m_Dirty;
     };
     
 }

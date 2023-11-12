@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "2eceb492285c0a1b",
+        "id": "3d3ef8882edb0a40",
         "type": "tabs",
         "children": [
           {
-            "id": "cb8d1e60a5efd4d0",
+            "id": "edd25605aea0e34d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "design/Util/Util Modifiable.md",
+                "file": "design/Mesh.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "design/Util/Util Modifiable.md",
+                "file": "design/Mesh.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "design/Util/Util Modifiable.md",
+                "file": "design/Mesh.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "design/Util/Util Modifiable.md"
+                "file": "design/Mesh.md"
               }
             }
           }
@@ -146,14 +146,15 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "cb8d1e60a5efd4d0",
+  "active": "edd25605aea0e34d",
   "lastOpenFiles": [
-    "design/Vertex.md",
     "design/InterleavedVertex.md",
+    "design/ShaderManager.md",
     "design/Mesh.md",
+    "design/Util/Util Modifiable.md",
+    "design/Vertex.md",
     "design/Material.md",
     "design/Renderer.md",
-    "design/ShaderManager.md",
     "design/Transform.md",
     "Untitled.canvas",
     "design/GraphicalObject.md",

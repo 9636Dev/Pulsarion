@@ -56,6 +56,18 @@ namespace Pulsarion::OpenGL
             GL::Disable(EnableTarget::Blend);
         }
     }
+
+    void GLRenderer::SetWireframeMode(bool wireframe)
+    {
+        if (wireframe)
+        {
+            GL::SetPolygonMode(PolygonFace::FrontAndBack, PolygonMode::Line);
+        }
+        else
+        {
+            GL::SetPolygonMode(PolygonFace::FrontAndBack, PolygonMode::Fill);
+        }
+    }
 }
 
 namespace Pulsarion

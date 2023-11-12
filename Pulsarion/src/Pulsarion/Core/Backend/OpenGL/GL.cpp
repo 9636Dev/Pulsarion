@@ -285,6 +285,11 @@ namespace Pulsarion::OpenGL
         PLS_GLCall(glUniform4f, location, v0, v1, v2, v3);
     }
 
+    void GL::UniformMatrix3fv(std::int32_t location, std::int32_t count, bool transpose, const float* value)
+    {
+        PLS_GLCall(glUniformMatrix3fv, location, count, transpose, value);
+    }
+
     void GL::UniformMatrix4fv(std::int32_t location, std::int32_t count, bool transpose, const float* value)
     {
         PLS_GLCall(glUniformMatrix4fv, location, count, transpose, value);

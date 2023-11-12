@@ -18,6 +18,7 @@ namespace Pulsarion
     public:
         virtual ~Renderer() = default;
 
+        virtual void SetWireframeMode(bool wireframe) = 0;
         virtual void SetBlend(bool blend) = 0;
         virtual void Clear() = 0;
         virtual void SetClearColor(glm::vec4 color) = 0;

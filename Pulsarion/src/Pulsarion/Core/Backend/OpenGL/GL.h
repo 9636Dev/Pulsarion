@@ -91,6 +91,7 @@ namespace Pulsarion::OpenGL
         static void Uniform2f(std::int32_t location, float v0, float v1);
         static void Uniform3f(std::int32_t location, float v0, float v1, float v2);
         static void Uniform4f(std::int32_t location, float v0, float v1, float v2, float v3);
+        static void UniformMatrix3fv(std::int32_t location, std::int32_t count, bool transpose, const float* value);
         static void UniformMatrix4fv(std::int32_t location, std::int32_t count, bool transpose, const float* value);
 
         static void BindTexture(TextureTarget target, std::uint32_t texture);
@@ -121,6 +122,12 @@ namespace Pulsarion::OpenGL
     inline Type GL::GetGLType<float>()
     {
         return Type::Float;
+    }
+
+    template<>
+    inline Type GL::GetGLType<double>()
+    {
+        return Type::Double;
     }
 
     template<>

@@ -42,6 +42,11 @@ namespace Pulsarion::OpenGL
             m_Attributes.emplace_back(size, GL::GetGLType<T>(), normalized, instanced, stride, offset == -1 ? m_Stride : offset);
             m_Stride += size * sizeof(T);
         }
+        inline void Clear()
+        {
+            m_Attributes.clear();
+            m_Stride = 0;
+        }
 
         inline std::uint32_t GetStride() const { return m_Stride; }
 
@@ -57,6 +62,7 @@ namespace Pulsarion::OpenGL
         ~VertexBuffer();
 
         void SetData(const void* data, std::uint32_t size, BufferUsage = BufferUsage::StaticDraw);
+        void SetSubData(const void* data, std::uint32_t size, std::uint32_t offset);
     private:
         void Bind() const;
         void Unbind() const;

@@ -155,6 +155,12 @@ namespace Pulsarion::OpenGL
         GL::Uniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);
     }
 
+    void ShaderProgram::SetUniform(const std::string& name, const glm::mat3& value)
+    {
+        Use();
+        GL::UniformMatrix3fv(GetUniformLocation(name), 1, false, glm::value_ptr(value));
+    }
+
     void ShaderProgram::SetUniform(const std::string& name, const glm::mat4& value)
     {
         Use();
