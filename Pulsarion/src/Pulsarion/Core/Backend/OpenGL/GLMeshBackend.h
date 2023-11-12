@@ -18,8 +18,8 @@ namespace Pulsarion::OpenGL
         void SetVertexData(const VertexData2D& vertexData) override;
         void SetIndices(const std::vector<std::uint32_t>& indices) override;
 
-        void Bind() override;
-        void Unbind() override;
+        void Bind() const override;
+        void Unbind() const override;
     private:
         VertexArray m_VertexArray;
         VertexBuffer m_VertexBuffer;

@@ -153,7 +153,7 @@ namespace Pulsarion::OpenGL
         PLS_GLCall(glBufferData, static_cast<std::uint32_t>(target), size, data, static_cast<std::uint32_t>(usage));
     }
 
-    void GL::BufferSubData(BufferTarget target, sizeiptr_t offset, sizeiptr_t size, const void *data)
+    void GL::BufferSubData(BufferTarget target, intptr_t offset, sizeiptr_t size, const void *data)
     {
         PLS_GLCall(glBufferSubData, static_cast<std::uint32_t>(target), offset, size, data);
     }
@@ -171,6 +171,11 @@ namespace Pulsarion::OpenGL
     void GL::VertexAttribPointer(std::uint32_t index, std::int32_t size, Type type, bool normalized, sizei_t stride, const void *pointer)
     {
         PLS_GLCall(glVertexAttribPointer, index, size, static_cast<std::uint32_t>(type), normalized, stride, pointer);
+    }
+
+    void GL::VertexAttribLPointer(std::uint32_t index, std::int32_t size, Type type, sizei_t stride, const void* pointer)
+    {
+        PLS_GLCall(glVertexAttribLPointer, index, size, static_cast<std::uint32_t>(type), stride, pointer);
     }
 
     void GL::VertexAttribDivisor(std::uint32_t index, std::uint32_t divisor)
@@ -293,6 +298,11 @@ namespace Pulsarion::OpenGL
     void GL::UniformMatrix4fv(std::int32_t location, std::int32_t count, bool transpose, const float* value)
     {
         PLS_GLCall(glUniformMatrix4fv, location, count, transpose, value);
+    }
+
+    void GL::GetUniformfv(Program_t program, std::int32_t location, float* params)
+    {
+        PLS_GLCall(glGetUniformfv, program, location, params);
     }
 
     void GL::GenTextures(sizei_t n, std::uint32_t* textures)

@@ -19,6 +19,11 @@ namespace Pulsarion
         return *m_VertexData;
     }
 
+    VertexData2D& Mesh2D::GetVertexDataRef()
+    {
+        return *m_VertexData;
+    }
+
     void Mesh2D::SetIndices(const std::vector<std::uint32_t>& indices)
     {
         m_Indices = indices;
@@ -30,6 +35,8 @@ namespace Pulsarion
             return false;
 
         m_Backend = CreateMeshBackend2D();
+        m_Backend->SetVertexData(*m_VertexData);
+        m_Backend->SetIndices(m_Indices);
         return true;
     }
 

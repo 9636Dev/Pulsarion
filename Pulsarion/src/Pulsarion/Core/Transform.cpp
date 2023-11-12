@@ -25,21 +25,12 @@ namespace Pulsarion
 
     }
 
-    glm::mat3 Transform2D::GetAsMatrix() const {
-        static glm::mat3 matrix = glm::mat3(1.0);
+    glm::mat4 Transform2D::GetAsMatrix() const {
+        static glm::mat4 matrix = glm::identity<glm::mat4>();
         if (IsDirty()) {
-            float cosTheta = glm::cos(static_cast<float>(m_Rotation.GetConst()));
-            float sinTheta = glm::sin(static_cast<float>(m_Rotation.GetConst()));
-            float scaleX = static_cast<float>(m_Scale.GetConst().x);
-            float scaleY = static_cast<float>(m_Scale.GetConst().y);
-            float transX = static_cast<float>(m_Translation.GetConst().x);
-            float transY = static_cast<float>(m_Translation.GetConst().y);
-
-            matrix = glm::mat3(
-                scaleX * cosTheta, -scaleX * sinTheta, transX,
-                scaleY * sinTheta, scaleY * cosTheta, transY,
-                0.0f, 0.0f, 1.0f
-            );
+            matrix = glm::translate(glm::identity<glm::mat4>(), glm::vec3(m_Translation.GetConst(), 0.0));
+            matrix = glm::rotate(matrix, static_cast<float>(m_Rotation.GetConst()), glm::vec3(0.0, 0.0, 1.0));
+            matrix = glm::scale(matrix, glm::vec3(m_Scale.GetConst(), 1.0));
 
             m_Translation.SetDirty(false);
             m_Scale.SetDirty(false);

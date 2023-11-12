@@ -19,6 +19,7 @@ namespace Pulsarion
         ~Mesh2D();
 
         const VertexData2D& GetVertexData() const;
+        VertexData2D& GetVertexDataRef();
         void SetIndices(const std::vector<std::uint32_t>& indices);
 
         bool CreateBackend();

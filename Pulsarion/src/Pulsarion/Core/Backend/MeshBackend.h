@@ -14,8 +14,8 @@ namespace Pulsarion
         virtual void SetVertexData(const VertexData2D& vertexData) = 0;
         virtual void SetIndices(const std::vector<std::uint32_t>& indices) = 0;
 
-        virtual void Bind() = 0;
-        virtual void Unbind() = 0;
+        virtual void Bind() const = 0;
+        virtual void Unbind() const = 0;
     };
 
     extern std::unique_ptr<MeshBackend2D> CreateMeshBackend2D();

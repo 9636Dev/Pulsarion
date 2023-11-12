@@ -24,7 +24,7 @@ namespace Pulsarion
         /// Copies the vertices into the vertex data, size should be a multiple of 2 and equal to vertexCount * 2.
         /// </summary>
         /// <param name="vertices">A vector containing data for the vertex positions.</param>
-        virtual void SetVertices(const std::vector<double>& vertices) = 0;
+        virtual void SetVertices(const std::vector<float>& vertices) = 0;
         virtual void SetTextureCoordinates(const std::vector<float>& textureCoordinates) = 0;
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Pulsarion
         virtual void SetVertexCount(std::size_t count) = 0;
         virtual std::size_t GetVertexCount() const = 0;
 
-        virtual std::vector<double> GetVertices() const = 0;
+        virtual std::vector<float> GetVertices() const = 0;
         virtual std::vector<float> GetTextureCoordinates() const = 0;
     };
 
@@ -42,23 +42,23 @@ namespace Pulsarion
     {
     public:
         virtual ~VertexData3D() = default;
-        virtual void SetVertices(const std::vector<double>& vertices) = 0;
+        virtual void SetVertices(const std::vector<float>& vertices) = 0;
         virtual void SetTextureCoordinates(const std::vector<float>& textureCoordinates) = 0;
-        virtual void SetNormals(const std::vector<double>& normals) = 0;
-        virtual void SetBiTangents(const std::vector<double>& biTangents) = 0;
+        virtual void SetNormals(const std::vector<float>& normals) = 0;
+        virtual void SetBiTangents(const std::vector<float>& biTangents) = 0;
 
-        virtual std::vector<double> GetVertices() const = 0;
+        virtual std::vector<float> GetVertices() const = 0;
         virtual std::vector<float> GetTextureCoordinates() const = 0;
-        virtual std::vector<double> GetNormals() const = 0;
-        virtual std::vector<double> GetBiTangents() const = 0;
+        virtual std::vector<float> GetNormals() const = 0;
+        virtual std::vector<float> GetBiTangents() const = 0;
     };
 
     struct PULSARION_API Vertex2DInterleaved
     {
-        double Vertex[2];
+        float Vertex[2];
         float TextureCoordinate[2];
 
-        Vertex2DInterleaved(double x, double y, float u, float v)
+        Vertex2DInterleaved(float x, float y, float u, float v)
             : Vertex{ x, y }, TextureCoordinate{ u, v }
         {
 
@@ -72,16 +72,16 @@ namespace Pulsarion
         VertexData2DPacked();
         ~VertexData2DPacked();
 
-        void SetVertices(const std::vector<double>& vertices) override;
+        void SetVertices(const std::vector<float>& vertices) override;
         void SetTextureCoordinates(const std::vector<float>& textureCoordinates) override;
 
-        std::vector<double> GetVertices() const override;
+        std::vector<float> GetVertices() const override;
         std::vector<float> GetTextureCoordinates() const override;
 
         void SetVertexCount(std::size_t count) override;
         std::size_t GetVertexCount() const override;
     private:
-        std::vector<double> m_Vertices;
+        std::vector<float> m_Vertices;
         std::vector<float> m_TextureCoordinates;
         std::size_t m_VertexCount;
     };
@@ -92,12 +92,12 @@ namespace Pulsarion
         VertexData2DInterleaved();
         ~VertexData2DInterleaved();
 
-        void SetVertices(const std::vector<double>& vertices) override;
+        void SetVertices(const std::vector<float>& vertices) override;
         void SetTextureCoordinates(const std::vector<float>& textureCoordinates) override;
-        void AddVertices(const std::vector<double>& vertices, std::size_t offset = 0);
+        void AddVertices(const std::vector<float>& vertices, std::size_t offset = 0);
         void AddTextureCoordinates(const std::vector<float>& textureCoordinates, std::size_t offset = 0);
 
-        std::vector<double> GetVertices() const override;
+        std::vector<float> GetVertices() const override;
         std::vector<float> GetTextureCoordinates() const override;
 
         void SetVertexCount(std::size_t count) override;

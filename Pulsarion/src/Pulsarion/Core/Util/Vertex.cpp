@@ -14,7 +14,7 @@ namespace Pulsarion
 
     }
 
-    void VertexData2DPacked::SetVertices(const std::vector<double>& vertices)
+    void VertexData2DPacked::SetVertices(const std::vector<float>& vertices)
     {
         PLS_CORE_ASSERT(vertices.size() % 2 == 0, "Vertex data must be a multiple of 2");
         PLS_CORE_ASSERT(vertices.size() != 0, "Vertex data must not be empty");
@@ -30,7 +30,7 @@ namespace Pulsarion
         std::copy(textureCoordinates.begin(), textureCoordinates.end(), m_TextureCoordinates.begin());
     }
 
-    std::vector<double> VertexData2DPacked::GetVertices() const
+    std::vector<float> VertexData2DPacked::GetVertices() const
     {
         return m_Vertices;
     }
@@ -63,7 +63,7 @@ namespace Pulsarion
 
     }
 
-    void VertexData2DInterleaved::SetVertices(const std::vector<double>& vertices)
+    void VertexData2DInterleaved::SetVertices(const std::vector<float>& vertices)
     {
         PLS_CORE_ASSERT(vertices.size() % 2 == 0, "Vertex data must be a multiple of 2");
         PLS_CORE_ASSERT(vertices.size() != 0, "Vertex data must not be empty");
@@ -76,9 +76,9 @@ namespace Pulsarion
         }
     }
 
-    std::vector<double> VertexData2DInterleaved::GetVertices() const
+    std::vector<float> VertexData2DInterleaved::GetVertices() const
     {
-        std::vector<double> vertices(m_Data.size() * 2);
+        std::vector<float> vertices(m_Data.size() * 2);
         for (std::size_t i = 0; i < m_Data.size(); i++)
         {
             vertices[i * 2] = m_Data[i].Vertex[0];

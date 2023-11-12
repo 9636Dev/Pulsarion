@@ -14,7 +14,7 @@ namespace Pulsarion
         Transform2D(const Transform2D& other);
         Transform2D(Transform2D&& other) noexcept;
 
-        glm::mat3 GetAsMatrix() const;
+        glm::mat4 GetAsMatrix() const;
 
         const glm::dvec2& GetTranslation() const;
         glm::dvec2& GetTranslationRef();

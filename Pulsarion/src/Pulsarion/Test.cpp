@@ -32,24 +32,26 @@ namespace Pulsarion
         window->SetEventCallback([](Event& event) { });
         std::unique_ptr<Renderer> renderer = CreateRenderer();
         renderer->SetBlend(true);
-        VertexArray va;
-        VertexBuffer vb;
-        float vertices[16] = {
-            -0.5f,  0.5f, -1.0f, 1.0f,
-             0.5f,  0.5f,  1.0f, 1.0f,
-            -0.5f, -0.5f, -1.0f, -1.0f,
-             0.5f, -0.5f,  1.0f, -1.0f
+        std::vector<float> vertexPositions = {
+            -0.5f,  0.5f,
+             0.5f,  0.5f,
+            -0.5f, -0.5f,
+             0.5f, -0.5f,
         };
-        vb.SetData(vertices, sizeof(vertices));
-        VertexBufferLayout layout;
-        layout.Push<float>(2);
-        layout.Push<float>(2);
-        va.AddBuffer(vb, layout);
-        va.Bind();
+        std::vector<float> textureCoords = {
+            -1.0f,  1.0f,
+             1.0f,  1.0f,
+            -1.0f, -1.0f,
+             1.0f, -1.0f
+        };
+        std::vector<std::uint32_t> indices = { 0, 1, 2, 1, 2, 3 };
 
-        IndexBuffer ib;
-        unsigned int indices[6] = { 0, 1, 2, 1, 2, 3 };
-        ib.SetData(indices, sizeof(indices));
+        Mesh2D mesh(UsageType::Static, VertexDataType::TightlyPacked);
+        mesh.GetVertexDataRef().SetVertexCount(4);
+        mesh.GetVertexDataRef().SetVertices(vertexPositions);
+        mesh.GetVertexDataRef().SetTextureCoordinates(textureCoords);
+        mesh.SetIndices(indices);
+        mesh.CreateBackend();
 
         std::optional<Shader> vertexShaderOpt = Shader::FromFile(ShaderType::VertexShader, File("assets/shaders/basic_textured_vertex.glsl"));
         if (!vertexShaderOpt)
@@ -118,6 +120,7 @@ namespace Pulsarion
         uiWindow.AddWidget(rotation);
 
         program.SetUniform("u_ModelMatrix", transform.GetAsMatrix());
+        mesh.GetBackend().Bind();
 
         while (window->IsOpen())
         {
@@ -146,7 +149,7 @@ namespace Pulsarion
 
             if (translation->IsUpdated())
                 transform.SetTranslation(glm::dvec2(translation->GetValue()[0], translation->GetValue()[1]));
-            
+
             if (scale->IsUpdated())
                 transform.SetScale(glm::dvec2(scale->GetValue()[0], scale->GetValue()[1]));
 
@@ -157,10 +160,9 @@ namespace Pulsarion
                 program.SetUniform("u_ModelMatrix", transform.GetAsMatrix());
 
             renderer->Clear();
-            va.Bind();
             program.Use();
             texture.Bind();
-            ib.Bind();
+            mesh.GetBackend().Bind();
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
             renderer->RenderUIWindow(uiWindow);

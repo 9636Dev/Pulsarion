@@ -42,7 +42,10 @@ namespace Pulsarion::OpenGL
             const auto& attribute = layout.m_Attributes[i];
             std::int32_t stride = attribute.Stride == -1 ? layout.m_Stride : attribute.Stride;
             GL::EnableVertexAttribArray(i);
-            GL::VertexAttribPointer(i, attribute.Size, attribute.Type, attribute.Normalized, stride, (const void*)attribute.Offset);
+            if (attribute.Type == Type::Double)
+                GL::VertexAttribLPointer(i, attribute.Size, attribute.Type, stride, (const void*)attribute.Offset);
+            else
+                GL::VertexAttribPointer(i, attribute.Size, attribute.Type, attribute.Normalized, stride, (const void*)attribute.Offset);
             if (attribute.Instanced)
             {
                 GL::VertexAttribDivisor(i, 1);

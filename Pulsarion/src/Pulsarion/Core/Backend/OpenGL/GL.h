@@ -15,6 +15,7 @@ namespace Pulsarion::OpenGL
     using Texture_t = std::uint32_t;
     using sizei_t = std::int32_t;
     using sizeiptr_t = std::int64_t;
+    using intptr_t = std::ptrdiff_t;
 
     struct GLVersion
     {
@@ -61,11 +62,12 @@ namespace Pulsarion::OpenGL
         static void BindBuffer(BufferTarget target, Buffer_t buffer);
 
         static void BufferData(BufferTarget target, sizeiptr_t size, const void* data, BufferUsage usage);
-        static void BufferSubData(BufferTarget target, sizeiptr_t offset, sizeiptr_t size, const void* data);
+        static void BufferSubData(BufferTarget target, intptr_t offset, sizeiptr_t size, const void* data);
 
         static void EnableVertexAttribArray(std::uint32_t index);
         static void DisableVertexAttribArray(std::uint32_t index);
         static void VertexAttribPointer(std::uint32_t index, std::int32_t size, Type type, bool normalized, sizei_t stride, const void* pointer);
+        static void VertexAttribLPointer(std::uint32_t index, std::int32_t size, Type type, sizei_t stride, const void* pointer);
         static void VertexAttribDivisor(std::uint32_t index, std::uint32_t divisor);
 
         [[nodiscard]] static Shader_t CreateShader(ShaderType type);
@@ -93,6 +95,8 @@ namespace Pulsarion::OpenGL
         static void Uniform4f(std::int32_t location, float v0, float v1, float v2, float v3);
         static void UniformMatrix3fv(std::int32_t location, std::int32_t count, bool transpose, const float* value);
         static void UniformMatrix4fv(std::int32_t location, std::int32_t count, bool transpose, const float* value);
+
+        static void GetUniformfv(Program_t program, std::int32_t location, float* params);
 
         static void BindTexture(TextureTarget target, std::uint32_t texture);
         static void TexImage2D(TextureTarget target, std::int32_t level, InternalFormat internalFormat, std::int32_t width, std::int32_t height, std::int32_t border, PixelFormat format, PixelType type, const void* data);

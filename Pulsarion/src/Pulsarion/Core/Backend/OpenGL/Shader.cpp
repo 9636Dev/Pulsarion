@@ -166,4 +166,11 @@ namespace Pulsarion::OpenGL
         Use();
         GL::UniformMatrix4fv(GetUniformLocation(name), 1, false, glm::value_ptr(value));
     }
+
+    glm::mat3 ShaderProgram::GetUniformMat3(const std::string& name) const
+    {
+        glm::mat3 value;
+        GL::GetUniformfv(m_Program, GetUniformLocation(name), glm::value_ptr(value));
+        return value;
+    }
 }
