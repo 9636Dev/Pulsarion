@@ -107,6 +107,11 @@ namespace Pulsarion::OpenGL
         GL::UseProgram(m_Program);
     }
 
+    void ShaderProgram::Unuse() const
+    {
+        GL::UseProgram(0);
+    }
+
     std::string ShaderProgram::GetInfoLog() const
     {
         std::int32_t length;

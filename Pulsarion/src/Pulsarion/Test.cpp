@@ -19,15 +19,22 @@
 #include "Core/Transform.h"
 #include "Core/Backend/MeshBackend.h"
 #include "Core/Mesh.h"
+#include "Core/Material.h"
+#include "Core/MaterialManager.h"
+#include "Core/Texture.h"
+#include "Core/TextureManager.h"
+#include "Core/Shader.h"
+#include "Core/ShaderManager.h"
 
 #include "GL/glew.h"
 
 namespace Pulsarion
 {
-    using namespace OpenGL;
+    
 
     void Test()
     {
+        using namespace OpenGL;
         std::unique_ptr<Window> window = CreateWindowPointer(WindowProperties());
         window->SetEventCallback([](Event& event) { });
         std::unique_ptr<Renderer> renderer = CreateRenderer();
@@ -46,67 +53,41 @@ namespace Pulsarion
         };
         std::vector<std::uint32_t> indices = { 0, 1, 2, 1, 2, 3 };
 
-        Mesh2D mesh(UsageType::Static, VertexDataType::TightlyPacked);
+  
+        Mesh2D mesh(UsageType::Static, VertexDataType::Interleaved);
         mesh.GetVertexDataRef().SetVertexCount(4);
         mesh.GetVertexDataRef().SetVertices(vertexPositions);
         mesh.GetVertexDataRef().SetTextureCoordinates(textureCoords);
         mesh.SetIndices(indices);
         mesh.CreateBackend();
 
-        std::optional<Shader> vertexShaderOpt = Shader::FromFile(ShaderType::VertexShader, File("assets/shaders/basic_textured_vertex.glsl"));
-        if (!vertexShaderOpt)
-        {
-            PLS_LOG_ERROR("Failed to load vertex shader");
-            return;
-        }
-        Shader vertexShader = std::move(vertexShaderOpt.value());
-
-        if (!vertexShader.Compile())
-        {
-            PLS_LOG_ERROR("Failed to compile vertex shader: {}", vertexShader.GetInfoLog());
-        }
-        std::optional<Shader> fragmentShaderOpt = Shader::FromFile(ShaderType::FragmentShader, File("assets/shaders/basic_textured_fragment.glsl"));
-        if (!fragmentShaderOpt)
-        {
-            PLS_LOG_ERROR("Failed to load fragment shader");
-            return;
-        }
-
-        Shader fragmentShader = std::move(fragmentShaderOpt.value());
-        if (!fragmentShader.Compile())
-        {
-            PLS_LOG_ERROR("Failed to compile fragment shader: {}", fragmentShader.GetInfoLog());
-        }
-
-        ShaderProgram program;
-        program.AttachShader(vertexShader);
-        program.AttachShader(fragmentShader);
-        if (!program.Link())
-        {
-            PLS_LOG_ERROR("Failed to link shader program: {}", program.GetInfoLog());
-        }
+        ShaderSignature s;
+        s.EnableInput(ShaderSignatureBit::Position2D);
+        s.EnableInput(ShaderSignatureBit::TexCoord2D);
+        s.EnableUniform(ShaderSignatureBit::ModelMatrix);
+        s.EnableUniform(ShaderSignatureBit::Texture);
+        s.EnableUniform(ShaderSignatureBit::DiffuseColor);
+        std::shared_ptr<Pulsarion::Shader> shader = ShaderManager::GetShader(s);
+        shader->SetUniform("u_Texture", 1);
 
         Image brickImage(File("assets/textures/brick.png"));
-        Texture texture;
-        texture.DefaultSettings();
-        texture.SetData(brickImage);
-        texture.SetTextureUnit(TextureUnit::Texture0);
-
-        program.Use();
+        Material brick;
+        brick.SetTextureId(TextureManager::CreateTexture2D("brick", brickImage));
+        brick.SetDiffuseColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
         Transform2D transform;
-        std::shared_ptr<UI::Slider2d> translation = std::make_shared<UI::Slider2d>("Translation", std::array<double, 2>({-1.0, -1.0}), std::array<double, 2>({1.0, 1.0}), std::array<double, 2>({0.0, 0.0}));
-        std::shared_ptr<UI::Slider2d> scale = std::make_shared<UI::Slider2d>("Scale", std::array<double, 2>({ 0.0, 0.0 }), std::array<double, 2>({ 2.0, 2.0 }), std::array<double, 2>({ 1.0, 1.0 }));
-        std::shared_ptr<UI::Slider1d> rotation = std::make_shared<UI::Slider1d>("Rotation", std::array<double, 1>({ - glm::pi<double>() }), std::array<double, 1>({ glm::pi<double>() }), std::array<double, 1>({ 0.0 }));
-
         renderer->SetClearColor(glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
         window->SetVSync(true);
+
+        std::shared_ptr<UI::Slider2d> translation = std::make_shared<UI::Slider2d>("Translation", std::array<double, 2>({ -1.0, -1.0 }), std::array<double, 2>({ 1.0, 1.0 }), std::array<double, 2>({ 0.0, 0.0 }));
+        std::shared_ptr<UI::Slider2d> scale = std::make_shared<UI::Slider2d>("Scale", std::array<double, 2>({ 0.0, 0.0 }), std::array<double, 2>({ 2.0, 2.0 }), std::array<double, 2>({ 1.0, 1.0 }));
+        std::shared_ptr<UI::Slider1d> rotation = std::make_shared<UI::Slider1d>("Rotation", std::array<double, 1>({ -glm::pi<double>() }), std::array<double, 1>({ glm::pi<double>() }), std::array<double, 1>({ 0.0 }));
 
         std::shared_ptr<UI::Text> text = std::make_shared<UI::Text>("FPS: ");
         std::shared_ptr<UI::ColorPicker4> clearColor = std::make_shared<UI::ColorPicker4>("Clear Color", glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
         std::shared_ptr<UI::ColorPicker4> fragmentColor = std::make_shared<UI::ColorPicker4>("Fragment Color", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
         renderer->SetClearColor(clearColor->GetColor());
-        program.SetUniform("u_Color", fragmentColor->GetColor());
+        shader->SetUniform("u_Color", fragmentColor->GetColor());
 
         bool vsync = true;
         std::shared_ptr<UI::Button> vsyncButton = std::make_shared<UI::Button>("VSync: On");
@@ -123,7 +104,7 @@ namespace Pulsarion
         uiWindow.AddWidget(scale);
         uiWindow.AddWidget(rotation);
 
-        program.SetUniform("u_ModelMatrix", transform.GetAsMatrix());
+        shader->SetUniform("u_ModelMatrix", transform.GetAsMatrix());
         mesh.GetBackend().Bind();
 
         while (window->IsOpen())
@@ -134,7 +115,10 @@ namespace Pulsarion
                 renderer->SetClearColor(clearColor->GetColor());
 
             if (fragmentColor->IsUpdated())
-                program.SetUniform("u_Color", fragmentColor->GetColor());
+            {
+                brick.SetDiffuseColor(fragmentColor->GetColor());
+                shader->SetUniform("u_Color", fragmentColor->GetColor());
+            }
 
             if (wireframe->IsPressed())
             {
@@ -176,11 +160,13 @@ namespace Pulsarion
                 transform.SetRotation(rotation->GetValue()[0]);
 
             if (transform.IsDirty())
-                program.SetUniform("u_ModelMatrix", transform.GetAsMatrix());
+                shader->SetUniform("u_ModelMatrix", transform.GetAsMatrix());
 
             renderer->Clear();
-            program.Use();
-            texture.Bind();
+            shader->Bind();
+            if (brick.GetTextureId().has_value())
+                TextureManager::Bind2DTexture(brick.GetTextureId().value(), 1);
+
             mesh.GetBackend().Bind();
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 

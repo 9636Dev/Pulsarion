@@ -18,9 +18,8 @@ namespace Pulsarion::OpenGL
 
         void SetData(const Image& image);
 
-        void Bind() const;
+        void Bind(TextureUnit unit = TextureUnit::Texture0) const;
         void Unbind() const;
-        void SetTextureUnit(TextureUnit unit);
 
         void MinFilter(TextureFilter filter);
         void MagFilter(TextureFilter filter);
@@ -28,6 +27,5 @@ namespace Pulsarion::OpenGL
         void WrapT(TextureWrap wrap);
     private:
         Texture_t m_Texture;
-        TextureUnit m_TextureUnit;
     };
 }

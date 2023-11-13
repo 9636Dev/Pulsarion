@@ -10,7 +10,7 @@ namespace Pulsarion::OpenGL
         return texture;
     }
 
-    Texture::Texture() : m_Texture(CreateTexture()), m_TextureUnit(TextureUnit::Texture0)
+    Texture::Texture() : m_Texture(CreateTexture())
     {
         
     }
@@ -35,20 +35,15 @@ namespace Pulsarion::OpenGL
         GL::TexImage2D(TextureTarget::Texture2D, 0, InternalFormat::RGBA, image.GetWidth(), image.GetHeight(), 0, PixelFormat::RGBA, PixelType::UnsignedByte, image.GetData());
     }
 
-    void Texture::Bind() const
+    void Texture::Bind(TextureUnit unit) const
     {
-        GL::ActiveTexture(m_TextureUnit);
+        GL::ActiveTexture(unit);
         GL::BindTexture(TextureTarget::Texture2D, m_Texture);
     }
 
     void Texture::Unbind() const
     {
         GL::BindTexture(TextureTarget::Texture2D, 0);
-    }
-
-    void Texture::SetTextureUnit(TextureUnit unit)
-    {
-        m_TextureUnit = unit;
     }
 
     void Texture::MinFilter(TextureFilter filter)

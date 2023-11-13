@@ -48,6 +48,7 @@ namespace Pulsarion::OpenGL
         bool Link();
 
         void Use() const;
+        void Unuse() const;
         std::string GetInfoLog() const;
         
         void SetUniform(const std::string& name, float value);

@@ -28,6 +28,12 @@ namespace Pulsarion::OpenGL
             m_VertexBuffer.SetSubData(packed->GetTextureCoordinates().data(), textureCoordinatesSize, verticesSize);
             m_Layout.Push<float>(2, false, false, 0, verticesSize);
         }
+        else if (const VertexData2DInterleaved* interleaved = dynamic_cast<const VertexData2DInterleaved*>(&vertexData))
+        {
+            m_VertexBuffer.SetData(interleaved->GetInterleaved().data(), interleaved->GetVertexCount() * sizeof(Vertex2DInterleaved));
+            m_Layout.Push<float>(2, false, false, sizeof(Vertex2DInterleaved), 0);
+            m_Layout.Push<float>(2, false, false, sizeof(Vertex2DInterleaved), sizeof(float) * 2);
+        }
         else
         {
             PLS_LOG_ERROR("Unsupported vertex data type!");
