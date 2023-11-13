@@ -108,6 +108,9 @@ namespace Pulsarion
         renderer->SetClearColor(clearColor->GetColor());
         program.SetUniform("u_Color", fragmentColor->GetColor());
 
+        bool vsync = true;
+        std::shared_ptr<UI::Button> vsyncButton = std::make_shared<UI::Button>("VSync: On");
+
         bool renderWireframe = false;
         std::shared_ptr<UI::Button> wireframe = std::make_shared<UI::Button>("Wireframe: Off");
         UI::Window uiWindow("Controls");
@@ -115,6 +118,7 @@ namespace Pulsarion
         uiWindow.AddWidget(clearColor);
         uiWindow.AddWidget(fragmentColor);
         uiWindow.AddWidget(wireframe);
+        uiWindow.AddWidget(vsyncButton);
         uiWindow.AddWidget(translation);
         uiWindow.AddWidget(scale);
         uiWindow.AddWidget(rotation);
@@ -144,6 +148,21 @@ namespace Pulsarion
                 {
                     wireframe->SetText("Wireframe: Off");
                     renderer->SetWireframeMode(false);
+                }
+            }
+
+            if (vsyncButton->IsPressed())
+            {
+                vsync = !vsync;
+                if (vsync)
+                {
+                    vsyncButton->SetText("VSync: On");
+                    window->SetVSync(true);
+                }
+                else
+                {
+                    vsyncButton->SetText("VSync: Off");
+                    window->SetVSync(false);
                 }
             }
 

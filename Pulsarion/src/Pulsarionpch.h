@@ -2,6 +2,8 @@
 
 #include "Pulsarion/Core/PulsarionCore.h"
 #include "Pulsarion/Util/Log.h"
+#include "Pulsarion/Util/File.h"
+#include "Pulsarion/Util/Image.h"
 
 #include <memory>
 #include <set>
