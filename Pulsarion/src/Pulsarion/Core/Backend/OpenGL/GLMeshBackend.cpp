@@ -30,9 +30,9 @@ namespace Pulsarion::OpenGL
         }
         else if (const VertexData2DInterleaved* interleaved = dynamic_cast<const VertexData2DInterleaved*>(&vertexData))
         {
-            m_VertexBuffer.SetData(interleaved->GetInterleaved().data(), interleaved->GetVertexCount() * sizeof(Vertex2DInterleaved));
-            m_Layout.Push<float>(2, false, false, sizeof(Vertex2DInterleaved), 0);
-            m_Layout.Push<float>(2, false, false, sizeof(Vertex2DInterleaved), sizeof(float) * 2);
+            m_VertexBuffer.SetData(interleaved->GetInterleaved().data(), static_cast<uint32_t>(interleaved->GetVertexCount() * sizeof(Vertex2DInterleaved)));
+            m_Layout.Push<float>(2, false, false);
+            m_Layout.Push<float>(2, false, false);
         }
         else
         {
