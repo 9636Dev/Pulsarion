@@ -27,6 +27,7 @@
 #include "Core/Shader.h"
 #include "Core/ShaderManager.h"
 #include "Core/Camera.h"
+#include "Core/GraphicalObject.h"
 
 #include "GL/glew.h"
 
@@ -61,21 +62,12 @@ namespace Pulsarion
         mesh->SetIndices(indices);
         mesh->CreateBackend();
 
-        ShaderSignature s;
-        s.EnableInput(ShaderSignatureBit::Position2D);
-        s.EnableInput(ShaderSignatureBit::TexCoord2D);
-        s.EnableUniform(ShaderSignatureBit::ModelMatrix);
-        s.EnableUniform(ShaderSignatureBit::Texture);
-        s.EnableUniform(ShaderSignatureBit::DiffuseColor);
-        std::shared_ptr<Pulsarion::Shader> shader = ShaderManager::GetShader(s);
-        shader->SetUniform("u_Texture", 1);
-
         Image brickImage(File("assets/textures/brick.png"));
         std::shared_ptr<Material> brick = MaterialManager::CreateMaterial("brick");
         brick->SetTextureId(TextureManager::CreateTexture2D("brick", brickImage));
         brick->SetDiffuseColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
-        Transform2D transform;
+        std::shared_ptr<GraphicalObject2D> object = std::make_shared<GraphicalObject2D>(brick, mesh);
         Camera camera;
 
         std::shared_ptr<UI::Slider2f> cameraPosition = std::make_shared<UI::Slider2f>("Camera2D Position", std::array{ -1.5f, -1.5f }, std::array{ 1.5f, 1.5f }, std::array{ 0.0f, 0.0f });
@@ -89,7 +81,6 @@ namespace Pulsarion
         std::shared_ptr<UI::ColorPicker4> clearColor = std::make_shared<UI::ColorPicker4>("Clear Color", glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
         std::shared_ptr<UI::ColorPicker4> fragmentColor = std::make_shared<UI::ColorPicker4>("Fragment Color", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
         renderer->SetClearColor(clearColor->GetColor());
-        shader->SetUniform("u_DiffuseColor", fragmentColor->GetColor());
         window->SetVSync(true);
 
         bool vsync = true;
@@ -109,8 +100,7 @@ namespace Pulsarion
         uiWindow.AddWidget(scale);
         uiWindow.AddWidget(rotation);
 
-        shader->SetUniform("u_ModelMatrix", transform.GetAsMatrix());
-        shader->SetUniform("u_ViewMatrix", camera.Get2DViewMatrix());
+        renderer->Add2DRenderable(object);
 
         while (window->IsOpen())
         {
@@ -122,7 +112,6 @@ namespace Pulsarion
             if (fragmentColor->IsUpdated())
             {
                 brick->SetDiffuseColor(fragmentColor->GetColor());
-                shader->SetUniform("u_DiffuseColor", fragmentColor->GetColor());
             }
 
             if (wireframe->IsPressed())
@@ -156,36 +145,24 @@ namespace Pulsarion
             }
 
             if (cameraPosition->IsUpdated())
-            {
                 camera.Set2DPosition(glm::vec2(cameraPosition->GetValue()[0], cameraPosition->GetValue()[1]));
-                shader->SetUniform("u_ViewMatrix", camera.Get2DViewMatrix());
-            }
 
             if (cameraRotation->IsUpdated())
-            {
                 camera.Set2DRotation(cameraRotation->GetValue()[0]);
-                shader->SetUniform("u_ViewMatrix", camera.Get2DViewMatrix());
-            }
 
             if (translation->IsUpdated())
-                transform.SetTranslation(glm::dvec2(translation->GetValue()[0], translation->GetValue()[1]));
+                object->GetTransformRef().SetTranslation(glm::dvec2(translation->GetValue()[0], translation->GetValue()[1]));
 
             if (scale->IsUpdated())
-                transform.SetScale(glm::dvec2(scale->GetValue()[0], scale->GetValue()[1]));
+                object->GetTransformRef().SetScale(glm::dvec2(scale->GetValue()[0], scale->GetValue()[1]));
 
             if (rotation->IsUpdated())
-                transform.SetRotation(rotation->GetValue()[0]);
-
-            if (transform.IsDirty())
-                shader->SetUniform("u_ModelMatrix", transform.GetAsMatrix());
+                object->GetTransformRef().SetRotation(rotation->GetValue()[0]);
 
             renderer->Clear();
-            shader->Bind();
             if (brick->GetTextureId().has_value())
                 TextureManager::Bind2DTexture(brick->GetTextureId().value(), 1);
-
-            mesh->GetBackend().Bind();
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            renderer->Render(camera);
 
             renderer->RenderUIWindow(uiWindow);
 

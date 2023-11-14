@@ -74,4 +74,10 @@ namespace Pulsarion
     {
         return m_CachedShader;
     }
+
+    Transform2D& GraphicalObject2D::GetTransformRef()
+    {
+        m_IsChanged = true;
+        return m_Transform;
+    }
 }

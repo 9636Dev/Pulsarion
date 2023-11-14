@@ -43,6 +43,8 @@ namespace Pulsarion
         const ShaderSignature& GetShaderSignature() const;
         std::shared_ptr<Shader> GetCachedShader() const;
 
+        Transform2D& GetTransformRef();
+
         bool IsChanged() const;
     private:
         std::shared_ptr<Material> m_Material;
