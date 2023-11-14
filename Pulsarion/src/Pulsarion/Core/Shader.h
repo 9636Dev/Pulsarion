@@ -55,6 +55,14 @@ namespace Pulsarion
         {
             return inputsBitmap == other.inputsBitmap && uniformsBitmap == other.uniformsBitmap;
         }
+
+        ShaderSignature operator|(const ShaderSignature& other) const
+        {
+            ShaderSignature result;
+            result.inputsBitmap = inputsBitmap | other.inputsBitmap;
+            result.uniformsBitmap = uniformsBitmap | other.uniformsBitmap;
+            return result;
+        }
     };
 
     class Shader

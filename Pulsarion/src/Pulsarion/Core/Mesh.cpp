@@ -2,6 +2,8 @@
 #include "Mesh.h"
 #include "Pulsarion/Core/Backend/MeshBackend.h"
 
+#include "Shader.h"
+
 namespace Pulsarion
 {
     Mesh2D::Mesh2D(UsageType type, VertexDataType vertexType) : m_VertexData(CreateVertexData2D(vertexType)), m_Backend(), m_UsageType(type)
@@ -22,6 +24,11 @@ namespace Pulsarion
     VertexData2D& Mesh2D::GetVertexDataRef()
     {
         return *m_VertexData;
+    }
+
+    const std::vector<std::uint32_t>& Mesh2D::GetIndices() const
+    {
+        return m_Indices;
     }
 
     void Mesh2D::SetIndices(const std::vector<std::uint32_t>& indices)
@@ -53,5 +60,14 @@ namespace Pulsarion
     const MeshBackend2D& Mesh2D::GetBackend() const
     {
         return *m_Backend;
+    }
+
+    ShaderSignature Mesh2D::GetShaderSignature() const
+    {
+        ShaderSignature signature;
+        // TODO: Make dynamic
+        signature.EnableInput(ShaderSignatureBit::Position2D);
+        signature.EnableInput(ShaderSignatureBit::TexCoord2D);
+        return signature;
     }
 }

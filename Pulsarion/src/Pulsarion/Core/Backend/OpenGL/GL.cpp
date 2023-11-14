@@ -108,6 +108,16 @@ namespace Pulsarion::OpenGL
         PLS_GLCall(glBlendFunc, static_cast<std::uint32_t>(sfactor), static_cast<std::uint32_t>(dfactor));
     }
 
+    void GL::Viewport(std::int32_t x, std::int32_t y, sizei_t width, sizei_t height)
+    {
+        PLS_GLCall(glViewport, x, y, width, height);
+    }
+
+    void GL::DrawElements(DrawMode mode, sizei_t count, Type type, const void* indices)
+    {
+        PLS_GLCall(glDrawElements, static_cast<std::uint32_t>(mode), count, static_cast<std::uint32_t>(type), indices);
+    }
+
     void GL::GenVertexArrays(sizei_t n, VertexArray_t *arrays)
     {
         PLS_GLCall(glGenVertexArrays, n, arrays);
@@ -305,12 +315,12 @@ namespace Pulsarion::OpenGL
         PLS_GLCall(glGetUniformfv, program, location, params);
     }
 
-    void GL::GenTextures(sizei_t n, std::uint32_t* textures)
+    void GL::GenTextures(sizei_t n, Texture_t* textures)
     {
         PLS_GLCall(glGenTextures, n, textures);
     }
 
-    void GL::DeleteTextures(sizei_t n, const std::uint32_t* textures)
+    void GL::DeleteTextures(sizei_t n, const Texture_t* textures)
     {
         PLS_GLCall(glDeleteTextures, n, textures);
     }

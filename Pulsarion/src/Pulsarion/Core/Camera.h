@@ -13,22 +13,31 @@ namespace Pulsarion
         Camera();
         ~Camera();
 
-        void SetPosition(const glm::vec3& position);
-        void SetRotation(const glm::quat& rotation);
+        void Set3DPosition(const glm::vec3& position);
+        void Set3DRotation(const glm::quat& rotation);
+        void Set2DPosition(const glm::vec2& position);
+        void Set2DRotation(float rotation);
 
-        const glm::vec3& GetPosition() const;
-        const glm::quat& GetRotation() const;
-        glm::vec3& GetPositionRef();
-        glm::quat& GetRotationRef();
+        const glm::vec3& Get3DPosition() const;
+        const glm::quat& Get3DRotation() const;
+        const glm::vec2& Get2DPosition() const;
+        float Get2DRotation() const;
 
-        glm::mat4 GetPositionMatrix() const;
-        glm::mat4 GetRotationMatrix() const;
-        glm::mat4 GetViewMatrix() const;
-        glm::mat4 Get2DViewMatrix() const;
+        glm::vec3& Get3DPositionRef();
+        glm::quat& Get3DRotationRef();
+        glm::vec2& Get2DPositionRef();
+
+        const glm::mat4& Get3DPositionMatrix() const;
+        const glm::mat4& Get3DRotationMatrix() const;
+        const glm::mat4& Get2DPositionMatrix() const;
+        const glm::mat4& Get2DRotationMatrix() const;
+
+        const glm::mat4& Get3DViewMatrix() const;
+        const glm::mat4& Get2DViewMatrix() const;
     private:
-        Modifiable<glm::vec3> m_Position;
-        Modifiable<glm::quat> m_Rotation;
-        mutable bool m_Position2DDirty;
-        mutable bool m_Rotation2DDirty;
+        Modifiable<glm::vec3> m_Position3D;
+        Modifiable<glm::quat> m_Rotation3D;
+        Modifiable<glm::vec2> m_Position2D;
+        Modifiable<float> m_Rotation2D;
     };
 }

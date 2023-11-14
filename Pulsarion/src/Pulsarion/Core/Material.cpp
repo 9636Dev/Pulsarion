@@ -1,6 +1,8 @@
 #include "Pulsarionpch.h"
 #include "Material.h"
 
+#include "Shader.h"
+
 namespace Pulsarion
 {
     Material::Material(UsageType type) : m_TextureId(), m_DiffuseColor(1.0f, 1.0f, 1.0f, 1.0f), m_IsTransparent(false), m_UsageType(type)
@@ -46,5 +48,13 @@ namespace Pulsarion
     UsageType Material::GetUsageType() const
     {
         return m_UsageType;
+    }
+
+    ShaderSignature Material::GetShaderSignature() const
+    {
+        ShaderSignature signature;
+        signature.EnableUniform(ShaderSignatureBit::Texture);
+        signature.EnableUniform(ShaderSignatureBit::DiffuseColor);
+        return signature;
     }
 }

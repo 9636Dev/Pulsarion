@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "design/Material.md",
+                "file": "design/GraphicalObject.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "design/Material.md",
+                "file": "design/GraphicalObject.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "design/Material.md",
+                "file": "design/GraphicalObject.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "design/Material.md"
+                "file": "design/GraphicalObject.md"
               }
             }
           }
@@ -148,12 +148,12 @@
   },
   "active": "edd25605aea0e34d",
   "lastOpenFiles": [
+    "design/Material.md",
     "design/Mesh.md",
     "design/InterleavedVertex.md",
     "design/ShaderManager.md",
     "design/Util/Util Modifiable.md",
     "design/Vertex.md",
-    "design/Material.md",
     "design/Renderer.md",
     "design/Transform.md",
     "Untitled.canvas",

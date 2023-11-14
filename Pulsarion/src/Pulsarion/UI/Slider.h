@@ -5,6 +5,7 @@
 
 #include <imgui.h>
 #include <array>
+#include <vector>
 
 namespace Pulsarion::UI
 {

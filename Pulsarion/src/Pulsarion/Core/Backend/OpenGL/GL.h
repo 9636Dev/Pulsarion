@@ -49,6 +49,9 @@ namespace Pulsarion::OpenGL
         static void Enable(EnableTarget target);
         static void Disable(EnableTarget target);
         static void BlendFunc(BlendFactor sfactor, BlendFactor dfactor);
+        static void Viewport(std::int32_t x, std::int32_t y, sizei_t width, sizei_t height);
+
+        static void DrawElements(DrawMode mode, sizei_t count, Type type, const void* indices);
 
         static void GenVertexArrays(sizei_t n, VertexArray_t* arrays);
         static void GenBuffers(sizei_t n, Buffer_t* buffers);

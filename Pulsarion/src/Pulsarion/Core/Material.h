@@ -9,6 +9,7 @@
 
 namespace Pulsarion
 {
+    struct ShaderSignature;
     class PULSARION_API Material
     {
     public:
@@ -23,6 +24,8 @@ namespace Pulsarion
         const glm::vec4& GetDiffuseColor() const;
         bool GetIsTransparent() const;
         UsageType GetUsageType() const;
+
+        ShaderSignature GetShaderSignature() const;
 
     private:
         UsageType m_UsageType;

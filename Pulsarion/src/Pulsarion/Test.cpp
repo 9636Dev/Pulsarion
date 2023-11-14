@@ -19,6 +19,7 @@
 #include "Core/Transform.h"
 #include "Core/Backend/MeshBackend.h"
 #include "Core/Mesh.h"
+#include "Core/MeshManager.h"
 #include "Core/Material.h"
 #include "Core/MaterialManager.h"
 #include "Core/Texture.h"
@@ -53,12 +54,12 @@ namespace Pulsarion
         std::vector<std::uint32_t> indices = { 0, 1, 2, 1, 2, 3 };
 
   
-        Mesh2D mesh(UsageType::Static, VertexDataType::Interleaved);
-        mesh.GetVertexDataRef().SetVertexCount(4);
-        mesh.GetVertexDataRef().SetVertices(vertexPositions);
-        mesh.GetVertexDataRef().SetTextureCoordinates(textureCoords);
-        mesh.SetIndices(indices);
-        mesh.CreateBackend();
+        auto [meshId, mesh] = MeshManager::Create2DMesh(UsageType::Static, VertexDataType::Interleaved);
+        mesh->GetVertexDataRef().SetVertexCount(4);
+        mesh->GetVertexDataRef().SetVertices(vertexPositions);
+        mesh->GetVertexDataRef().SetTextureCoordinates(textureCoords);
+        mesh->SetIndices(indices);
+        mesh->CreateBackend();
 
         ShaderSignature s;
         s.EnableInput(ShaderSignatureBit::Position2D);
@@ -70,28 +71,26 @@ namespace Pulsarion
         shader->SetUniform("u_Texture", 1);
 
         Image brickImage(File("assets/textures/brick.png"));
-        Material brick;
-        brick.SetTextureId(TextureManager::CreateTexture2D("brick", brickImage));
-        brick.SetDiffuseColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+        std::shared_ptr<Material> brick = MaterialManager::CreateMaterial("brick");
+        brick->SetTextureId(TextureManager::CreateTexture2D("brick", brickImage));
+        brick->SetDiffuseColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
         Transform2D transform;
-        renderer->SetClearColor(glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
-        window->SetVSync(true);
-
         Camera camera;
 
-        std::shared_ptr<UI::Slider3d> cameraPosition = std::make_shared<UI::Slider3d>("Camera Position", std::array<double, 3>({ -10.0, -10.0, -10.0 }), std::array<double, 3>({ 10.0, 10.0, 10.0 }), std::array<double, 3>({ 0.0, 0.0, 0.0 }));
-        std::shared_ptr<UI::Slider3d> cameraRotation = std::make_shared<UI::Slider3d>("Camera Rotation", std::array<double, 3>({ -glm::pi<double>() }), std::array<double, 3>({ glm::pi<double>() }), std::array<double, 3>({ 0.0 }));
+        std::shared_ptr<UI::Slider2f> cameraPosition = std::make_shared<UI::Slider2f>("Camera2D Position", std::array{ -1.5f, -1.5f }, std::array{ 1.5f, 1.5f }, std::array{ 0.0f, 0.0f });
+        std::shared_ptr<UI::Slider1f> cameraRotation = std::make_shared<UI::Slider1f>("Camera2D Rotation", std::array{ -glm::pi<float>() }, std::array{ glm::pi<float>() }, std::array{ 0.0f });
 
-        std::shared_ptr<UI::Slider2d> translation = std::make_shared<UI::Slider2d>("Translation", std::array<double, 2>({ -1.0, -1.0 }), std::array<double, 2>({ 1.0, 1.0 }), std::array<double, 2>({ 0.0, 0.0 }));
-        std::shared_ptr<UI::Slider2d> scale = std::make_shared<UI::Slider2d>("Scale", std::array<double, 2>({ 0.0, 0.0 }), std::array<double, 2>({ 2.0, 2.0 }), std::array<double, 2>({ 1.0, 1.0 }));
-        std::shared_ptr<UI::Slider1d> rotation = std::make_shared<UI::Slider1d>("Rotation", std::array<double, 1>({ -glm::pi<double>() }), std::array<double, 1>({ glm::pi<double>() }), std::array<double, 1>({ 0.0 }));
+        std::shared_ptr<UI::Slider2f> translation = std::make_shared<UI::Slider2f>("Translation", std::array{ -1.0f, -1.0f }, std::array{ 1.0f, 1.0f }, std::array{ 0.0f, 0.0f });
+        std::shared_ptr<UI::Slider2f> scale = std::make_shared<UI::Slider2f>("Scale", std::array{ 0.0f, 0.0f }, std::array{ 2.0f, 2.0f }, std::array{ 1.0f, 1.0f });
+        std::shared_ptr<UI::Slider1f> rotation = std::make_shared<UI::Slider1f>("Rotation", std::array{ -glm::pi<float>() }, std::array{ glm::pi<float>() }, std::array{ 0.0f });
 
         std::shared_ptr<UI::Text> text = std::make_shared<UI::Text>("FPS: ");
         std::shared_ptr<UI::ColorPicker4> clearColor = std::make_shared<UI::ColorPicker4>("Clear Color", glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
         std::shared_ptr<UI::ColorPicker4> fragmentColor = std::make_shared<UI::ColorPicker4>("Fragment Color", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
         renderer->SetClearColor(clearColor->GetColor());
-        shader->SetUniform("u_Color", fragmentColor->GetColor());
+        shader->SetUniform("u_DiffuseColor", fragmentColor->GetColor());
+        window->SetVSync(true);
 
         bool vsync = true;
         std::shared_ptr<UI::Button> vsyncButton = std::make_shared<UI::Button>("VSync: On");
@@ -111,7 +110,7 @@ namespace Pulsarion
         uiWindow.AddWidget(rotation);
 
         shader->SetUniform("u_ModelMatrix", transform.GetAsMatrix());
-        shader->SetUniform("u_ViewMatrix", camera.GetViewMatrix());
+        shader->SetUniform("u_ViewMatrix", camera.Get2DViewMatrix());
 
         while (window->IsOpen())
         {
@@ -122,8 +121,8 @@ namespace Pulsarion
 
             if (fragmentColor->IsUpdated())
             {
-                brick.SetDiffuseColor(fragmentColor->GetColor());
-                shader->SetUniform("u_Color", fragmentColor->GetColor());
+                brick->SetDiffuseColor(fragmentColor->GetColor());
+                shader->SetUniform("u_DiffuseColor", fragmentColor->GetColor());
             }
 
             if (wireframe->IsPressed())
@@ -158,14 +157,13 @@ namespace Pulsarion
 
             if (cameraPosition->IsUpdated())
             {
-                camera.SetPosition(glm::vec3(cameraPosition->GetValue()[0], cameraPosition->GetValue()[1], cameraPosition->GetValue()[2]));
+                camera.Set2DPosition(glm::vec2(cameraPosition->GetValue()[0], cameraPosition->GetValue()[1]));
                 shader->SetUniform("u_ViewMatrix", camera.Get2DViewMatrix());
             }
 
             if (cameraRotation->IsUpdated())
             {
-                glm::vec3 cameraRot = glm::vec3(cameraRotation->GetValue()[0], cameraRotation->GetValue()[1], cameraRotation->GetValue()[2]);
-                camera.SetRotation(glm::quat(cameraRot));
+                camera.Set2DRotation(cameraRotation->GetValue()[0]);
                 shader->SetUniform("u_ViewMatrix", camera.Get2DViewMatrix());
             }
 
@@ -183,10 +181,10 @@ namespace Pulsarion
 
             renderer->Clear();
             shader->Bind();
-            if (brick.GetTextureId().has_value())
-                TextureManager::Bind2DTexture(brick.GetTextureId().value(), 1);
+            if (brick->GetTextureId().has_value())
+                TextureManager::Bind2DTexture(brick->GetTextureId().value(), 1);
 
-            mesh.GetBackend().Bind();
+            mesh->GetBackend().Bind();
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
             renderer->RenderUIWindow(uiWindow);

@@ -6,6 +6,8 @@
 
 namespace Pulsarion
 {
+    struct ShaderSignature;
+
     class Transform2D
     {
     public:
@@ -25,6 +27,8 @@ namespace Pulsarion
         void SetScale(const glm::dvec2& scale);
         void SetRotation(double rotation);
         bool IsDirty() const;
+
+        ShaderSignature GetShaderSignature() const;
     private:
         Modifiable<glm::dvec2> m_Translation;
         Modifiable<glm::dvec2> m_Scale;

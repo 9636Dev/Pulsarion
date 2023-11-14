@@ -1,6 +1,8 @@
 #include "Pulsarionpch.h"
 #include "Transform.h"
 
+#include "Shader.h"
+
 namespace Pulsarion
 {
     Transform2D::Transform2D()
@@ -83,5 +85,12 @@ namespace Pulsarion
     bool Transform2D::IsDirty() const
     {
         return m_Translation.IsDirty() || m_Scale.IsDirty() || m_Rotation.IsDirty();
+    }
+
+    ShaderSignature Transform2D::GetShaderSignature() const
+    {
+        ShaderSignature signature;
+        signature.EnableUniform(ShaderSignatureBit::ModelMatrix);
+        return signature;
     }
 }
