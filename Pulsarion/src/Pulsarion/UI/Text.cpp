@@ -37,6 +37,6 @@ namespace Pulsarion::UI
 
     void Text::Render() const
     {
-        ImGui::TextColored(ImVec4(m_Color.r, m_Color.g, m_Color.b, m_Color.a), m_Text.c_str());
+        ImGui::TextColored(ImVec4(m_Color.r, m_Color.g, m_Color.b, m_Color.a), "%s", m_Text.c_str());
     }
 }

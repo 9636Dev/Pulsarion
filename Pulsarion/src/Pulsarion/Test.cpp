@@ -25,13 +25,12 @@
 #include "Core/TextureManager.h"
 #include "Core/Shader.h"
 #include "Core/ShaderManager.h"
+#include "Core/Camera.h"
 
 #include "GL/glew.h"
 
 namespace Pulsarion
 {
-    
-
     void Test()
     {
         using namespace OpenGL;
@@ -79,6 +78,11 @@ namespace Pulsarion
         renderer->SetClearColor(glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
         window->SetVSync(true);
 
+        Camera camera;
+
+        std::shared_ptr<UI::Slider3d> cameraPosition = std::make_shared<UI::Slider3d>("Camera Position", std::array<double, 3>({ -10.0, -10.0, -10.0 }), std::array<double, 3>({ 10.0, 10.0, 10.0 }), std::array<double, 3>({ 0.0, 0.0, 0.0 }));
+        std::shared_ptr<UI::Slider3d> cameraRotation = std::make_shared<UI::Slider3d>("Camera Rotation", std::array<double, 3>({ -glm::pi<double>() }), std::array<double, 3>({ glm::pi<double>() }), std::array<double, 3>({ 0.0 }));
+
         std::shared_ptr<UI::Slider2d> translation = std::make_shared<UI::Slider2d>("Translation", std::array<double, 2>({ -1.0, -1.0 }), std::array<double, 2>({ 1.0, 1.0 }), std::array<double, 2>({ 0.0, 0.0 }));
         std::shared_ptr<UI::Slider2d> scale = std::make_shared<UI::Slider2d>("Scale", std::array<double, 2>({ 0.0, 0.0 }), std::array<double, 2>({ 2.0, 2.0 }), std::array<double, 2>({ 1.0, 1.0 }));
         std::shared_ptr<UI::Slider1d> rotation = std::make_shared<UI::Slider1d>("Rotation", std::array<double, 1>({ -glm::pi<double>() }), std::array<double, 1>({ glm::pi<double>() }), std::array<double, 1>({ 0.0 }));
@@ -100,12 +104,14 @@ namespace Pulsarion
         uiWindow.AddWidget(fragmentColor);
         uiWindow.AddWidget(wireframe);
         uiWindow.AddWidget(vsyncButton);
+        uiWindow.AddWidget(cameraPosition);
+        uiWindow.AddWidget(cameraRotation);
         uiWindow.AddWidget(translation);
         uiWindow.AddWidget(scale);
         uiWindow.AddWidget(rotation);
 
         shader->SetUniform("u_ModelMatrix", transform.GetAsMatrix());
-        mesh.GetBackend().Bind();
+        shader->SetUniform("u_ViewMatrix", camera.GetViewMatrix());
 
         while (window->IsOpen())
         {
@@ -148,6 +154,19 @@ namespace Pulsarion
                     vsyncButton->SetText("VSync: Off");
                     window->SetVSync(false);
                 }
+            }
+
+            if (cameraPosition->IsUpdated())
+            {
+                camera.SetPosition(glm::vec3(cameraPosition->GetValue()[0], cameraPosition->GetValue()[1], cameraPosition->GetValue()[2]));
+                shader->SetUniform("u_ViewMatrix", camera.Get2DViewMatrix());
+            }
+
+            if (cameraRotation->IsUpdated())
+            {
+                glm::vec3 cameraRot = glm::vec3(cameraRotation->GetValue()[0], cameraRotation->GetValue()[1], cameraRotation->GetValue()[2]);
+                camera.SetRotation(glm::quat(cameraRot));
+                shader->SetUniform("u_ViewMatrix", camera.Get2DViewMatrix());
             }
 
             if (translation->IsUpdated())
