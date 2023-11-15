@@ -21,7 +21,7 @@ namespace Pulsarion::OpenGL
 {
     std::uint64_t GLRenderer::m_RenderableId = 0;
 
-    GLRenderer::GLRenderer() : m_2DRenderables()
+    GLRenderer::GLRenderer() : m_2DRenderables(), m_RenderableMeshes()
     {
         
     }

@@ -10,7 +10,7 @@
 
 namespace Pulsarion
 {
-    class MeshManager
+    class PULSARION_API MeshManager
     {
     public:
         static std::pair<std::uint32_t, std::shared_ptr<Mesh2D>> Create2DMesh(UsageType type, VertexDataType vertexType = VertexDataType::TightlyPacked);

@@ -193,8 +193,6 @@ namespace Pulsarion
         SetVSync(true);
         SetupCallbacks();
 
-        OpenGL::GL::Viewport(0, 0, m_Data.Width, m_Data.Height);
-
         GLFW::ImGuiInit();
     }
 

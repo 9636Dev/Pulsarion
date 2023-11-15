@@ -19,7 +19,7 @@ namespace Pulsarion
     /// 34 - ProjectionMatrix
     /// 35 - DiffuseColor
     /// </summary>
-    enum class ShaderSignatureBit : std::uint8_t
+    enum class PULSARION_API ShaderSignatureBit : std::uint8_t
     {
         Position2D = 0,
         Position3D = 1,
@@ -34,7 +34,7 @@ namespace Pulsarion
         Texture = 35,
         DiffuseColor = 36
     };
-    struct ShaderSignature
+    struct PULSARION_API ShaderSignature
     {
         std::uint64_t inputsBitmap;
         std::uint64_t uniformsBitmap;
@@ -65,7 +65,7 @@ namespace Pulsarion
         }
     };
 
-    class Shader
+    class PULSARION_API Shader
     {
     public:
         virtual ~Shader() = default;

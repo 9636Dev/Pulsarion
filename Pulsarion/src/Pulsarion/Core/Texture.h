@@ -18,7 +18,7 @@ namespace Pulsarion
         virtual void Unbind() const = 0;
     };
 
-    class Texture2D
+    class PULSARION_API Texture2D
     {
     public:
         Texture2D(const Image& imageTexture);

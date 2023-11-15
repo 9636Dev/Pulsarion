@@ -13,7 +13,7 @@ namespace Pulsarion
     struct ShaderSignature;
     class MeshBackend2D;
 
-    class Mesh2D
+    class PULSARION_API Mesh2D
     {
     public:
         Mesh2D(UsageType type, VertexDataType vertexType = VertexDataType::TightlyPacked);
@@ -34,5 +34,9 @@ namespace Pulsarion
         std::unique_ptr<VertexData2D> m_VertexData;
         std::vector<std::uint32_t> m_Indices; // TODO: Allow user specified indices type
         std::unique_ptr<MeshBackend2D> m_Backend;
+    };
+
+    class PULSARION_API Mesh3D
+    {
     };
 }

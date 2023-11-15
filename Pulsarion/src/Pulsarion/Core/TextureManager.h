@@ -12,7 +12,7 @@
 
 namespace Pulsarion
 {
-    class TextureManager
+    class PULSARION_API TextureManager
     {
     public:
         static std::uint32_t CreateTexture2D(const std::string& textureName, const Image& textureImage);

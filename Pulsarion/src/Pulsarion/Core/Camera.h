@@ -7,7 +7,7 @@
 
 namespace Pulsarion
 {
-    class Camera
+    class PULSARION_API Camera
     {
     public:
         Camera();

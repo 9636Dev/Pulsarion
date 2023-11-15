@@ -4,9 +4,9 @@
 namespace Pulsarion
 {
     GraphicalObject2D::GraphicalObject2D(std::shared_ptr<Material> material, std::shared_ptr<Mesh2D> mesh)
-        : m_Material(material), m_Mesh(mesh), m_Transform(), m_RenderOptions(), m_IsChanged(true), m_ShaderSignature(material->GetShaderSignature() | mesh->GetShaderSignature() | m_Transform.GetShaderSignature())
+        : m_Material(material), m_Mesh(mesh), m_Transform(), m_RenderOptions(), m_IsChanged(true), m_ShaderSignature()
     {
-
+        m_ShaderSignature = material->GetShaderSignature() | mesh->GetShaderSignature() | m_Transform.GetShaderSignature();
     }
 
     GraphicalObject2D::~GraphicalObject2D()

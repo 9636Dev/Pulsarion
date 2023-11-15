@@ -8,7 +8,7 @@ namespace Pulsarion
 {
     struct ShaderSignature;
 
-    class Transform2D
+    class PULSARION_API Transform2D
     {
     public:
         Transform2D();

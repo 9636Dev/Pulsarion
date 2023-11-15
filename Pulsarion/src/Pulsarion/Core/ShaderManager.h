@@ -8,7 +8,7 @@
 
 namespace Pulsarion
 {
-    class ShaderManager
+    class PULSARION_API ShaderManager
     {
     public:
         static void CreateShader(const ShaderSignature& signature);
