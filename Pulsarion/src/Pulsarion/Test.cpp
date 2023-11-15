@@ -29,6 +29,8 @@
 #include "Core/Camera.h"
 #include "Core/GraphicalObject.h"
 
+#include "Core/Format/PLSMesh.h"
+
 #include "GL/glew.h"
 
 namespace Pulsarion
@@ -54,13 +56,14 @@ namespace Pulsarion
         };
         std::vector<std::uint32_t> indices = { 0, 1, 2, 1, 2, 3 };
 
-  
-        auto [meshId, mesh] = MeshManager::Create2DMesh(UsageType::Static, VertexDataType::Interleaved);
-        mesh->GetVertexDataRef().SetVertexCount(4);
-        mesh->GetVertexDataRef().SetVertices(vertexPositions);
-        mesh->GetVertexDataRef().SetTextureCoordinates(textureCoords);
-        mesh->SetIndices(indices);
-        mesh->CreateBackend();
+        File meshFile("assets/mesh/test.plsmesh");
+        MeshParseResult parseResult = PLSMesh::Parse(meshFile);
+        if (!parseResult.Success)
+            PLS_LOG_ERROR("Failed to parse mesh from file: {0}", parseResult.Message);
+
+        parseResult.Mesh2D->CreateBackend();
+        std::uint32_t meshId = MeshManager::Add2DMesh(parseResult.Mesh2D);
+        auto mesh = parseResult.Mesh2D;
 
         Image brickImage(File("assets/textures/brick.png"));
         std::shared_ptr<Material> brick = MaterialManager::CreateMaterial("brick");
