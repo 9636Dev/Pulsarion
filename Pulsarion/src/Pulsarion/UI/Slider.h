@@ -39,6 +39,18 @@ namespace Pulsarion::UI
             return m_Text;
         }
 
+        T Get(const std::uint32_t index) const
+        {
+            return m_Value[index];
+        }
+
+        T Set(const std::uint32_t index, const T value)
+        {
+            T oldValue = m_Value[index];
+            m_Value[index] = value;
+            m_Updated = true;
+            return oldValue;
+        }
 
         const std::array<T, Dimension>& GetMin() const
         {

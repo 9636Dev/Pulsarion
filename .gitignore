@@ -5,6 +5,7 @@
 bin
 bin-int
 /compile_commands.json
+/compile_commands/
 
 # Configuration files
 Makefile

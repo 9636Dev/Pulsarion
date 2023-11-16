@@ -1,6 +1,8 @@
 #include "Pulsarionpch.h"
 #include "TextureManager.h"
 
+#include <nlohmann/json.hpp>
+
 namespace Pulsarion
 {
     std::uint32_t TextureManager::s_2DTextureID = 1;
@@ -58,5 +60,10 @@ namespace Pulsarion
             return s_2DTextures[it->second];
         }
         return nullptr;
+    }
+
+    bool TextureManager::LoadFromTextureList(const File& textureListFile)
+    {
+        textureListFile.GetContent();
     }
 }

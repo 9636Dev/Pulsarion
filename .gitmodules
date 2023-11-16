@@ -16,3 +16,6 @@
 [submodule "Pulsarion/vender/stb/stb"]
 	path = Pulsarion/vender/stb/stb
 	url = https://github.com/nothings/stb
+[submodule "Pulsarion/vender/json"]
+	path = Pulsarion/vender/json
+	url = https://github.com/nlohmann/json

@@ -44,7 +44,7 @@ namespace Pulsarion
         std::shared_ptr<Mesh3D> Mesh3D = nullptr;
     };
 
-    struct PULSARION_API MeshReadResult
+    struct MeshReadResult
     {
         bool Success = false;
         std::size_t BytesRead = 0;
@@ -64,6 +64,7 @@ namespace Pulsarion
     public:
         static MeshParseResult Parse(const File& file, UsageType usageType = UsageType::Static, VertexDataType meshType = VertexDataType::TightlyPacked);
         static MeshWriteResult Write(File& file, const Mesh2D& mesh);
+    private:
 
         static MeshWriteResult WriteData(File& file, const PLSMeshHeader& header, const PLSMeshData& data);
         static MeshReadResult ReadData(const File& file, PLSMeshHeader& header, PLSMeshData& data);

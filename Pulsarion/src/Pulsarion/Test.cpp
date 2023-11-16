@@ -41,30 +41,27 @@ namespace Pulsarion
     class App
     {
     public:
-        App() : m_Window(CreateWindowPointer(WindowProperties())), m_Renderer(CreateRenderer()), m_ViewScale(10.0f) {
+        App() : m_Window(CreateWindowPointer(WindowProperties())), m_Renderer(CreateRenderer()),
+        m_DisplayScale(std::make_shared<UI::Slider1f>("Display Scale", std::array{ 1.0f }, std::array{ 100.0f }, std::array{ 10.0f })) {
             m_Window->SetEventCallback(PLS_BIND_EVENT_FN(App::OnEvent));
         }
 
         void OnEvent(Event& event)
         {
-            PLS_LOG_TRACE("{0}", event.ToString());
             EventDispatcher dispatcher(event);
             dispatcher.Dispatch<MouseScrollEvent>(PLS_BIND_EVENT_FN(App::OnScrollEvent));
         }
 
-        bool OnScrollEvent(const MouseScrollEvent& event)
-        {
-            PLS_LOG_TRACE("{0}", event.ToString());
-            // Increase or decrease view scale based on scroll
-            m_ViewScale += event.GetOffsetY();
-            m_Renderer->Set2DProjection(GetProjection());
+        bool OnScrollEvent(const MouseScrollEvent& event) const {
+            const float newScale = m_DisplayScale->Get(0) - event.GetOffsetY();
+            m_DisplayScale->Set(0, newScale);
+
             return true;
         }
 
-        glm::mat4 GetProjection()
-        {
-            float aspectRatio = static_cast<float>(m_Window->GetWidth()) / static_cast<float>(m_Window->GetHeight());
-            return glm::ortho(m_ViewScale * -aspectRatio, m_ViewScale * aspectRatio, -m_ViewScale, m_ViewScale);
+        glm::mat4 GetProjection() const {
+            const float aspectRatio = static_cast<float>(m_Window->GetWidth()) / static_cast<float>(m_Window->GetHeight());
+            return glm::ortho(m_DisplayScale->Get(0) * -aspectRatio, m_DisplayScale->Get(0) * aspectRatio, -m_DisplayScale->Get(0), m_DisplayScale->Get(0));
         }
 
         void Run()
@@ -73,20 +70,6 @@ namespace Pulsarion
             m_Renderer->Set2DProjection(GetProjection());
 
             m_Renderer->SetBlend(true);
-            std::vector<float> vertexPositions = {
-                    -0.5f,  0.5f,
-                    0.5f,  0.5f,
-                    -0.5f, -0.5f,
-                    0.5f, -0.5f,
-            };
-            std::vector<float> textureCoords = {
-                    -1.0f,  1.0f,
-                    1.0f,  1.0f,
-                    -1.0f, -1.0f,
-                    1.0f, -1.0f
-            };
-            std::vector<std::uint32_t> indices = { 0, 1, 2, 1, 2, 3 };
-
             File meshFile("assets/mesh/rectangle.plsmesh");
             MeshParseResult parseResult = PLSMesh::Parse(meshFile);
             if (!parseResult.Success)
@@ -98,6 +81,7 @@ namespace Pulsarion
             parseResult.Mesh2D->CreateBackend();
             std::uint32_t meshId = MeshManager::Add2DMesh(parseResult.Mesh2D);
             auto mesh = parseResult.Mesh2D;
+            PLS_LOG_DEBUG("Created mesh with id: {0}", meshId);
 
             Image brickImage(File("assets/textures/brick.png"));
             std::shared_ptr<Material> brick = MaterialManager::CreateMaterial("brick");
@@ -107,32 +91,32 @@ namespace Pulsarion
             std::shared_ptr<GraphicalObject2D> object = std::make_shared<GraphicalObject2D>(brick, mesh);
             Camera camera;
 
-            std::shared_ptr<UI::Slider1f> displayScale = std::make_shared<UI::Slider1f>("Display Scale", std::array{ 1.0f }, std::array{ 100.0f }, std::array{ 10.0f });
-            std::shared_ptr<UI::Slider2f> cameraPosition = std::make_shared<UI::Slider2f>("Camera2D Position", std::array{ -1500.0f, -1.5f }, std::array{ 1500.0f, 1500.0f }, std::array{ 0.0f, 0.0f });
-            std::shared_ptr<UI::Slider1f> cameraRotation = std::make_shared<UI::Slider1f>("Camera2D Rotation", std::array{ -glm::pi<float>() }, std::array{ glm::pi<float>() }, std::array{ 0.0f });
+            auto cameraPosition = std::make_shared<UI::Slider2f>("Camera2D Position", std::array{ -1500.0f, -1.5f }, std::array{ 1500.0f, 1500.0f }, std::array{ 0.0f, 0.0f });
+            auto cameraRotation = std::make_shared<UI::Slider1f>("Camera2D Rotation", std::array{ -glm::pi<float>() }, std::array{ glm::pi<float>() }, std::array{ 0.0f });
 
-            std::shared_ptr<UI::Slider2f> translation = std::make_shared<UI::Slider2f>("Translation", std::array{ -1000.0f, -1000.0f }, std::array{ 1000.0f, 1000.0f }, std::array{ 0.0f, 0.0f });
-            std::shared_ptr<UI::Slider2f> scale = std::make_shared<UI::Slider2f>("Scale", std::array{ 0.0f, 0.0f }, std::array{ 100.0f, 100.0f }, std::array{ 10.0f, 10.0f });
-            std::shared_ptr<UI::Slider1f> rotation = std::make_shared<UI::Slider1f>("Rotation", std::array{ -glm::pi<float>() }, std::array{ glm::pi<float>() }, std::array{ 0.0f });
+            auto translation = std::make_shared<UI::Slider2f>("Translation", std::array{ -1000.0f, -1000.0f }, std::array{ 1000.0f, 1000.0f }, std::array{ 0.0f, 0.0f });
+            auto scale = std::make_shared<UI::Slider2f>("Scale", std::array{ 0.0f, 0.0f }, std::array{ 100.0f, 100.0f }, std::array{ 10.0f, 10.0f });
+            auto rotation = std::make_shared<UI::Slider1f>("Rotation", std::array{ -glm::pi<float>() }, std::array{ glm::pi<float>() }, std::array{ 0.0f });
 
-            std::shared_ptr<UI::Text> text = std::make_shared<UI::Text>("FPS: ");
-            std::shared_ptr<UI::ColorPicker4> clearColor = std::make_shared<UI::ColorPicker4>("Clear Color", glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-            std::shared_ptr<UI::ColorPicker4> fragmentColor = std::make_shared<UI::ColorPicker4>("Fragment Color", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+            auto text = std::make_shared<UI::Text>("FPS: ");
+            auto clearColor = std::make_shared<UI::ColorPicker4>("Clear Color", glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+            auto fragmentColor = std::make_shared<UI::ColorPicker4>("Fragment Color", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
             m_Renderer->SetClearColor(clearColor->GetColor());
             m_Window->SetVSync(true);
 
             bool vsync = true;
-            std::shared_ptr<UI::Button> vsyncButton = std::make_shared<UI::Button>("VSync: On");
+            auto vsyncButton = std::make_shared<UI::Button>("VSync: On");
 
             bool renderWireframe = false;
-            std::shared_ptr<UI::Button> wireframe = std::make_shared<UI::Button>("Wireframe: Off");
+            auto wireframe = std::make_shared<UI::Button>("Wireframe: Off");
+
             UI::Window uiWindow("Controls");
             uiWindow.AddWidget(text);
             uiWindow.AddWidget(clearColor);
             uiWindow.AddWidget(fragmentColor);
             uiWindow.AddWidget(wireframe);
             uiWindow.AddWidget(vsyncButton);
-            uiWindow.AddWidget(displayScale);
+            uiWindow.AddWidget(m_DisplayScale);
             uiWindow.AddWidget(cameraPosition);
             uiWindow.AddWidget(cameraRotation);
             uiWindow.AddWidget(translation);
@@ -154,74 +138,49 @@ namespace Pulsarion
                     m_Renderer->SetClearColor(clearColor->GetColor());
 
                 if (fragmentColor->IsUpdated())
-                {
                     brick->SetDiffuseColor(fragmentColor->GetColor());
-                }
 
                 if (wireframe->IsPressed())
                 {
                     renderWireframe = !renderWireframe;
-                    if (renderWireframe)
-                    {
-                        wireframe->SetText("Wireframe: On");
-                        m_Renderer->SetWireframeMode(true);
-                    }
-                    else
-                    {
-                        wireframe->SetText("Wireframe: Off");
-                        m_Renderer->SetWireframeMode(false);
-                    }
+                    wireframe->SetText("Wireframe: " + (renderWireframe ? std::string("On") : std::string("Off")));
+                    m_Renderer->SetWireframeMode(renderWireframe);
                 }
 
                 if (vsyncButton->IsPressed())
                 {
                     vsync = !vsync;
-                    if (vsync)
-                    {
-                        vsyncButton->SetText("VSync: On");
-                        m_Window->SetVSync(true);
-                    }
-                    else
-                    {
-                        vsyncButton->SetText("VSync: Off");
-                        m_Window->SetVSync(false);
-                    }
+                    vsyncButton->SetText("VSync: " + (vsync ? std::string("On") : std::string("Off")));
+                    m_Window->SetVSync(vsync);
                 }
 
-                if (displayScale->IsUpdated())
+                if (m_DisplayScale->IsUpdated())
                 {
-                    m_ViewScale = displayScale->GetValue()[0];
                     m_Renderer->Set2DProjection(GetProjection());
                 }
 
                 if (cameraPosition->IsUpdated())
                     camera.Set2DPosition(glm::vec2(cameraPosition->GetValue()[0], cameraPosition->GetValue()[1]));
-
                 if (cameraRotation->IsUpdated())
                     camera.Set2DRotation(cameraRotation->GetValue()[0]);
-
                 if (translation->IsUpdated())
                     object->GetTransformRef().SetTranslation(glm::vec2(translation->GetValue()[0], translation->GetValue()[1]));
-
                 if (scale->IsUpdated())
                     object->GetTransformRef().SetScale(glm::vec2(scale->GetValue()[0], scale->GetValue()[1]));
-
                 if (rotation->IsUpdated())
                     object->GetTransformRef().SetRotation(rotation->GetValue()[0]);
-
-                m_Renderer->Clear();
                 if (brick->GetTextureId().has_value())
                     TextureManager::Bind2DTexture(brick->GetTextureId().value(), 1);
+
+                m_Renderer->Clear();
                 m_Renderer->Render(camera);
-
                 m_Renderer->RenderUIWindow(uiWindow);
-
                 m_Window->OnFrame();
             }
         }
 
     private:
-        float m_ViewScale;
+        std::shared_ptr<UI::Slider1f> m_DisplayScale;
         std::unique_ptr<Window> m_Window;
         std::unique_ptr<Renderer> m_Renderer;
     };

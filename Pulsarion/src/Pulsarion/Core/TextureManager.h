@@ -20,6 +20,8 @@ namespace Pulsarion
         static std::uint32_t Get2DTextureID(const std::string& textureName);
         static std::shared_ptr<Texture2D> Get2DTexture(const std::string& textureName);
         static bool Bind2DTexture(std::uint32_t textureId, std::uint32_t slot);
+        static bool LoadFromTextureList(const File& textureListFile);
+        static bool WriteToTextureList(File& textureListFile);
 
     private:
         static std::uint32_t s_2DTextureID;

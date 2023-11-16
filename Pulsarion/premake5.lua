@@ -22,6 +22,7 @@ Pulsarion = {
         glew = os.getcwd() .. "/vender/glew/include",
         imgui = os.getcwd() .. "/vender/imgui/imgui",
         stb = os.getcwd() .. "/vender/stb",
+        json = os.getcwd() .. "/vender/json/single_include",
     },
     defines = {
         windows = "PLS_PLATFORM_WINDOWS",
@@ -98,6 +99,7 @@ project "Pulsarion"
         Pulsarion.include_dirs.glew,
         Pulsarion.include_dirs.imgui,
         Pulsarion.include_dirs.stb,
+        Pulsarion.include_dirs.json,
     }
 
     local commands = {}
