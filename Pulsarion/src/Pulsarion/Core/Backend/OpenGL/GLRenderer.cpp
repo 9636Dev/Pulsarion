@@ -20,14 +20,14 @@ namespace Pulsarion::OpenGL
 {
     std::uint64_t GLRenderer::m_RenderableId = 0;
 
-    GLRenderer::GLRenderer() : m_2DRenderables(), m_RenderableMeshes(), m_2DProjection(glm::identity<glm::mat4>())
+    GLRenderer::GLRenderer() : m_2DRenderables(), m_2DRenderableMeshes(), m_2DProjection(glm::identity<glm::mat4>())
     {
-        
+
     }
 
     GLRenderer::~GLRenderer()
     {
-        
+
     }
 
     void GLRenderer::Clear()
@@ -80,6 +80,15 @@ namespace Pulsarion::OpenGL
     std::uint64_t GLRenderer::Add2DRenderable(std::shared_ptr<GraphicalObject2D> object)
     {
         m_2DRenderables.emplace(m_RenderableId, object);
+        auto it = m_2DRenderableMeshes.find(object->GetMesh());
+        if (it != m_2DRenderableMeshes.end())
+        {
+            it->second.push_back(m_RenderableId);
+        }
+        else
+        {
+            m_2DRenderableMeshes.emplace(object->GetMesh(), std::vector<std::uint64_t>{ m_RenderableId });
+        }
         return m_RenderableId++;
     }
 
@@ -89,6 +98,19 @@ namespace Pulsarion::OpenGL
         if (it != m_2DRenderables.end())
         {
             auto object = it->second;
+
+            // Remove from mesh map
+            auto meshIt = m_2DRenderableMeshes.find(object->GetMesh());
+            if (meshIt != m_2DRenderableMeshes.end())
+            {
+                auto& objects = meshIt->second;
+                auto objectIt = std::find(objects.begin(), objects.end(), id);
+                if (objectIt != objects.end())
+                {
+                    objects.erase(objectIt);
+                }
+            }
+
             m_2DRenderables.erase(it);
             return object;
         }
@@ -101,14 +123,18 @@ namespace Pulsarion::OpenGL
         {
             if (object->IsChanged())
             {
-                // Currently no logic is implemented    
+                // Currently no logic is implemented
             }
 
             object->GetMesh()->GetBackend().Bind();
             std::shared_ptr<::Pulsarion::Shader> shader = object->m_CachedShader;
             if (shader == nullptr)
             {
-                shader = ShaderManager::GetShader(object->m_ShaderSignature);
+                ShaderSignature signature = object->m_ShaderSignature;
+                signature.EnableUniform(ShaderSignatureBit::ViewMatrix);
+                signature.EnableUniform(ShaderSignatureBit::ProjectionMatrix);
+
+                shader = ShaderManager::GetShader(signature);
                 object->m_CachedShader = shader;
             }
             if (shader == nullptr)

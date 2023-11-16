@@ -1,7 +1,10 @@
 #pragma once
 #include "Pulsarion/Core/Renderer.h"
 
+#include "Pulsarion/Core/Mesh.h"
+
 #include <unordered_map>
+#include <memory>
 
 namespace Pulsarion::OpenGL
 {
@@ -27,7 +30,7 @@ namespace Pulsarion::OpenGL
     private:
         inline std::uint64_t NextRenderableId() { return m_RenderableId++; }
 
-        std::unordered_map<std::uint32_t, std::vector<std::uint64_t>> m_RenderableMeshes;
+        std::unordered_map<std::shared_ptr<Mesh2D>, std::vector<std::uint64_t>> m_2DRenderableMeshes;
         std::unordered_map<std::uint64_t, std::shared_ptr<GraphicalObject2D>> m_2DRenderables;
         static std::uint64_t m_RenderableId;
         glm::mat4 m_2DProjection;

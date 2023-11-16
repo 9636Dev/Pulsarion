@@ -10,14 +10,13 @@ namespace Pulsarion
     /// 1 - Position3D
     /// 2 - TexCoord2D
     /// 3 - TexCoord3D
-    /// 4 - Normals
-    /// 5 - BiTangents
-    /// 6 - 
+    /// 6 -
     /// ------
     /// 32 - ModelMatrix
     /// 33 - ViewMatrix
     /// 34 - ProjectionMatrix
-    /// 35 - DiffuseColor
+    /// 35 - Texture
+    /// 36 - DiffuseColor
     /// </summary>
     enum class PULSARION_API ShaderSignatureBit : std::uint8_t
     {
