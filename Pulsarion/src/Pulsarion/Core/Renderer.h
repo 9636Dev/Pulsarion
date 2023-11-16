@@ -31,6 +31,9 @@ namespace Pulsarion
         virtual std::uint64_t Add2DRenderable(std::shared_ptr<GraphicalObject2D> renderable) = 0;
         virtual std::shared_ptr<GraphicalObject2D> Remove2DRenderable(std::uint64_t id) = 0;
 
+        virtual void Set2DProjection(const glm::mat4& projection) = 0;
+        virtual const glm::mat4& Get2DProjection() const = 0;
+
         virtual void Render(const Camera& camera) = 0;
     };
 

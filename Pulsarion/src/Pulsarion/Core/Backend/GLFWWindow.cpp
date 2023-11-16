@@ -334,7 +334,7 @@ namespace Pulsarion
     {
         glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int newWidth, int newHeight)
             {
-                WindowData* data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+                auto data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
                 data->Width = newWidth;
                 data->Height = newHeight;
 
@@ -344,14 +344,18 @@ namespace Pulsarion
 
         glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
             {
-                WindowData* data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+                auto* data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
                 WindowCloseEvent event;
                 data->EventCallback(event);
             });
 
         glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
             {
-                WindowData* data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+                // Check if ImGui wants to capture this event
+                ImGuiIO& io = ImGui::GetIO();
+                if (io.WantCaptureKeyboard)
+                    return;
+                auto* data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
                 switch (action)
                 {
@@ -375,7 +379,11 @@ namespace Pulsarion
 
         glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
             {
-                WindowData* data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+                // Check if ImGui wants to capture this event
+                ImGuiIO& io = ImGui::GetIO();
+                if (io.WantCaptureMouse)
+                    return;
+                auto data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
                 switch (action)
                 {
@@ -394,14 +402,18 @@ namespace Pulsarion
 
         glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset)
             {
-                WindowData* data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+                // Check if ImGui wants to capture this event
+                ImGuiIO& io = ImGui::GetIO();
+                if (io.WantCaptureMouse)
+                    return;
+                auto data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
                 MouseScrollEvent event((float)xOffset, (float)yOffset);
                 data->EventCallback(event);
             });
 
         glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos)
             {
-                WindowData* data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+                auto data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
                 MouseMovedEvent event((float)xPos, (float)yPos);
                 data->EventCallback(event);
             });

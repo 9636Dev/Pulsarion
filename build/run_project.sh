@@ -23,10 +23,14 @@ list_executables() {
     # Get the selected file
     local exec_file=${files[$((choice - 1))]}
 
+    # Ask for arguments
+    echo "Enter arguments (if any):"
+    read -r args
+
     # Run the executable
     echo "Running $exec_file..."
     cd resources
-    "../$exec_file"
+    "../$exec_file" $args
 
     # Capture the exit code
     local exit_code=$?

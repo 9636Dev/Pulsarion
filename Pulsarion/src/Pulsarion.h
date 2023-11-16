@@ -1,5 +1,11 @@
 #pragma once
 
+// GLM
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/quaternion.hpp>
+
 // Core
 #include "Pulsarion/Core/PulsarionCore.h"
 #include "Pulsarion/Core/GraphicalObject.h"

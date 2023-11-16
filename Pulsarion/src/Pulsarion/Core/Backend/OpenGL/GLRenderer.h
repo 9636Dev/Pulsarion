@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Pulsarion/Core/Renderer.h"
 
 #include <unordered_map>
@@ -10,7 +9,7 @@ namespace Pulsarion::OpenGL
     {
     public:
         GLRenderer();
-        ~GLRenderer();
+        ~GLRenderer() override;
 
         void Clear() override;
         void SetClearColor(glm::vec4 color) override;
@@ -22,11 +21,15 @@ namespace Pulsarion::OpenGL
         std::shared_ptr<GraphicalObject2D> Remove2DRenderable(std::uint64_t id) override;
 
         void Render(const Camera& camera) override;
+
+        void Set2DProjection(const glm::mat4& projection) override;
+        const glm::mat4& Get2DProjection() const override;
     private:
         inline std::uint64_t NextRenderableId() { return m_RenderableId++; }
 
         std::unordered_map<std::uint32_t, std::vector<std::uint64_t>> m_RenderableMeshes;
         std::unordered_map<std::uint64_t, std::shared_ptr<GraphicalObject2D>> m_2DRenderables;
         static std::uint64_t m_RenderableId;
+        glm::mat4 m_2DProjection;
     };
 }

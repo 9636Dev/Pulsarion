@@ -89,5 +89,30 @@ int main(int argc, char** argv) {
         }
     }
 
+    // Arg argument is generate_mesh
+    if (argc == 2)
+    {
+        if (std::strcmp(argv[1], "generate_mesh") == 0)
+        {
+            Mesh2D rectangle(UsageType::Static);
+            rectangle.GetVertexDataRef().SetVertexCount(4);
+            rectangle.GetVertexDataRef().SetVertices({
+                -1.0f,  1.0f,
+                 1.0f,  1.0f,
+                -1.0f, -1.0f,
+                 1.0f, -1.0f,
+            });
+            rectangle.GetVertexDataRef().SetTextureCoordinates({
+                -1.0f,  1.0f,
+                 1.0f,  1.0f,
+                -1.0f, -1.0f,
+                 1.0f, -1.0f
+            });
+            rectangle.SetIndices({ 0, 1, 2, 1, 2, 3 });
+            File rectFile("assets/mesh/rectangle.plsmesh");
+            PLSMesh::Write(rectFile, rectangle);
+        }
+    }
+
     Test();
 }

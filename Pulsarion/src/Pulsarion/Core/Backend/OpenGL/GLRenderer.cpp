@@ -9,7 +9,6 @@
 #include "Pulsarion/Core/GraphicalObject.h"
 #include "Pulsarion/Core/Backend/MeshBackend.h"
 #include "Pulsarion/Core/ShaderManager.h"
-#include "Pulsarion/Core/Texture.h"
 #include "Pulsarion/Core/TextureManager.h"
 #include "Pulsarion/Core/Camera.h"
 
@@ -21,7 +20,7 @@ namespace Pulsarion::OpenGL
 {
     std::uint64_t GLRenderer::m_RenderableId = 0;
 
-    GLRenderer::GLRenderer() : m_2DRenderables(), m_RenderableMeshes()
+    GLRenderer::GLRenderer() : m_2DRenderables(), m_RenderableMeshes(), m_2DProjection(glm::identity<glm::mat4>())
     {
         
     }
@@ -122,9 +121,20 @@ namespace Pulsarion::OpenGL
                 TextureManager::Bind2DTexture(textureIdOpt.value(), 0);
             shader->SetUniform("u_ViewMatrix", camera.Get2DViewMatrix());
             shader->SetUniform("u_ModelMatrix", object->GetTransform().GetAsMatrix());
+            shader->SetUniform("u_ProjectionMatrix", m_2DProjection);
             shader->SetUniform("u_DiffuseColor", object->GetMaterial()->GetDiffuseColor());
             GL::DrawElements(DrawMode::Triangles, static_cast<sizei_t>(object->GetMesh()->GetIndices().size()), Type::UnsignedInt, nullptr);
         }
+    }
+
+    void GLRenderer::Set2DProjection(const glm::mat4 &projection)
+    {
+        m_2DProjection = projection;
+    }
+
+    const glm::mat4 &GLRenderer::Get2DProjection() const
+    {
+        return m_2DProjection;
     }
 }
 
