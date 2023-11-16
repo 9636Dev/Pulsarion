@@ -5,13 +5,13 @@
 
 namespace Pulsarion
 {
-    std::uint32_t TextureManager::s_2DTextureID = 1;
+    std::uint32_t TextureManager::s_TextureID = 1;
     std::unordered_map<std::string, std::uint32_t> TextureManager::s_2DTextureIDs;
     std::unordered_map<std::uint32_t, std::shared_ptr<Texture2D>> TextureManager::s_2DTextures;
 
     std::uint32_t TextureManager::CreateTexture2D(const std::string& textureName, const Image& textureImage)
     {
-        std::uint32_t id = s_2DTextureID++;
+        std::uint32_t id = s_TextureID++;
         s_2DTextureIDs[textureName] = id;
         s_2DTextures[id] = std::make_shared<Texture2D>(textureImage);
         return id;
@@ -62,8 +62,41 @@ namespace Pulsarion
         return nullptr;
     }
 
+    std::string TextureManager::Get2DTextureName(std::uint32_t textureId)
+    {
+        for (auto& texture : s_2DTextureIDs)
+        {
+            if (texture.second == textureId)
+            {
+                return texture.first;
+            }
+        }
+        return "";
+    }
+
     bool TextureManager::LoadFromTextureList(const File& textureListFile)
     {
-        textureListFile.GetContent();
+        auto textureListPath = textureListFile.GetParent().GetAbsolutePath();
+        auto content = textureListFile.GetContent();
+        if (!content.has_value()) return false;
+        try
+        {
+            auto textureList = nlohmann::json::parse(content.value());
+            for (auto& texture : textureList["textures"])
+            {
+                auto textureName = texture["name"].get<std::string>();
+                auto texturePath = texture["path"].get<std::string>();
+                // Append texture path to the texture list path
+                texturePath = textureListPath.string() + "/" + texturePath;
+                Image textureImage = Image(File(texturePath));
+                (void)CreateTexture2D(textureName, textureImage);
+            }
+            return true;
+        }
+        catch (const std::exception& e)
+        {
+            PLS_LOG_WARN("Failed to load texture list: {0}", e.what());
+            return false;
+        }
     }
 }

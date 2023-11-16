@@ -218,8 +218,8 @@ namespace Pulsarion
     {
         PLSMeshHeader header;
         header.Dimensions = 2;
-        header.IndexCount = mesh.GetIndices().size();
-        header.VertexCount = mesh.GetVertexData().GetVertexCount();
+        header.IndexCount = static_cast<std::uint32_t>(mesh.GetIndices().size());
+        header.VertexCount = static_cast<std::uint32_t>(mesh.GetVertexData().GetVertexCount());
         header.TextureType = 2;
         header.DataTypeBitmap = 0b00000001;
         PLSMeshData data;
@@ -239,6 +239,14 @@ namespace Pulsarion
         {
             PLS_LOG_WARN("Failed to parse mesh file: {0}", readResult.Message);
             result.Message = readResult.Message;
+            return result;
+        }
+
+        // Check signature
+        if (header.Signature != PLSMeshHeader().Signature)
+        {
+            PLS_LOG_WARN("Invalid mesh file signature.");
+            result.Message = "Invalid mesh file signature.";
             return result;
         }
 

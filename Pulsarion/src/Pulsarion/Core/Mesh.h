@@ -23,6 +23,9 @@ namespace Pulsarion
         VertexData2D& GetVertexDataRef();
         const std::vector<std::uint32_t>& GetIndices() const;
         void SetIndices(const std::vector<std::uint32_t>& indices);
+        std::vector<float> GetVertices() const;
+        void SetVertices(const std::vector<float>& vertices);
+        void SetVertexCount(std::size_t count);
 
         bool CreateBackend();
         void DestroyBackend();

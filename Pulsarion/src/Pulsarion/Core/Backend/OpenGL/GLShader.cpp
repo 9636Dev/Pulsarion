@@ -88,6 +88,8 @@ namespace Pulsarion
         case Sampler2D:
             return "sampler2D";
         }
+        PLS_LOG_ERROR("Invalid InputUniformType: {}", type);
+        return "";
     }
 
     static constexpr std::array<InputUniform, 64> CreateUniformMap()
@@ -195,6 +197,14 @@ namespace Pulsarion
             inputUniformMap[iu.Name.substr(2)] = iu;
         }
 
+        // Error checking
+        // Texture, but no texture coordinates
+        if (inputUniformMap.find("Texture2D") != inputUniformMap.end() && inputUniformMap.find("TextureCoord2D") == inputUniformMap.end())
+        {
+            PLS_LOG_ERROR("Vertex shader has texture2D as input, but no textureCoord2D");
+            return nullptr;
+        }
+
         // Perform matrix multiplication in reverse order
         if (inputUniformMap.find("ModelMatrix") != inputUniformMap.end())
             vertexShaderSource += "pos = " + inputUniformMap["ModelMatrix"].Name + " * pos;\n";
@@ -256,6 +266,10 @@ namespace Pulsarion
         {
             PLS_LOG_ERROR("Failed to compile fragment shader: {}", fragmentShader.GetInfoLog());
         }
+
+        // Print out source for debugging
+        //PLS_LOG_DEBUG("Vertex shader source:\n{}", vertexShaderSource);
+        //PLS_LOG_DEBUG("Fragment shader source:\n{}", fragmentShaderSource);
 
         std::vector<OpenGL::Shader> shaders;
         shaders.push_back(std::move(vertexShader));

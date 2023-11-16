@@ -27,12 +27,14 @@ namespace Pulsarion::OpenGL
         MagFilter(TextureFilter::Linear);
         WrapS(TextureWrap::Repeat);
         WrapT(TextureWrap::Repeat);
+        Unbind();
     }
 
     void Texture::SetData(const Image& image)
     {
         Bind();
         GL::TexImage2D(TextureTarget::Texture2D, 0, InternalFormat::RGBA, image.GetWidth(), image.GetHeight(), 0, PixelFormat::RGBA, PixelType::UnsignedByte, image.GetData());
+        Unbind();
     }
 
     void Texture::Bind(TextureUnit unit) const
@@ -50,23 +52,27 @@ namespace Pulsarion::OpenGL
     {
         Bind();
         GL::TexParameteri(TextureTarget::Texture2D, TextureParameter::TextureMinFilter, static_cast<std::int32_t>(filter));
+        Unbind();
     }
 
     void Texture::MagFilter(TextureFilter filter)
     {
         Bind();
         GL::TexParameteri(TextureTarget::Texture2D, TextureParameter::TextureMagFilter, static_cast<std::int32_t>(filter));
+        Unbind();
     }
 
     void Texture::WrapS(TextureWrap wrap)
     {
         Bind();
         GL::TexParameteri(TextureTarget::Texture2D, TextureParameter::TextureWrapS, static_cast<std::int32_t>(wrap));
+        Unbind();
     }
 
     void Texture::WrapT(TextureWrap wrap)
     {
         Bind();
         GL::TexParameteri(TextureTarget::Texture2D, TextureParameter::TextureWrapT, static_cast<std::int32_t>(wrap));
+        Unbind();
     }
 }

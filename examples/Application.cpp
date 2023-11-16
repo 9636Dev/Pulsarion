@@ -10,6 +10,7 @@ using namespace Pulsarion;
 
 int main(int argc, char** argv) {
     Initializers::InitLogger();
+
     /*
     * Current largest benchmark:
         Write info:
@@ -35,7 +36,7 @@ int main(int argc, char** argv) {
     {
         vertexPositions.push_back(distribution(generator));
         vertexPositions.push_back(distribution(generator));
-        indices.push_back(i);
+        indices.push_back(static_cast<std::uint32_t>(i));
         textureCoords.push_back(distribution(generator));
         textureCoords.push_back(distribution(generator));
     }
@@ -109,7 +110,7 @@ int main(int argc, char** argv) {
                  1.0f, -1.0f
             });
             rectangle.SetIndices({ 0, 1, 2, 1, 2, 3 });
-            File rectFile("assets/mesh/rectangle.plsmesh");
+            File rectFile("assets/mesh/rectangle_base.plsmesh");
             PLSMesh::Write(rectFile, rectangle);
         }
     }

@@ -19,6 +19,7 @@ namespace Pulsarion::OpenGL
     {
         Bind();
         GL::BufferData(BufferTarget::ElementArrayBuffer, size, data, usage);
+        Unbind();
     }
 
     void IndexBuffer::Bind() const

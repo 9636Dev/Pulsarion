@@ -1,0 +1,8 @@
+{
+    "textures": [
+        {
+            "name": "brick",
+            "path": "brick.png"
+        }
+    ]
+}

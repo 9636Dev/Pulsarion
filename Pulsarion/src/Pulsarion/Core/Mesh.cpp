@@ -36,6 +36,21 @@ namespace Pulsarion
         m_Indices = indices;
     }
 
+    std::vector<float> Mesh2D::GetVertices() const
+    {
+        return m_VertexData->GetVertices();
+    }
+
+    void Mesh2D::SetVertices(const std::vector<float>& vertices)
+    {
+        m_VertexData->SetVertices(vertices);
+    }
+
+    void Mesh2D::SetVertexCount(std::size_t count)
+    {
+        m_VertexData->SetVertexCount(count);
+    }
+
     bool Mesh2D::CreateBackend()
     {
         if (m_Backend)
@@ -67,7 +82,7 @@ namespace Pulsarion
         ShaderSignature signature;
         // TODO: Make dynamic
         signature.EnableInput(ShaderSignatureBit::Position2D);
-        signature.EnableInput(ShaderSignatureBit::TexCoord2D);
+        if (m_VertexData->GetTextureCoordinates().size() != 0) signature.EnableInput(ShaderSignatureBit::TexCoord2D);
         return signature;
     }
 }

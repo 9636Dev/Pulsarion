@@ -30,7 +30,7 @@ namespace Pulsarion
         m_IsTransparent = isTransparent;
     }
 
-    std::optional<std::uint32_t> Material::GetTextureId() const
+    std::uint32_t Material::GetTextureId() const
     {
         return m_TextureId;
     }
@@ -53,7 +53,8 @@ namespace Pulsarion
     ShaderSignature Material::GetShaderSignature() const
     {
         ShaderSignature signature;
-        signature.EnableUniform(ShaderSignatureBit::Texture);
+        if (m_TextureId != 0)
+            signature.EnableUniform(ShaderSignatureBit::Texture);
         signature.EnableUniform(ShaderSignatureBit::DiffuseColor);
         return signature;
     }

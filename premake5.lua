@@ -127,6 +127,11 @@ workspace "Pulsarion"
             Pulsarion.include_dirs.glm,
         }
 
+        defines
+        {
+            "STF_USE_CONCEPTS"
+        }
+
         links
         {
             "Pulsarion",

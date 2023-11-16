@@ -70,7 +70,7 @@ namespace Pulsarion
             m_Renderer->Set2DProjection(GetProjection());
 
             m_Renderer->SetBlend(true);
-            File meshFile("assets/mesh/rectangle.plsmesh");
+            File meshFile("assets/mesh/rectangle_base.plsmesh");
             MeshParseResult parseResult = PLSMesh::Parse(meshFile);
             if (!parseResult.Success)
             {
@@ -83,18 +83,19 @@ namespace Pulsarion
             auto mesh = parseResult.Mesh2D;
             PLS_LOG_DEBUG("Created mesh with id: {0}", meshId);
 
-            Image brickImage(File("assets/textures/brick.png"));
+            TextureManager::LoadFromTextureList(File("assets/textures/texture_list.json"));
             std::shared_ptr<Material> brick = MaterialManager::CreateMaterial("brick");
-            brick->SetTextureId(TextureManager::CreateTexture2D("brick", brickImage));
+            brick->SetTextureId(TextureManager::Get2DTextureID("brick"));
             brick->SetDiffuseColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
             std::shared_ptr<GraphicalObject2D> object = std::make_shared<GraphicalObject2D>(brick, mesh);
+            std::shared_ptr<GraphicalObject2D> object2 = std::make_shared<GraphicalObject2D>(brick, mesh);
             Camera camera;
 
-            auto cameraPosition = std::make_shared<UI::Slider2f>("Camera2D Position", std::array{ -1500.0f, -1.5f }, std::array{ 1500.0f, 1500.0f }, std::array{ 0.0f, 0.0f });
+            auto cameraPosition = std::make_shared<UI::Slider2f>("Camera2D Position", std::array{ -150.0f, -150.0f }, std::array{ 150.0f, 150.0f }, std::array{ 0.0f, 0.0f });
             auto cameraRotation = std::make_shared<UI::Slider1f>("Camera2D Rotation", std::array{ -glm::pi<float>() }, std::array{ glm::pi<float>() }, std::array{ 0.0f });
 
-            auto translation = std::make_shared<UI::Slider2f>("Translation", std::array{ -1000.0f, -1000.0f }, std::array{ 1000.0f, 1000.0f }, std::array{ 0.0f, 0.0f });
+            auto translation = std::make_shared<UI::Slider2f>("Translation", std::array{ -100.0f, -100.0f }, std::array{ 100.0f, 100.0f }, std::array{ 0.0f, 0.0f });
             auto scale = std::make_shared<UI::Slider2f>("Scale", std::array{ 0.0f, 0.0f }, std::array{ 100.0f, 100.0f }, std::array{ 10.0f, 10.0f });
             auto rotation = std::make_shared<UI::Slider1f>("Rotation", std::array{ -glm::pi<float>() }, std::array{ glm::pi<float>() }, std::array{ 0.0f });
 
@@ -124,11 +125,16 @@ namespace Pulsarion
             uiWindow.AddWidget(rotation);
 
             m_Renderer->Add2DRenderable(object);
+            m_Renderer->Add2DRenderable(object2);
 
             // Sync the object's transform with the UI
             object->GetTransformRef().SetTranslation(glm::vec2(translation->GetValue()[0], translation->GetValue()[1]));
             object->GetTransformRef().SetScale(glm::vec2(scale->GetValue()[0], scale->GetValue()[1]));
             object->GetTransformRef().SetRotation(rotation->GetValue()[0]);
+
+            object2->GetTransformRef().SetTranslation(glm::vec2(translation->GetValue()[0], translation->GetValue()[1]));
+            object2->GetTransformRef().SetScale(glm::vec2(scale->GetValue()[0], scale->GetValue()[1]));
+            object2->GetTransformRef().SetRotation(rotation->GetValue()[0]);
 
             while (m_Window->IsOpen())
             {
@@ -169,8 +175,6 @@ namespace Pulsarion
                     object->GetTransformRef().SetScale(glm::vec2(scale->GetValue()[0], scale->GetValue()[1]));
                 if (rotation->IsUpdated())
                     object->GetTransformRef().SetRotation(rotation->GetValue()[0]);
-                if (brick->GetTextureId().has_value())
-                    TextureManager::Bind2DTexture(brick->GetTextureId().value(), 1);
 
                 m_Renderer->Clear();
                 m_Renderer->Render(camera);

@@ -14,7 +14,7 @@ namespace Pulsarion::OpenGL
 
     VertexArray::VertexArray() : m_VertexArray(CreateVertexArray())
     {
-
+        Unbind();
     }
 
     VertexArray::~VertexArray()

@@ -12,7 +12,7 @@ namespace Pulsarion
     }
 
     Transform2D::Transform2D(const glm::dvec2& translation, const glm::dvec2& scale, double rotation)
-        : m_Translation(translation), m_Scale(scale), m_Rotation(rotation)
+        : m_Translation(translation), m_Scale(scale), m_Rotation(rotation), m_Matrix(glm::identity<glm::mat4>())
     {
 
     }
@@ -28,17 +28,16 @@ namespace Pulsarion
     }
 
     glm::mat4 Transform2D::GetAsMatrix() const {
-        static glm::mat4 matrix = glm::identity<glm::mat4>();
         if (IsDirty()) {
-            matrix = glm::translate(glm::identity<glm::mat4>(), glm::vec3(m_Translation.GetConst(), 0.0));
-            matrix = glm::rotate(matrix, static_cast<float>(m_Rotation.GetConst()), glm::vec3(0.0, 0.0, 1.0));
-            matrix = glm::scale(matrix, glm::vec3(m_Scale.GetConst(), 1.0));
+            m_Matrix = glm::translate(glm::identity<glm::mat4>(), glm::vec3(m_Translation.GetConst(), 0.0));
+            m_Matrix = glm::rotate(m_Matrix, static_cast<float>(m_Rotation.GetConst()), glm::vec3(0.0, 0.0, 1.0));
+            m_Matrix = glm::scale(m_Matrix, glm::vec3(m_Scale.GetConst(), 1.0));
 
             m_Translation.SetDirty(false);
             m_Scale.SetDirty(false);
             m_Rotation.SetDirty(false);
         }
-        return matrix;
+        return m_Matrix;
     }
 
 

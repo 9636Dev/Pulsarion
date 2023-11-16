@@ -7,6 +7,7 @@ namespace Pulsarion::OpenGL
     {
         m_Texture.DefaultSettings();
         SetData(imageTexture);
+        Unbind();
     }
 
     GLTexture2DBackend::~GLTexture2DBackend()

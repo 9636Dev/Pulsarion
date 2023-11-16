@@ -142,9 +142,9 @@ namespace Pulsarion::OpenGL
                 PLS_LOG_WARN("Shader was not found for signature!");
             }
             shader->Bind();
-            std::optional<std::uint32_t> textureIdOpt = object->GetMaterial()->GetTextureId();
-            if (textureIdOpt.has_value())
-                TextureManager::Bind2DTexture(textureIdOpt.value(), 0);
+            std::uint32_t textureId = object->GetMaterial()->GetTextureId();
+            if (textureId != 0)
+                TextureManager::Bind2DTexture(textureId, 0);
             shader->SetUniform("u_ViewMatrix", camera.Get2DViewMatrix());
             shader->SetUniform("u_ModelMatrix", object->GetTransform().GetAsMatrix());
             shader->SetUniform("u_ProjectionMatrix", m_2DProjection);

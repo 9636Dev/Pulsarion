@@ -18,7 +18,7 @@ namespace Pulsarion
     {
         PLS_CORE_ASSERT(vertices.size() % 2 == 0, "Vertex data must be a multiple of 2");
         PLS_CORE_ASSERT(vertices.size() != 0, "Vertex data must not be empty");
-        PLS_CORE_ASSERT(vertices.size() / 2 == m_VertexCount, "Vertex count must be set before setting vertices");
+        PLS_CORE_ASSERT(vertices.size() / 2 == m_VertexCount, "Vertex count must be set to number of vertices!");
         std::copy(vertices.begin(), vertices.end(), m_Vertices.begin());
     }
 
@@ -26,7 +26,7 @@ namespace Pulsarion
     {
         PLS_CORE_ASSERT(textureCoordinates.size() % 2 == 0, "Texture coordinate data must be a multiple of 2");
         PLS_CORE_ASSERT(textureCoordinates.size() != 0, "Texture coordinate data must not be empty");
-        PLS_CORE_ASSERT(textureCoordinates.size() / 2 == m_VertexCount, "Vertex count must be set before setting texture coordinates");
+        PLS_CORE_ASSERT(textureCoordinates.size() / 2 == m_VertexCount, "Vertex count must be set to number of vertices!");
         std::copy(textureCoordinates.begin(), textureCoordinates.end(), m_TextureCoordinates.begin());
     }
 
@@ -67,7 +67,7 @@ namespace Pulsarion
     {
         PLS_CORE_ASSERT(vertices.size() % 2 == 0, "Vertex data must be a multiple of 2");
         PLS_CORE_ASSERT(vertices.size() != 0, "Vertex data must not be empty");
-        PLS_CORE_ASSERT(vertices.size() / 2 == m_Data.size(), "Vertex count must be set before setting vertices");
+        PLS_CORE_ASSERT(vertices.size() / 2 == m_Data.size(), "Vertex count must be set to number of vertices!");
 
         for (std::size_t i = 0; i < vertices.size() / 2; i++)
         {
@@ -91,7 +91,7 @@ namespace Pulsarion
     {
         PLS_CORE_ASSERT(textureCoordinates.size() % 2 == 0, "Texture coordinate data must be a multiple of 2");
         PLS_CORE_ASSERT(textureCoordinates.size() != 0, "Texture coordinate data must not be empty");
-        PLS_CORE_ASSERT(textureCoordinates.size() / 2 == m_Data.size(), "Vertex count must be set before setting texture coordinates");
+        PLS_CORE_ASSERT(textureCoordinates.size() / 2 == m_Data.size(), "Vertex count must be set to number of vertices!");
 
         for (std::size_t i = 0; i < textureCoordinates.size() / 2; i++)
         {

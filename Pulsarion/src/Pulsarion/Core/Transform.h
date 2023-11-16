@@ -30,6 +30,8 @@ namespace Pulsarion
 
         ShaderSignature GetShaderSignature() const;
     private:
+        mutable glm::mat4 m_Matrix;
+
         Modifiable<glm::dvec2> m_Translation;
         Modifiable<glm::dvec2> m_Scale;
         Modifiable<double> m_Rotation;

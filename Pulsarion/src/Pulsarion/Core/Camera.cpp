@@ -3,7 +3,7 @@
 
 namespace Pulsarion
 {
-    Camera::Camera() : m_Position2D(glm::vec2(0.0f, 0.0f)), m_Rotation2D(0.0f), m_Position3D(glm::vec3(0.0f, 0.0f, 0.0f)), m_Rotation3D(glm::quat(1.0f, 0.0f, 0.0f, 0.0f))
+    Camera::Camera() : m_Position2D(glm::vec2(0.0f, 0.0f)), m_Rotation2D(0.0f), m_Position3D(glm::vec3(0.0f, 0.0f, 0.0f)), m_Rotation3D(glm::quat(1.0f, 0.0f, 0.0f, 0.0f)), m_2DPositionMatrix(1.0f), m_2DRotationMatrix(1.0f), m_3DPositionMatrix(1.0f), m_3DRotationMatrix(1.0f), m_2DViewMatrix(1.0f), m_3DViewMatrix(1.0f)
     {
 
     }
@@ -70,63 +70,57 @@ namespace Pulsarion
 
     const glm::mat4& Camera::Get2DPositionMatrix() const
     {
-        static glm::mat4 positionMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(m_Position2D.GetConst(), 0.0f));
         if (m_Position2D.IsDirty())
         {
-            positionMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(m_Position2D.GetConst(), 0.0f));
+            m_2DPositionMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(m_Position2D.GetConst(), 0.0f));
             m_Position2D.SetDirty(false);
         }
-        return positionMatrix;
+        return m_2DPositionMatrix;
     }
 
     const glm::mat4& Camera::Get2DRotationMatrix() const
     {
-        static glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), m_Rotation2D.GetConst(), glm::vec3(0.0f, 0.0f, 1.0f));
         if (m_Rotation2D.IsDirty())
         {
-            rotationMatrix = glm::rotate(glm::mat4(1.0f), m_Rotation2D.GetConst(), glm::vec3(0.0f, 0.0f, 1.0f));
+            m_2DRotationMatrix = glm::rotate(glm::mat4(1.0f), m_Rotation2D.GetConst(), glm::vec3(0.0f, 0.0f, 1.0f));
             m_Rotation2D.SetDirty(false);
         }
-        return rotationMatrix;
+        return m_2DRotationMatrix;
     }
 
     const glm::mat4& Camera::Get3DPositionMatrix() const
     {
-        static glm::mat4 positionMatrix = glm::translate(glm::mat4(1.0f), m_Position3D.GetConst());
         if (m_Position3D.IsDirty())
         {
-            positionMatrix = glm::translate(glm::mat4(1.0f), m_Position3D.GetConst());
+            m_3DPositionMatrix = glm::translate(glm::mat4(1.0f), m_Position3D.GetConst());
             m_Position3D.SetDirty(false);
         }
-        return positionMatrix;
+        return m_3DPositionMatrix;
     }
 
     const glm::mat4& Camera::Get3DRotationMatrix() const
     {
-        static glm::mat4 rotationMatrix = glm::toMat4(m_Rotation3D.GetConst());
         if (m_Rotation3D.IsDirty())
         {
-            rotationMatrix = glm::toMat4(m_Rotation3D.GetConst());
+            m_3DRotationMatrix = glm::toMat4(m_Rotation3D.GetConst());
             m_Rotation3D.SetDirty(false);
         }
-        return rotationMatrix;
+        return m_3DRotationMatrix;
     }
 
     const glm::mat4& Camera::Get2DViewMatrix() const
     {
-        static glm::mat4 viewMatrix = Get2DPositionMatrix() * Get2DRotationMatrix();
         if (m_Position2D.IsDirty() || m_Rotation2D.IsDirty())
-            viewMatrix = Get2DPositionMatrix() * Get2DRotationMatrix();
+            m_2DViewMatrix = Get2DRotationMatrix() * Get2DPositionMatrix();
         
-        return viewMatrix;
+        return m_2DViewMatrix;
     }
 
     const glm::mat4& Camera::Get3DViewMatrix() const
     {
-        static glm::mat4 viewMatrix = Get3DPositionMatrix() * Get3DRotationMatrix();
         if (m_Position3D.IsDirty() || m_Rotation3D.IsDirty())
-            viewMatrix = Get3DPositionMatrix() * Get3DRotationMatrix();
+            m_3DViewMatrix = Get3DRotationMatrix() * Get3DPositionMatrix();
 
-        return viewMatrix;
+        return m_3DViewMatrix;
     }
 }

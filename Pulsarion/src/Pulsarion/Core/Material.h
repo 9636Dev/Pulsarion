@@ -20,7 +20,7 @@ namespace Pulsarion
         void SetDiffuseColor(const glm::vec4& diffuseColor);
         void SetIsTransparent(bool isTransparent);
 
-        std::optional<std::uint32_t> GetTextureId() const;
+        std::uint32_t GetTextureId() const;
         const glm::vec4& GetDiffuseColor() const;
         bool GetIsTransparent() const;
         UsageType GetUsageType() const;
@@ -29,7 +29,7 @@ namespace Pulsarion
 
     private:
         UsageType m_UsageType;
-        std::optional<std::uint32_t> m_TextureId;
+        std::uint32_t m_TextureId;
         glm::vec4 m_DiffuseColor;
         bool m_IsTransparent;
     };

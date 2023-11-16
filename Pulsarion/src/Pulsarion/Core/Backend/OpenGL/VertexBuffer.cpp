@@ -35,6 +35,7 @@ namespace Pulsarion::OpenGL
     {
         Bind();
         GL::BufferData(BufferTarget::ArrayBuffer, size, data, usage);
+        Unbind();
     }
 
     void VertexBuffer::SetSubData(const void* data, std::uint32_t size, std::uint32_t offset)

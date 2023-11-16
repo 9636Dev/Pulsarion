@@ -35,6 +35,13 @@ namespace Pulsarion
         const glm::mat4& Get3DViewMatrix() const;
         const glm::mat4& Get2DViewMatrix() const;
     private:
+        mutable glm::mat4 m_2DPositionMatrix;
+        mutable glm::mat4 m_2DRotationMatrix;
+        mutable glm::mat4 m_2DViewMatrix;
+        mutable glm::mat4 m_3DPositionMatrix;
+        mutable glm::mat4 m_3DRotationMatrix;
+        mutable glm::mat4 m_3DViewMatrix;
+
         Modifiable<glm::vec3> m_Position3D;
         Modifiable<glm::quat> m_Rotation3D;
         Modifiable<glm::vec2> m_Position2D;
