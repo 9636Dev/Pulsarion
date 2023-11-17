@@ -3,9 +3,6 @@
 #include "Pulsarion/Test.h"
 #include <memory>
 
-#include <random>
-#include <iostream>
-
 using namespace Pulsarion;
 
 int main(int argc, char** argv) {
