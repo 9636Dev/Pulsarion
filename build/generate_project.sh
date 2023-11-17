@@ -3,4 +3,4 @@
 config=${1:-debug}
 
 premake5 gmake
-bear --append -- make config=$config
+premake5 export-compile-commands

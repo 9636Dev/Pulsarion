@@ -8,8 +8,6 @@
 
 #include "Test.h"
 
-#include "Core/Backend/OpenGL/VertexArray.h"
-
 #include "UI/Window.h"
 #include "UI/Text.h"
 #include "UI/ColorPicker.h"
@@ -18,26 +16,21 @@
 
 #include "Core/Renderer.h"
 #include "Core/Transform.h"
-#include "Core/Backend/MeshBackend.h"
 #include "Core/Mesh.h"
 #include "Core/MeshManager.h"
 #include "Core/Material.h"
 #include "Core/MaterialManager.h"
 #include "Core/Texture.h"
 #include "Core/TextureManager.h"
-#include "Core/Shader.h"
-#include "Core/ShaderManager.h"
 #include "Core/Camera.h"
 #include "Core/GraphicalObject.h"
 
 #include "Core/Format/PLSMesh.h"
 
-#include "GL/glew.h"
-
 namespace Pulsarion
 {
 
-#define PLS_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+#define PLS_BIND_EVENT_FN(fn) [this]<typename T0>(T0 && PH1) { return fn(std::forward<T0>(PH1)); }
     class App
     {
     public:
@@ -52,14 +45,16 @@ namespace Pulsarion
             dispatcher.Dispatch<MouseScrollEvent>(PLS_BIND_EVENT_FN(App::OnScrollEvent));
         }
 
-        bool OnScrollEvent(const MouseScrollEvent& event) const {
+        [[nodiscard]] bool OnScrollEvent(const MouseScrollEvent& event) const
+        {
             const float newScale = m_DisplayScale->Get(0) - event.GetOffsetY();
             m_DisplayScale->Set(0, newScale);
 
             return true;
         }
 
-        glm::mat4 GetProjection() const {
+        [[nodiscard]] glm::mat4 GetProjection() const
+        {
             const float aspectRatio = static_cast<float>(m_Window->GetWidth()) / static_cast<float>(m_Window->GetHeight());
             return glm::ortho(m_DisplayScale->Get(0) * -aspectRatio, m_DisplayScale->Get(0) * aspectRatio, -m_DisplayScale->Get(0), m_DisplayScale->Get(0));
         }
@@ -161,10 +156,7 @@ namespace Pulsarion
                 }
 
                 if (m_DisplayScale->IsUpdated())
-                {
                     m_Renderer->Set2DProjection(GetProjection());
-                }
-
                 if (cameraPosition->IsUpdated())
                     camera.Set2DPosition(glm::vec2(cameraPosition->GetValue()[0], cameraPosition->GetValue()[1]));
                 if (cameraRotation->IsUpdated())
