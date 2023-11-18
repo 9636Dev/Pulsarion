@@ -11,7 +11,7 @@ namespace Pulsarion::OpenGL
     class GLShader : public ::Pulsarion::Shader
     {
     public:
-        GLShader(std::vector<OpenGL::Shader>&& shaders);
+        GLShader(std::vector<OpenGL::Shader>&& shaders, const Shading::ShaderSignature& signature, const Shading::ShaderInputOrder& inputOrder);
         ~GLShader();
 
         void Bind() const override;

@@ -4,88 +4,103 @@
 
 namespace Pulsarion
 {
-    /// <summary>
-    /// Bits, from right to left, represent the following:
-    /// 0 - Position2D
-    /// 1 - Position3D
-    /// 2 - TexCoord2D
-    /// 3 - TexCoord3D
-    /// 6 -
-    /// ------
-    /// 32 - ModelMatrix
-    /// 33 - ViewMatrix
-    /// 34 - ProjectionMatrix
-    /// 35 - Texture
-    /// 36 - DiffuseColor
-    /// ------
-    /// </summary>
-    enum class PULSARION_API ShaderSignatureBit : std::uint8_t
+    namespace Shading
     {
-        Position2D = 0,
-        Position3D = 1,
-        TexCoord2D = 2,
-        TexCoord3D = 3,
-        Normals = 4,
-        BiTangents = 5,
-
-        ModelMatrix = 32,
-        ViewMatrix = 33,
-        ProjectionMatrix = 34,
-        Texture = 35,
-        DiffuseColor = 36
-    };
-    struct PULSARION_API ShaderSignature
-    {
-        std::uint64_t InputsBitmap;
-        std::uint64_t UniformsBitmap;
-        std::uint64_t UniformBlockBitmap;
-
-        ShaderSignature() : InputsBitmap(0), UniformsBitmap(0), UniformBlockBitmap(0) {}
-
-        void EnableInput(ShaderSignatureBit bit)
+        enum class ShaderInputUniform : std::uint32_t
         {
-            InputsBitmap |= (1ULL << static_cast<std::uint8_t>(bit));
-        }
+            Position2D = 1 << 0,
+            Position3D = 1 << 1,
+            TexCoord2D = 1 << 2,
+            TexCoord3D = 1 << 3,
+            Normal2D = 1 << 4,
+            Normal3D = 1 << 5,
+            Tangent2D = 1 << 6,
+            Tangent3D = 1 << 7,
+            Bitangent2D = 1 << 8,
+            Bitangent3D = 1 << 9,
+            ModelMatrix = 1 << 10,
+            ViewMatrix = 1 << 11,
+            ProjectionMatrix = 1 << 12,
+            Texture2D = 1 << 13,
+            DiffuseColor = 1 << 14,
+        };
 
-        void EnableUniform(ShaderSignatureBit bit)
+        struct PULSARION_API ShaderSignature
         {
-            UniformsBitmap |= (1ULL << static_cast<std::uint8_t>(bit));
-        }
+            std::uint32_t VertexInputs;
+            std::uint32_t VertexUniforms;
+            std::uint32_t FragmentInputs;
+            std::uint32_t FragmentUniforms;
 
-        void EnableUniformBlock(ShaderSignatureBit bit)
-        {
-            UniformBlockBitmap |= (1ULL << static_cast<std::uint8_t>(bit));
-        }
+            ShaderSignature() : VertexInputs(0), VertexUniforms(0), FragmentInputs(0), FragmentUniforms(0)
+            {
 
-        bool IsInputEnabled(ShaderSignatureBit bit) const
-        {
-            return (InputsBitmap & (1ULL << static_cast<std::uint8_t>(bit))) != 0;
-        }
+            }
 
-        bool IsUniformEnabled(ShaderSignatureBit bit) const
-        {
-            return (UniformsBitmap & (1ULL << static_cast<std::uint8_t>(bit))) != 0;
-        }
+            void Clear()
+            {
+                VertexInputs = 0;
+                VertexUniforms = 0;
+                FragmentInputs = 0;
+                FragmentUniforms = 0;
+            }
 
-        bool IsUniformBlockEnabled(ShaderSignatureBit bit) const
-        {
-            return (UniformBlockBitmap & (1ULL << static_cast<std::uint8_t>(bit))) != 0;
-        }
+            void AddVertexInput(ShaderInputUniform input)
+            {
+                VertexInputs |= static_cast<std::uint32_t>(input);
+            }
 
-        bool operator==(const ShaderSignature& other) const
-        {
-            return InputsBitmap == other.InputsBitmap && UniformsBitmap == other.UniformsBitmap;
-        }
+            void AddVertexUniform(ShaderInputUniform input)
+            {
+                VertexUniforms |= static_cast<std::uint32_t>(input);
+            }
 
-        ShaderSignature operator|(const ShaderSignature& other) const
+            void AddFragmentInput(ShaderInputUniform input)
+            {
+                FragmentInputs |= static_cast<std::uint32_t>(input);
+            }
+
+            void AddFragmentUniform(ShaderInputUniform input)
+            {
+                FragmentUniforms |= static_cast<std::uint32_t>(input);
+            }
+
+            bool operator==(const ShaderSignature& other) const
+            {
+                return VertexInputs == other.VertexInputs && VertexUniforms == other.VertexUniforms && FragmentInputs == other.FragmentInputs && FragmentUniforms == other.FragmentUniforms;
+            }
+
+            ShaderSignature operator|(const ShaderSignature& other) const
+            {
+                ShaderSignature result;
+                result.VertexInputs = VertexInputs | other.VertexInputs;
+                result.VertexUniforms = VertexUniforms | other.VertexUniforms;
+                result.FragmentInputs = FragmentInputs | other.FragmentInputs;
+                result.FragmentUniforms = FragmentUniforms | other.FragmentUniforms;
+                return result;
+            }
+        };
+
+        struct PULSARION_API ShaderInputOrder
         {
-            ShaderSignature result;
-            result.InputsBitmap = InputsBitmap | other.InputsBitmap;
-            result.UniformsBitmap = UniformsBitmap | other.UniformsBitmap;
-            result.UniformBlockBitmap = UniformBlockBitmap | other.UniformBlockBitmap;
-            return result;
-        }
-    };
+            std::vector<Shading::ShaderInputUniform> VertexInputs;
+
+            static ShaderInputOrder DefaultOrder(const ShaderSignature& signature)
+            {
+                ShaderInputOrder order;
+                for (std::uint32_t i = 0; i < 15; ++i)
+                {
+                    ShaderInputUniform input = static_cast<ShaderInputUniform>(1 << i);
+                    if ((signature.VertexInputs | signature.FragmentInputs) & (static_cast<std::uint32_t>(input)))
+                    {
+                        order.VertexInputs.push_back(input);
+                    }
+                }
+
+                return order;
+            }
+        };
+    }
 
     class PULSARION_API Shader
     {
@@ -99,22 +114,24 @@ namespace Pulsarion
         virtual void Bind() const = 0;
         virtual void Unbind() const = 0;
 
-        const ShaderSignature& GetSignature() const { return m_Signature; }
+        const Shading::ShaderSignature& GetSignature() const { return m_Signature; }
+        const Shading::ShaderInputOrder& GetInputOrder() const { return m_InputOrder; }
     protected:
-        ShaderSignature m_Signature;
+        Shader(const Shading::ShaderSignature& signature, const Shading::ShaderInputOrder& inputOrder) : m_Signature(signature), m_InputOrder(inputOrder) {}
+
+        Shading::ShaderSignature m_Signature;
+        Shading::ShaderInputOrder m_InputOrder;
     };
 
-    extern PULSARION_API std::shared_ptr<Shader> CreateShaderWithSignature(const ShaderSignature& signature);
+    extern PULSARION_API std::shared_ptr<Shader> CreateShaderWithSignature(const Shading::ShaderSignature& signature, const Shading::ShaderInputOrder& inputOrder);
 }
 
 namespace std {
     template <>
-    struct hash<Pulsarion::ShaderSignature> {
-        size_t operator()(const Pulsarion::ShaderSignature& s) const {
-            size_t h1 = std::hash<std::uint64_t>()(s.InputsBitmap);
-            size_t h2 = std::hash<std::uint64_t>()(s.UniformsBitmap);
-
-            return h1 ^ (h2 << 1); // Shift and combine
+    struct hash<Pulsarion::Shading::ShaderSignature> {
+        size_t operator()(const Pulsarion::Shading::ShaderSignature& s) const {
+            // Generate hash for all members of the struct and combine them all
+            return ((hash<std::uint32_t>()(s.VertexInputs) ^ (hash<std::uint32_t>()(s.VertexUniforms) << 1)) >> 1) ^ (hash<std::uint32_t>()(s.FragmentInputs) << 1) ^ (hash<std::uint32_t>()(s.FragmentUniforms) << 1);
         }
     };
 }

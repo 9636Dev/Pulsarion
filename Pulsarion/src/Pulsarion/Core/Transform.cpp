@@ -86,10 +86,10 @@ namespace Pulsarion
         return m_Translation.IsDirty() || m_Scale.IsDirty() || m_Rotation.IsDirty();
     }
 
-    ShaderSignature Transform2D::GetShaderSignature() const
+    Shading::ShaderSignature Transform2D::GetShaderSignature() const
     {
-        ShaderSignature signature;
-        signature.EnableUniform(ShaderSignatureBit::ModelMatrix);
+        Shading::ShaderSignature signature;
+        signature.AddVertexUniform(Shading::ShaderInputUniform::ModelMatrix);
         return signature;
     }
 }

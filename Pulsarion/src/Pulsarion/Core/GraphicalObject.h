@@ -40,8 +40,7 @@ namespace Pulsarion
         std::shared_ptr<Mesh2D> GetMesh() const;
         const Transform2D& GetTransform() const;
         const RenderOptions& GetRenderOptions() const;
-        const ShaderSignature& GetShaderSignature() const;
-        std::shared_ptr<Shader> GetCachedShader() const;
+        const Shading::ShaderSignature& GetShaderSignature() const;
 
         Transform2D& GetTransformRef();
 
@@ -49,8 +48,7 @@ namespace Pulsarion
     private:
         std::shared_ptr<Material> m_Material;
         std::shared_ptr<Mesh2D> m_Mesh;
-        std::shared_ptr<Shader> m_CachedShader;
-        ShaderSignature m_ShaderSignature;
+        Shading::ShaderSignature m_ShaderSignature;
         Transform2D m_Transform;
         RenderOptions m_RenderOptions;
         bool m_IsChanged;

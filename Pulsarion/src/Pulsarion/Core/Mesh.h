@@ -10,7 +10,10 @@
 
 namespace Pulsarion
 {
-    struct ShaderSignature;
+    namespace Shading
+    {
+        struct ShaderSignature;
+    }
     class MeshBackend2D;
 
     class PULSARION_API Mesh2D
@@ -31,7 +34,7 @@ namespace Pulsarion
         void DestroyBackend();
         bool IsBackendCreated() const;
         const MeshBackend2D& GetBackend() const;
-        ShaderSignature GetShaderSignature() const;
+        Shading::ShaderSignature GetShaderSignature() const;
     private:
         UsageType m_UsageType;
         std::unique_ptr<VertexData2D> m_VertexData;

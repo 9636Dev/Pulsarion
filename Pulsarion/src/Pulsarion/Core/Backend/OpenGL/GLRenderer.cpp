@@ -20,7 +20,7 @@ namespace Pulsarion::OpenGL
 {
     std::uint64_t GLRenderer::m_RenderableId = 0;
 
-    GLRenderer::GLRenderer() : m_2DRenderables(), m_2DShaderSignatures(), m_2DProjection(glm::identity<glm::mat4>()), m_RenderInfo(), m_2DUniformBuffer()
+    GLRenderer::GLRenderer() : m_2DProjection(glm::identity<glm::mat4>()), m_RenderInfo(), m_2DRenderables()
     {
 
     }
@@ -79,36 +79,7 @@ namespace Pulsarion::OpenGL
 
     std::uint64_t GLRenderer::Add2DRenderable(std::shared_ptr<GraphicalObject2D> object)
     {
-        m_2DRenderables.emplace(m_RenderableId, object);
-        auto it = m_2DShaderSignatures.find(object->GetShaderSignature());
-        if (it != m_2DShaderSignatures.end())
-        {
-            // Try to find a object with the same mesh
-            std::int64_t index = -1;
-            for (std::int64_t i = static_cast<std::int64_t>(it->second.size()) - 1; i >= 0; --i)
-            {
-                auto& renderable = m_2DRenderables[it->second[i]];
-                if (renderable->GetMesh() == object->GetMesh())
-                {
-                    index = i;
-                    break;
-                }
-            }
-
-            if (index == -1)
-            {
-                it->second.push_back(m_RenderableId);
-            }
-            else
-            {
-                // Add after the last renderable with the same mesh
-                it->second.insert(it->second.begin() + index + 1, m_RenderableId);
-            }
-        }
-        else
-        {
-            m_2DShaderSignatures.emplace(object->GetShaderSignature(), std::vector<std::uint64_t>{ m_RenderableId });
-        }
+        m_2DRenderables[m_RenderableId] = object;
         return m_RenderableId++;
     }
 
@@ -117,21 +88,9 @@ namespace Pulsarion::OpenGL
         auto it = m_2DRenderables.find(id);
         if (it != m_2DRenderables.end())
         {
-            auto object = it->second;
+            auto renderable = it->second;
             m_2DRenderables.erase(it);
-
-            auto shaderIt = m_2DShaderSignatures.find(object->GetShaderSignature());
-            if (shaderIt != m_2DShaderSignatures.end())
-            {
-                auto& renderables = shaderIt->second;
-                auto renderableIt = std::find(renderables.begin(), renderables.end(), id);
-                if (renderableIt != renderables.end())
-                {
-                    renderables.erase(renderableIt);
-                }
-            }
-
-            return object;
+            return renderable;
         }
         return nullptr;
     }
@@ -141,42 +100,19 @@ namespace Pulsarion::OpenGL
         m_RenderInfo.Clear();
         auto startTime = std::chrono::high_resolution_clock::now();
 
-        std::shared_ptr<Shader> shader;
-        std::shared_ptr<Mesh2D> mesh;
-        std::shared_ptr<Material> material;
-        std::uint32_t textureId = 0;
-
-        for (const auto& [signature, renderables] : m_2DShaderSignatures)
+        for (auto& renderable : m_2DRenderables)
         {
-            shader = ShaderManager::GetShader(signature);
+            auto shader = ShaderManager::GetShader(renderable.second->GetShaderSignature());
             shader->Bind();
-            shader->SetUniform("u_ViewMatrix", camera.Get2DViewMatrix());
             shader->SetUniform("u_ProjectionMatrix", m_2DProjection);
+            shader->SetUniform("u_ViewMatrix", camera.Get2DViewMatrix());
+            shader->SetUniform("u_ModelMatrix", renderable.second->GetTransform().GetAsMatrix());
+            shader->SetUniform("u_Texture2D", 0);
+            shader->SetUniform("u_DiffuseColor", renderable.second->GetMaterial()->GetDiffuseColor());
+            TextureManager::Bind2DTexture(renderable.second->GetMaterial()->GetTextureId(), 0);
+            renderable.second->GetMesh()->GetBackend().Bind();
 
-            for (auto& renderable : renderables)
-            {
-                auto& object = m_2DRenderables[renderable];
-                // Mesh should be sorted to avoid unnecessary binding
-                if (mesh != object->GetMesh())
-                {
-                    mesh = object->GetMesh();
-                    mesh->GetBackend().Bind();
-                }
-
-                // Material is not sorted, so it must be bound every time
-                material = object->GetMaterial();
-
-                shader->SetUniform("u_ModelMatrix", object->GetTransform().GetAsMatrix());
-                shader->SetUniform("u_DiffuseColor", material->GetDiffuseColor());
-                if (material->GetTextureId() != 0 && material->GetTextureId() != textureId)
-                {
-                    TextureManager::Bind2DTexture(material->GetTextureId(), 0);
-                    shader->SetUniform("u_Texture2D", 0);
-                    textureId = material->GetTextureId();
-                }
-
-                GL::DrawElements(DrawMode::Triangles, static_cast<sizei_t>(mesh->GetIndices().size()), Type::UnsignedInt, nullptr);
-            }
+            GL::DrawElements(DrawMode::Triangles, renderable.second->GetMesh()->GetIndices().size(), Type::UnsignedInt, nullptr);
         }
 
         auto endTime = std::chrono::high_resolution_clock::now();

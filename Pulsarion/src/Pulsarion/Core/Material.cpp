@@ -50,12 +50,11 @@ namespace Pulsarion
         return m_UsageType;
     }
 
-    ShaderSignature Material::GetShaderSignature() const
+    Shading::ShaderSignature Material::GetShaderSignature() const
     {
-        ShaderSignature signature;
-        if (m_TextureId != 0)
-            signature.EnableUniform(ShaderSignatureBit::Texture);
-        signature.EnableUniform(ShaderSignatureBit::DiffuseColor);
+        Shading::ShaderSignature signature;
+        signature.AddFragmentUniform(Shading::ShaderInputUniform::Texture2D);
+        signature.AddFragmentUniform(Shading::ShaderInputUniform::DiffuseColor);
         return signature;
     }
 }

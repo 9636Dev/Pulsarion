@@ -9,7 +9,10 @@
 
 namespace Pulsarion
 {
-    struct ShaderSignature;
+    namespace Shading
+    {
+        struct ShaderSignature;
+    }
     class PULSARION_API Material
     {
     public:
@@ -25,7 +28,7 @@ namespace Pulsarion
         bool GetIsTransparent() const;
         UsageType GetUsageType() const;
 
-        ShaderSignature GetShaderSignature() const;
+        Shading::ShaderSignature GetShaderSignature() const;
 
     private:
         UsageType m_UsageType;

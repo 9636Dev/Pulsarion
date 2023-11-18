@@ -45,10 +45,8 @@ namespace Pulsarion::OpenGL
         inline std::uint64_t NextRenderableId() { return m_RenderableId++; }
 
         RenderInfo m_RenderInfo;
-        std::unordered_map<ShaderSignature, std::vector<std::uint64_t>> m_2DShaderSignatures;
         std::unordered_map<std::uint64_t, std::shared_ptr<GraphicalObject2D>> m_2DRenderables;
         static std::uint64_t m_RenderableId;
         glm::mat4 m_2DProjection;
-        UniformBuffer m_2DUniformBuffer;
     };
 }

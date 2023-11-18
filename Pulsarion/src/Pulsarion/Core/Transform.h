@@ -6,7 +6,10 @@
 
 namespace Pulsarion
 {
-    struct ShaderSignature;
+    namespace Shading
+    {
+        struct ShaderSignature;
+    }
 
     class PULSARION_API Transform2D
     {
@@ -28,7 +31,7 @@ namespace Pulsarion
         void SetRotation(double rotation);
         bool IsDirty() const;
 
-        ShaderSignature GetShaderSignature() const;
+        Shading::ShaderSignature GetShaderSignature() const;
     private:
         mutable glm::mat4 m_Matrix;
 

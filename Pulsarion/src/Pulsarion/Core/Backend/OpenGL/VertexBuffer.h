@@ -36,6 +36,14 @@ namespace Pulsarion::OpenGL
         VertexBufferLayout();
         ~VertexBufferLayout();
 
+        inline void PushMat4(bool instanced = false, std::int32_t stride = -1, sizeiptr_t offset = -1)
+        {
+            Push<float>(4, false, instanced, stride, offset);
+            Push<float>(4, false, instanced, stride, offset);
+            Push<float>(4, false, instanced, stride, offset);
+            Push<float>(4, false, instanced, stride, offset);
+        }
+
         template<Util::GLType T>
         inline void Push(std::uint16_t size, bool normalized = false, bool instanced = false, std::int32_t stride = -1, sizeiptr_t offset = -1)
         {

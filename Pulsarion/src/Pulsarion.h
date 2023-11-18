@@ -18,6 +18,8 @@
 #include "Pulsarion/Core/MeshManager.h"
 #include "Pulsarion/Core/TextureManager.h"
 #include "Pulsarion/Core/Camera.h"
+#include "Pulsarion/Core/Shader.h"
+#include "Pulsarion/Core/ShaderManager.h"
 
 #include "Pulsarion/Event/Event.h"
 #include "Pulsarion/Event/KeyEvent.h"

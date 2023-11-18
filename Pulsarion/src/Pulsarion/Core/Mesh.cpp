@@ -77,12 +77,12 @@ namespace Pulsarion
         return *m_Backend;
     }
 
-    ShaderSignature Mesh2D::GetShaderSignature() const
+    Shading::ShaderSignature Mesh2D::GetShaderSignature() const
     {
-        ShaderSignature signature;
+        Shading::ShaderSignature signature;
         // TODO: Make dynamic
-        signature.EnableInput(ShaderSignatureBit::Position2D);
-        if (m_VertexData->GetTextureCoordinates().size() != 0) signature.EnableInput(ShaderSignatureBit::TexCoord2D);
+        signature.AddVertexInput(Shading::ShaderInputUniform::Position2D);
+        if (m_VertexData->GetTextureCoordinates().size() != 0) signature.AddFragmentInput(Shading::ShaderInputUniform::TexCoord2D);
         return signature;
     }
 }
