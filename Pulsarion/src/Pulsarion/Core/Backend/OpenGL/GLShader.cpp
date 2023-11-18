@@ -111,7 +111,7 @@ namespace Pulsarion
     std::shared_ptr<Shader> CreateShaderWithSignature(const ShaderSignature& signature)
     {
         // Check for overlap in input and uniform, return nullptr if there is overlap
-        if ((signature.inputsBitmap & signature.uniformsBitmap) != 0)
+        if ((signature.InputsBitmap & signature.UniformsBitmap) != 0)
             return nullptr;
 
         static const std::array<InputUniform, 64> uniformMap = CreateUniformMap();
@@ -124,7 +124,7 @@ namespace Pulsarion
         for (std::size_t i = 0; i < 64; ++i)
         {
             InputUniform iu = uniformMap[i];
-            if ((signature.inputsBitmap & (1ull << i)) != 0)
+            if ((signature.InputsBitmap & (1ull << i)) != 0)
             {
                 if (uniformMap[i].FragmentShader)
                 {
@@ -139,7 +139,7 @@ namespace Pulsarion
                 }
             }
 
-            if ((signature.uniformsBitmap & (1ull << i)) != 0)
+            if ((signature.UniformsBitmap & (1ull << i)) != 0)
             {
                 iu.Name = "u_" + iu.Name;
                 if (uniformMap[i].FragmentShader)
@@ -174,9 +174,9 @@ namespace Pulsarion
             vertexShaderSource += vertexVaryings[i].Name + " = " + vertexInputs[i].Name + ";\n";
         }
 
-        if ((signature.inputsBitmap & (1ull << 0)) != 0)
+        if ((signature.InputsBitmap & (1ull << 0)) != 0)
             vertexShaderSource += "vec4 pos = vec4(" + vertexInputs[0].Name + ", 1.0, 1.0);\n";
-        else if ((signature.inputsBitmap & (1ull << 1)) != 0)
+        else if ((signature.InputsBitmap & (1ull << 1)) != 0)
             vertexShaderSource += "vec4 pos = vec4(" + vertexInputs[1].Name + ", 1.0);\n";
         else
         {

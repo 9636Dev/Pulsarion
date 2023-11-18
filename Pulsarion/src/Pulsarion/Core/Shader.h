@@ -17,6 +17,7 @@ namespace Pulsarion
     /// 34 - ProjectionMatrix
     /// 35 - Texture
     /// 36 - DiffuseColor
+    /// ------
     /// </summary>
     enum class PULSARION_API ShaderSignatureBit : std::uint8_t
     {
@@ -35,31 +36,53 @@ namespace Pulsarion
     };
     struct PULSARION_API ShaderSignature
     {
-        std::uint64_t inputsBitmap;
-        std::uint64_t uniformsBitmap;
+        std::uint64_t InputsBitmap;
+        std::uint64_t UniformsBitmap;
+        std::uint64_t UniformBlockBitmap;
 
-        ShaderSignature() : inputsBitmap(0), uniformsBitmap(0) {}
+        ShaderSignature() : InputsBitmap(0), UniformsBitmap(0), UniformBlockBitmap(0) {}
 
         void EnableInput(ShaderSignatureBit bit)
         {
-            inputsBitmap |= (1ULL << static_cast<std::uint8_t>(bit));
+            InputsBitmap |= (1ULL << static_cast<std::uint8_t>(bit));
         }
 
         void EnableUniform(ShaderSignatureBit bit)
         {
-            uniformsBitmap |= (1ULL << static_cast<std::uint8_t>(bit));
+            UniformsBitmap |= (1ULL << static_cast<std::uint8_t>(bit));
+        }
+
+        void EnableUniformBlock(ShaderSignatureBit bit)
+        {
+            UniformBlockBitmap |= (1ULL << static_cast<std::uint8_t>(bit));
+        }
+
+        bool IsInputEnabled(ShaderSignatureBit bit) const
+        {
+            return (InputsBitmap & (1ULL << static_cast<std::uint8_t>(bit))) != 0;
+        }
+
+        bool IsUniformEnabled(ShaderSignatureBit bit) const
+        {
+            return (UniformsBitmap & (1ULL << static_cast<std::uint8_t>(bit))) != 0;
+        }
+
+        bool IsUniformBlockEnabled(ShaderSignatureBit bit) const
+        {
+            return (UniformBlockBitmap & (1ULL << static_cast<std::uint8_t>(bit))) != 0;
         }
 
         bool operator==(const ShaderSignature& other) const
         {
-            return inputsBitmap == other.inputsBitmap && uniformsBitmap == other.uniformsBitmap;
+            return InputsBitmap == other.InputsBitmap && UniformsBitmap == other.UniformsBitmap;
         }
 
         ShaderSignature operator|(const ShaderSignature& other) const
         {
             ShaderSignature result;
-            result.inputsBitmap = inputsBitmap | other.inputsBitmap;
-            result.uniformsBitmap = uniformsBitmap | other.uniformsBitmap;
+            result.InputsBitmap = InputsBitmap | other.InputsBitmap;
+            result.UniformsBitmap = UniformsBitmap | other.UniformsBitmap;
+            result.UniformBlockBitmap = UniformBlockBitmap | other.UniformBlockBitmap;
             return result;
         }
     };
@@ -88,8 +111,8 @@ namespace std {
     template <>
     struct hash<Pulsarion::ShaderSignature> {
         size_t operator()(const Pulsarion::ShaderSignature& s) const {
-            size_t h1 = std::hash<std::uint64_t>()(s.inputsBitmap);
-            size_t h2 = std::hash<std::uint64_t>()(s.uniformsBitmap);
+            size_t h1 = std::hash<std::uint64_t>()(s.InputsBitmap);
+            size_t h2 = std::hash<std::uint64_t>()(s.UniformsBitmap);
 
             return h1 ^ (h2 << 1); // Shift and combine
         }

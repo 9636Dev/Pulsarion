@@ -6,7 +6,7 @@
 namespace Pulsarion::UI
 {
     // TODO: Rewrite using click and hover callbacks
-    class Button : public Widget
+    class PULSARION_API Button : public Widget
     {
     public:
         Button(const std::string& text);

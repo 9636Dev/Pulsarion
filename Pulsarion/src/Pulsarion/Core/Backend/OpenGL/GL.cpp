@@ -345,6 +345,16 @@ namespace Pulsarion::OpenGL
         PLS_GLCall(glTexParameteri, static_cast<std::uint32_t>(target), static_cast<std::uint32_t>(pname), param);
     }
 
+    Program_t GL::GetBoundProgram()
+    {
+        return s_BoundProgram;
+    }
+
+    VertexArray_t GL::GetBoundVertexArray()
+    {
+        return s_BoundVertexArray;
+    }
+
     void GL::SetLogLevel(std::uint32_t logLevel)
     {
         s_LogLevel = logLevel;

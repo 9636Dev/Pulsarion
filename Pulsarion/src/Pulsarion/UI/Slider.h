@@ -3,12 +3,13 @@
 #include "Pulsarion/Core/PulsarionCore.h"
 #include "Widget.h"
 
-#include <imgui.h>
 #include <array>
 #include <vector>
 
 namespace Pulsarion::UI
 {
+    bool PULSARION_API SliderScaleN(const std::string& text, void* data, const void* min, const void* max, const std::uint32_t dimension, const DataType dataType);
+
     template<typename T, std::uint32_t Dimension>
     class Slider : public Widget
     {
@@ -26,7 +27,7 @@ namespace Pulsarion::UI
 
         void Render() const override
         {
-            m_Updated = ImGui::SliderScalarN(m_Text.c_str(), GetImGuiDataType<T>(), m_Value.data(), Dimension, m_Min.data(), m_Max.data());
+            m_Updated = SliderScaleN(m_Text, m_Value.data(), m_Min.data(), m_Max.data(), Dimension, GetDataType<T>());
         }
 
         void SetText(const std::string& text)

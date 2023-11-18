@@ -132,50 +132,44 @@ namespace Pulsarion::OpenGL
 
     void ShaderProgram::SetUniform(const std::string& name, std::int32_t value)
     {
-        Use();
+        // Don't bind the program here, because it might be bound already for performance reasons
+        PLS_CORE_ASSERT(GL::GetBoundProgram() == m_Program, "ShaderProgram::SetUniform: ShaderProgram is not bound!");
         GL::Uniform1i(GetUniformLocation(name), value);
     }
 
     void ShaderProgram::SetUniform(const std::string& name, float value)
     {
-        Use();
+        PLS_CORE_ASSERT(GL::GetBoundProgram() == m_Program, "ShaderProgram::SetUniform: ShaderProgram is not bound!");
         GL::Uniform1f(GetUniformLocation(name), value);
     }
 
     void ShaderProgram::SetUniform(const std::string& name, const glm::vec2& value)
     {
-        Use();
+        PLS_CORE_ASSERT(GL::GetBoundProgram() == m_Program, "ShaderProgram::SetUniform: ShaderProgram is not bound!");
         GL::Uniform2f(GetUniformLocation(name), value.x, value.y);
     }
 
     void ShaderProgram::SetUniform(const std::string& name, const glm::vec3& value)
     {
-        Use();
+        PLS_CORE_ASSERT(GL::GetBoundProgram() == m_Program, "ShaderProgram::SetUniform: ShaderProgram is not bound!");
         GL::Uniform3f(GetUniformLocation(name), value.x, value.y, value.z);
     }
 
     void ShaderProgram::SetUniform(const std::string& name, const glm::vec4& value)
     {
-        Use();
+        PLS_CORE_ASSERT(GL::GetBoundProgram() == m_Program, "ShaderProgram::SetUniform: ShaderProgram is not bound!");
         GL::Uniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);
     }
 
     void ShaderProgram::SetUniform(const std::string& name, const glm::mat3& value)
     {
-        Use();
+        PLS_CORE_ASSERT(GL::GetBoundProgram() == m_Program, "ShaderProgram::SetUniform: ShaderProgram is not bound!");
         GL::UniformMatrix3fv(GetUniformLocation(name), 1, false, glm::value_ptr(value));
     }
 
     void ShaderProgram::SetUniform(const std::string& name, const glm::mat4& value)
     {
-        Use();
+        PLS_CORE_ASSERT(GL::GetBoundProgram() == m_Program, "ShaderProgram::SetUniform: ShaderProgram is not bound!");
         GL::UniformMatrix4fv(GetUniformLocation(name), 1, false, glm::value_ptr(value));
-    }
-
-    glm::mat3 ShaderProgram::GetUniformMat3(const std::string& name) const
-    {
-        glm::mat3 value;
-        GL::GetUniformfv(m_Program, GetUniformLocation(name), glm::value_ptr(value));
-        return value;
     }
 }

@@ -7,22 +7,20 @@
 #include <memory>
 #include <utility>
 #include <unordered_map>
+#include <string>
 
 namespace Pulsarion
 {
     class PULSARION_API MeshManager
     {
     public:
-        static std::pair<std::uint32_t, std::shared_ptr<Mesh2D>> Create2DMesh(UsageType type, VertexDataType vertexType = VertexDataType::TightlyPacked);
-        static std::uint32_t Add2DMesh(std::shared_ptr<Mesh2D> mesh);
+        [[nodiscard]] std::shared_ptr<Mesh2D> Create2DMesh(const std::string& name, UsageType type, VertexDataType vertexType = VertexDataType::TightlyPacked);
+        [[nodiscard]] static bool Add2DMesh(const std::string& name, std::shared_ptr<Mesh2D> mesh);
 
-        static std::shared_ptr<Mesh2D> Get2DMesh(std::uint32_t);
-        static std::shared_ptr<Mesh2D> Remove2DMesh(std::uint32_t);
+        static std::shared_ptr<Mesh2D> Get2DMesh(const std::string& name);
+        static std::shared_ptr<Mesh2D> Remove2DMesh(const std::string& name);
 
     private:
-        static std::uint32_t GetNextId();
-
-        static std::uint32_t s_MeshID;
-        static std::unordered_map<std::uint32_t, std::shared_ptr<Mesh2D>> s_2DMeshes;
+        static std::unordered_map<std::string, std::shared_ptr<Mesh2D>> s_2DMeshes;
     };
 }

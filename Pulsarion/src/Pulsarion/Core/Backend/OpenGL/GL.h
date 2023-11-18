@@ -106,10 +106,8 @@ namespace Pulsarion::OpenGL
         static void ActiveTexture(TextureUnit unit);
         static void TexParameteri(TextureTarget target, TextureParameter pname, std::int32_t param);
 
-        [[nodiscard]] static bool IsVertexArray(VertexArray_t array, bool requireBound = false);
-        [[nodiscard]] static bool IsBuffer(Buffer_t buffer, bool requireBound = false);
-        [[nodiscard]] static bool IsProgram(std::uint32_t program);
-        [[nodiscard]] static bool IsShader(std::uint32_t shader);
+        [[nodiscard]] static Program_t GetBoundProgram();
+        [[nodiscard]] static VertexArray_t GetBoundVertexArray();
         static void SetLogLevel(std::uint32_t logLevel);
     private:
         static void PulsarGLCallback(std::uint32_t source, std::uint32_t type, std::uint32_t id, std::uint32_t severity, sizei_t msg_length, const char* message, const void* userParam);

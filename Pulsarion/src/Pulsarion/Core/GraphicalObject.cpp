@@ -7,6 +7,8 @@ namespace Pulsarion
         : m_Material(material), m_Mesh(mesh), m_Transform(), m_RenderOptions(), m_IsChanged(true), m_ShaderSignature()
     {
         m_ShaderSignature = material->GetShaderSignature() | mesh->GetShaderSignature() | m_Transform.GetShaderSignature();
+        m_ShaderSignature.EnableUniform(ShaderSignatureBit::ViewMatrix);
+        m_ShaderSignature.EnableUniform(ShaderSignatureBit::ProjectionMatrix);
     }
 
     GraphicalObject2D::~GraphicalObject2D()

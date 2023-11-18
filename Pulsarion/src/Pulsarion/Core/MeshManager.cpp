@@ -3,38 +3,57 @@
 
 namespace Pulsarion
 {
-    std::uint32_t MeshManager::s_MeshID = 0;
-    std::unordered_map<std::uint32_t, std::shared_ptr<Mesh2D>> MeshManager::s_2DMeshes;
+    std::unordered_map<std::string, std::shared_ptr<Mesh2D>> MeshManager::s_2DMeshes;
 
-    std::pair<std::uint32_t, std::shared_ptr<Mesh2D>> MeshManager::Create2DMesh(UsageType usageType, VertexDataType vertexDataType)
+    std::shared_ptr<Mesh2D> MeshManager::Create2DMesh(const std::string& name, UsageType usageType, VertexDataType vertexDataType)
     {
         std::shared_ptr<Mesh2D> mesh = std::make_shared<Mesh2D>(usageType, vertexDataType);
-        std::uint32_t id = GetNextId();
-        s_2DMeshes[id] = mesh;
-        return std::make_pair(id, mesh);
-    }
-
-    std::uint32_t MeshManager::Add2DMesh(std::shared_ptr<Mesh2D> mesh)
-    {
-        std::uint32_t id = GetNextId();
-        s_2DMeshes[id] = mesh;
-        return id;
-    }
-
-    std::shared_ptr<Mesh2D> MeshManager::Get2DMesh(std::uint32_t id)
-    {
-        return s_2DMeshes[id];
-    }
-
-    std::shared_ptr<Mesh2D> MeshManager::Remove2DMesh(std::uint32_t id)
-    {
-        std::shared_ptr<Mesh2D> mesh = s_2DMeshes[id];
-        s_2DMeshes.erase(id);
+        // Find by name
+        auto it = s_2DMeshes.find(name);
+        if (it != s_2DMeshes.end())
+        {
+            // Name already exists
+            return nullptr;
+        }
+        s_2DMeshes[name] = mesh;
         return mesh;
     }
 
-    std::uint32_t MeshManager::GetNextId()
+    bool MeshManager::Add2DMesh(const std::string& name, std::shared_ptr<Mesh2D> mesh)
     {
-        return s_MeshID++;
+        auto it = s_2DMeshes.find(name);
+        if (it != s_2DMeshes.end())
+        {
+            // Name already exists
+            return false;
+        }
+
+        s_2DMeshes[name] = mesh;
+        return true;
+    }
+
+    std::shared_ptr<Mesh2D> MeshManager::Get2DMesh(const std::string& name)
+    {
+        auto it = s_2DMeshes.find(name);
+        if (it == s_2DMeshes.end())
+        {
+            // Name does not exist
+            return nullptr;
+        }
+        return it->second;
+    }
+
+    std::shared_ptr<Mesh2D> MeshManager::Remove2DMesh(const std::string& name)
+    {
+        auto it = s_2DMeshes.find(name);
+        if (it == s_2DMeshes.end())
+        {
+            // Name does not exist
+            return nullptr;
+        }
+
+        std::shared_ptr<Mesh2D> mesh = it->second;
+        s_2DMeshes.erase(it);
+        return mesh;
     }
 }

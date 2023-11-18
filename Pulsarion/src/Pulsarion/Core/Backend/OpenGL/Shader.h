@@ -58,8 +58,6 @@ namespace Pulsarion::OpenGL
         void SetUniform(const std::string& name, const glm::vec4& value);
         void SetUniform(const std::string& name, const glm::mat3& value);
         void SetUniform(const std::string& name, const glm::mat4& value);
-
-        glm::mat3 GetUniformMat3(const std::string& name) const;
     private:
         std::int32_t GetUniformLocation(const std::string& name) const;
 
