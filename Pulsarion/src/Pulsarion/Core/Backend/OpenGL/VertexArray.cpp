@@ -37,19 +37,27 @@ namespace Pulsarion::OpenGL
         Bind();
         vb.Bind();
 
-        for (std::uint32_t i = 0; i < layout.m_Attributes.size(); i++)
+        // Sort attributes by index
+        std::vector<std::pair<std::uint32_t, VertexBufferLayout::Attribute>> attributes = layout.m_Attributes;
+        std::sort(attributes.begin(), attributes.end(), [](const std::pair<std::uint32_t, VertexBufferLayout::Attribute>& a, const std::pair<std::uint32_t, VertexBufferLayout::Attribute>& b) { return a.first < b.first; });
+
+        std::ptrdiff_t offset = 0;
+        for (const auto& [index, attribute] : attributes)
         {
-            const auto& attribute = layout.m_Attributes[i];
             std::int32_t stride = attribute.Stride == -1 ? layout.m_Stride : attribute.Stride;
-            GL::EnableVertexAttribArray(i);
+            const void* offsetPtr = attribute.Offset == -1 ? (const void*)offset : (const void*)attribute.Offset;
+
+            GL::EnableVertexAttribArray(index);
             if (attribute.Type == Type::Double)
-                GL::VertexAttribLPointer(i, attribute.Size, attribute.Type, stride, (const void*)attribute.Offset);
+                GL::VertexAttribLPointer(index, attribute.Size, attribute.Type, stride, offsetPtr);
             else
-                GL::VertexAttribPointer(i, attribute.Size, attribute.Type, attribute.Normalized, stride, (const void*)attribute.Offset);
+                GL::VertexAttribPointer(index, attribute.Size, attribute.Type, attribute.Normalized, stride, offsetPtr);
             if (attribute.Instanced)
             {
-                GL::VertexAttribDivisor(i, 1);
+                GL::VertexAttribDivisor(index, 1);
             }
+
+            offset += attribute.Size * GL::GetSizeOfGLType(attribute.Type);
         }
     }
 }

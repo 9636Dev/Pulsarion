@@ -4,11 +4,9 @@
 namespace Pulsarion
 {
     GraphicalObject2D::GraphicalObject2D(std::shared_ptr<Material> material, std::shared_ptr<Mesh2D> mesh)
-        : m_Material(material), m_Mesh(mesh), m_Transform(), m_RenderOptions(), m_IsChanged(true), m_ShaderSignature()
+        : m_Material(material), m_Mesh(mesh), m_Transform(), m_RenderOptions(), m_IsChanged(true)
     {
-        m_ShaderSignature = material->GetShaderSignature() | mesh->GetShaderSignature() | m_Transform.GetShaderSignature();
-        m_ShaderSignature.AddVertexUniform(Shading::ShaderInputUniform::ViewMatrix);
-        m_ShaderSignature.AddVertexUniform(Shading::ShaderInputUniform::ProjectionMatrix);
+        
     }
 
     GraphicalObject2D::~GraphicalObject2D()
@@ -67,9 +65,12 @@ namespace Pulsarion
         return m_IsChanged;
     }
 
-    const Shading::ShaderSignature& GraphicalObject2D::GetShaderSignature() const
+    Shading::ShaderSignature GraphicalObject2D::GetShaderSignature()
     {
-        return m_ShaderSignature;
+        Shading::ShaderSignature signature;
+        signature.AddVertexUniform(Shading::ShaderInputUniform::ViewMatrix);
+        signature.AddVertexUniform(Shading::ShaderInputUniform::ProjectionMatrix);
+        return signature;
     }
 
     Transform2D& GraphicalObject2D::GetTransformRef()

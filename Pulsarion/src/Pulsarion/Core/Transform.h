@@ -31,7 +31,7 @@ namespace Pulsarion
         void SetRotation(double rotation);
         bool IsDirty() const;
 
-        Shading::ShaderSignature GetShaderSignature() const;
+        static Shading::ShaderSignature GetShaderSignature();
     private:
         mutable glm::mat4 m_Matrix;
 

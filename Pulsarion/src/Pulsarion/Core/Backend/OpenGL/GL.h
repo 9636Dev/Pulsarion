@@ -42,6 +42,25 @@ namespace Pulsarion::OpenGL
 
         template<Util::GLType T>
         static constexpr Type GetGLType();
+        static constexpr std::size_t GetSizeOfGLType(Type type)
+        {
+            switch (type)
+            {
+                case Type::Byte:
+                case Type::UnsignedByte:
+                    return sizeof(std::uint8_t);
+                case Type::Short:
+                case Type::UnsignedShort:
+                    return sizeof(std::uint16_t);
+                case Type::Int:
+                case Type::UnsignedInt:
+                    return sizeof(std::uint32_t);
+                case Type::Float:
+                    return sizeof(float);
+                case Type::Double:
+                    return sizeof(double);
+            }
+        }
 
         static void ClearColor(float r, float g, float b, float a);
         static void Clear(ClearTarget target);
@@ -52,6 +71,8 @@ namespace Pulsarion::OpenGL
         static void Viewport(std::int32_t x, std::int32_t y, sizei_t width, sizei_t height);
 
         static void DrawElements(DrawMode mode, sizei_t count, Type type, const void* indices);
+        static void DrawElementsInstanced(DrawMode mode, sizei_t count, Type type, const void* indices, sizei_t instancecount);
+        static void DrawElementsInstancedBaseIntance(DrawMode mode, sizei_t count, Type type, const void* indices, sizei_t instanceCount, std::uint32_t baseinstance);
 
         static void GenVertexArrays(sizei_t n, VertexArray_t* arrays);
         static void GenBuffers(sizei_t n, Buffer_t* buffers);
@@ -109,6 +130,8 @@ namespace Pulsarion::OpenGL
         [[nodiscard]] static Program_t GetBoundProgram();
         [[nodiscard]] static VertexArray_t GetBoundVertexArray();
         static void SetLogLevel(std::uint32_t logLevel);
+
+        
     private:
         static void PulsarGLCallback(std::uint32_t source, std::uint32_t type, std::uint32_t id, std::uint32_t severity, sizei_t msg_length, const char* message, const void* userParam);
         static void CheckError(const std::string& function, const std::string& file, std::uint32_t line);

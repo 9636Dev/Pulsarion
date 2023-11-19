@@ -28,7 +28,7 @@ namespace Pulsarion
         bool GetIsTransparent() const;
         UsageType GetUsageType() const;
 
-        Shading::ShaderSignature GetShaderSignature() const;
+        static Shading::ShaderSignature GetShaderSignature();
 
     private:
         UsageType m_UsageType;

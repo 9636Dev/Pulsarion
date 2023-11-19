@@ -5,7 +5,7 @@
 
 namespace Pulsarion::OpenGL
 {
-    GLShader::GLShader(std::vector<OpenGL::Shader>&& shaders, const Shading::ShaderSignature& signature, const Shading::ShaderInputOrder& inputOrder) : Shader(Shading::ShaderSignature(), inputOrder), m_Shaders(std::move(shaders)), m_Program()
+    GLShader::GLShader(std::vector<OpenGL::Shader>&& shaders, const Shading::ShaderSignature& signature, const Shading::ShaderInputOrder& inputOrder) : ::Pulsarion::Shader(signature, inputOrder), m_Shaders(std::move(shaders)), m_Program()
     {
         for (const OpenGL::Shader& shader : m_Shaders)
         {
@@ -417,7 +417,6 @@ namespace Pulsarion
                 PLS_LOG_ERROR("Texture2D input was present, but TextureCoord2D was not");
                 return nullptr;
             }
-
             fragmentShaderSource += "o_Color = o_Color * texture(" + texture2D + ", " + texCoord + ");\n";
         }
 
@@ -468,6 +467,9 @@ namespace Pulsarion
         std::vector<OpenGL::Shader> shaders;
         shaders.push_back(std::move(vertexShader));
         shaders.push_back(std::move(fragmentShader));
+
+        PLS_LOG_DEBUG("Vertex shader:\n{}", vertexShaderSource);
+        PLS_LOG_DEBUG("Fragment shader:\n{}", fragmentShaderSource);
 
         return std::make_shared<OpenGL::GLShader>(std::move(shaders), signature, inputOrder);
     }

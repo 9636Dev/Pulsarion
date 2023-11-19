@@ -53,4 +53,9 @@ namespace Pulsarion::OpenGL
     {
         GL::BindBuffer(BufferTarget::ArrayBuffer, 0);
     }
+
+    void VertexBuffer::PrintDebugInfo() const
+    {
+        
+    }
 }

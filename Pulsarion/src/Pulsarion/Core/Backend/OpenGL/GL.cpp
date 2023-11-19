@@ -118,6 +118,16 @@ namespace Pulsarion::OpenGL
         PLS_GLCall(glDrawElements, static_cast<std::uint32_t>(mode), count, static_cast<std::uint32_t>(type), indices);
     }
 
+    void GL::DrawElementsInstanced(DrawMode mode, sizei_t count, Type type, const void* indices, sizei_t instanceCount)
+    {
+        PLS_GLCall(glDrawElementsInstanced, static_cast<std::uint32_t>(mode), count, static_cast<std::uint32_t>(type), indices, instanceCount);
+    }
+
+    void GL::DrawElementsInstancedBaseIntance(DrawMode mode, sizei_t count, Type type, const void* indices, sizei_t instanceCount, std::uint32_t baseInstance)
+    {
+        PLS_GLCall(glDrawElementsInstancedBaseInstance, static_cast<std::uint32_t>(mode), count, static_cast<std::uint32_t>(type), indices, instanceCount, baseInstance);
+    }
+
     void GL::GenVertexArrays(sizei_t n, VertexArray_t *arrays)
     {
         PLS_GLCall(glGenVertexArrays, n, arrays);
