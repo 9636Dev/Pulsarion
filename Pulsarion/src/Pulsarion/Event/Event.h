@@ -2,6 +2,7 @@
 
 #include "Pulsarion/Core/PulsarionCore.h"
 #include <string>
+#include <sstream>
 
 #define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; }\
     virtual EventType GetEventType() const override	{ return GetStaticType(); }\
