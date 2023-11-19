@@ -5,7 +5,7 @@
 
 namespace Pulsarion::OpenGL
 {
-    GLMeshBackend2D::GLMeshBackend2D() : m_VertexArray(), m_VertexBuffer(), m_Layout(), m_IndexBuffer()
+    GLMeshBackend2D::GLMeshBackend2D() : m_VertexArray(), m_VertexBuffer(), m_Layout(), m_IndexBuffer(), m_InstanceBuffer()
     {
 
     }
@@ -50,6 +50,9 @@ namespace Pulsarion::OpenGL
     {
         m_VertexArray.Bind();
         m_IndexBuffer.Bind();
+        if (m_InstanceBuffer != nullptr)
+            m_InstanceBuffer->Bind();
+        
     }
 
     void GLMeshBackend2D::Unbind() const

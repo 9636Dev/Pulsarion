@@ -10,6 +10,9 @@
 
 namespace Pulsarion
 {
+    class MeshBackend2D;
+    class Mesh2D;
+
     namespace UI
     {
         class Window;
@@ -65,18 +68,8 @@ namespace Pulsarion
         /// </summary>
         /// <param name="window">UI Window to render.</param>
         virtual void RenderUIWindow(const UI::Window& window) = 0;
-        /// <summary>
-        /// Adds a 2D renderable to the renderer to be rendered.
-        /// </summary>
-        /// <param name="renderable">A shared pointer of the renderable to add.</param>
-        /// <returns>The unique identifier of the renderable.</returns>
-        virtual std::uint64_t Add2DRenderable(std::shared_ptr<GraphicalObject2D> renderable) = 0;
-        /// <summary>
-        /// Removes a 2D renderable from the renderer.
-        /// </summary>
-        /// <param name="id">The unique identifier of the renderable.</param>
-        /// <returns>A shared pointer of the renderable with the unique identifier.</returns>
-        virtual std::shared_ptr<GraphicalObject2D> Remove2DRenderable(std::uint64_t id) = 0;
+        virtual void Add2DRenderable(std::shared_ptr<GraphicalObject2D> renderable) = 0;
+        virtual bool Remove2DRenderable(std::shared_ptr<GraphicalObject2D> renderable) = 0;
 
         virtual void Set2DProjection(const glm::mat4& projection) = 0;
         virtual const glm::mat4& Get2DProjection() const = 0;
@@ -88,6 +81,10 @@ namespace Pulsarion
         virtual void Render(const Camera& camera) = 0;
 
         virtual const RenderInfo& GetRenderInfo() const = 0;
+
+        // Utility Functions
+    protected:
+        static MeshBackend2D* GetMeshBackend2D(std::shared_ptr<Mesh2D>& mesh);
     };
 
     /// <summary>

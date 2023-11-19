@@ -46,6 +46,11 @@ namespace Pulsarion
         m_VertexData->SetVertices(vertices);
     }
 
+    void Mesh2D::SetTextureCoordinates(const std::vector<float>& textureCoordinates)
+    {
+        m_VertexData->SetTextureCoordinates(textureCoordinates);
+    }
+
     void Mesh2D::SetVertexCount(std::size_t count)
     {
         m_VertexData->SetVertexCount(count);

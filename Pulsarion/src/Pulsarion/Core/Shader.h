@@ -70,6 +70,26 @@ namespace Pulsarion
                 return VertexInputs == other.VertexInputs && VertexUniforms == other.VertexUniforms && FragmentInputs == other.FragmentInputs && FragmentUniforms == other.FragmentUniforms;
             }
 
+            bool VertexInputContains(ShaderInputUniform input) const
+            {
+                return (VertexInputs & static_cast<std::uint32_t>(input)) != 0;
+            }
+
+            bool VertexUniformContains(ShaderInputUniform input) const
+            {
+                return (VertexUniforms & static_cast<std::uint32_t>(input)) != 0;
+            }
+
+            bool FragmentInputContains(ShaderInputUniform input) const
+            {
+                return (FragmentInputs & static_cast<std::uint32_t>(input)) != 0;
+            }
+
+            bool FragmentUniformContains(ShaderInputUniform input) const
+            {
+                return (FragmentUniforms & static_cast<std::uint32_t>(input)) != 0;
+            }
+
             ShaderSignature operator|(const ShaderSignature& other) const
             {
                 ShaderSignature result;
@@ -117,7 +137,10 @@ namespace Pulsarion
         const Shading::ShaderSignature& GetSignature() const { return m_Signature; }
         const Shading::ShaderInputOrder& GetInputOrder() const { return m_InputOrder; }
     protected:
-        Shader(const Shading::ShaderSignature& signature, const Shading::ShaderInputOrder& inputOrder) : m_Signature(signature), m_InputOrder(inputOrder) {}
+        Shader(const Shading::ShaderSignature& signature, const Shading::ShaderInputOrder& inputOrder) : m_Signature(signature), m_InputOrder(inputOrder)
+        {
+
+        }
 
         Shading::ShaderSignature m_Signature;
         Shading::ShaderInputOrder m_InputOrder;

@@ -9,9 +9,11 @@
 
 namespace Pulsarion::OpenGL
 {
+    class GLRenderer;
     class PULSARION_API GLMeshBackend2D : public MeshBackend2D
     {
     public:
+        friend class GLRenderer;
         GLMeshBackend2D();
         ~GLMeshBackend2D();
 
@@ -23,6 +25,7 @@ namespace Pulsarion::OpenGL
     private:
         VertexArray m_VertexArray;
         VertexBuffer m_VertexBuffer;
+        std::unique_ptr<VertexBuffer> m_InstanceBuffer;
         IndexBuffer m_IndexBuffer;
         VertexBufferLayout m_Layout;
     };

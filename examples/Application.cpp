@@ -44,8 +44,38 @@ public:
         MeshParseResult parseResult = PLSMesh::Parse(meshFile);
         if (!parseResult.Success)
         {
-            std::cout << "Failed to parse mesh from file: " << parseResult.Message << std::endl;
-            std::exit(1);
+            std::cout << "Failed to parse mesh!" << std::endl;
+            // Generate mesh and save it
+            std::vector<float> vertices = {
+                -1.0f, -1.0f, // 0
+                1.0f, -1.0f, // 1
+                1.0f, 1.0f, // 2
+                -1.0f, 1.0f, // 3
+            };
+            std::vector<float> textureCoordinates = {
+                0.0f, 0.0f, // 0
+                1.0f, 0.0f, // 1
+                1.0f, 1.0f, // 2
+                0.0f, 1.0f, // 3
+            };
+
+            std::vector<std::uint32_t> indices = {
+                0, 1, 2,
+                0, 2, 3
+            };
+
+            auto mesh = std::make_shared<Mesh2D>(UsageType::Static);
+            mesh->SetVertexCount(vertices.size() / 2);
+            mesh->SetVertices(vertices);
+            mesh->SetTextureCoordinates(textureCoordinates);
+            mesh->SetIndices(indices);
+            PLSMesh::Write(meshFile, *mesh);
+            parseResult = PLSMesh::Parse(meshFile);
+            if (!parseResult.Success)
+            {
+                std::cout << "Failed to parse mesh!" << std::endl;
+                std::exit(1);
+            }
         }
 
         parseResult.Mesh2D->CreateBackend();
@@ -128,14 +158,14 @@ public:
                         renderable->GetTransformRef().SetTranslation(glm::vec2(dis(gen), dis(gen)));
                         renderable->GetTransformRef().SetRotation(dis(gen));
                         renderables.push_back(renderable);
-                        renderableIds.push_back(m_Renderer->Add2DRenderable(renderable));
+                        m_Renderer->Add2DRenderable(renderable);
                     }
                 }
                 else if (newSize < renderables.size())
                 {
                     for (std::int32_t i = newSize; i < renderables.size(); ++i)
                     {
-                        m_Renderer->Remove2DRenderable(renderableIds[i]);
+                        m_Renderer->Remove2DRenderable(renderables[i]);
                     }
                     renderables.resize(newSize);
                     renderableIds.resize(newSize);

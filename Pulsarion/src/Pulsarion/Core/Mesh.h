@@ -15,10 +15,12 @@ namespace Pulsarion
         struct ShaderSignature;
     }
     class MeshBackend2D;
+    class Renderer;
 
     class PULSARION_API Mesh2D
     {
     public:
+        friend class Renderer;
         Mesh2D(UsageType type, VertexDataType vertexType = VertexDataType::TightlyPacked);
         ~Mesh2D();
 
@@ -28,6 +30,7 @@ namespace Pulsarion
         void SetIndices(const std::vector<std::uint32_t>& indices);
         std::vector<float> GetVertices() const;
         void SetVertices(const std::vector<float>& vertices);
+        void SetTextureCoordinates(const std::vector<float>& textureCoordinates);
         void SetVertexCount(std::size_t count);
 
         bool CreateBackend();
