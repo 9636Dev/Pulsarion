@@ -275,7 +275,7 @@ namespace Pulsarion::OpenGL
                 if (materialData.Renderables.empty())
                     continue;
 
-                // TODO: Use uniform buffer for material data
+                // TODO: Use uniform buffer for view and projection matrices (and material if not optimized)
 
                 if (data.TextureUnitMap.find(material->GetTextureId()) == data.TextureUnitMap.end())
                 {

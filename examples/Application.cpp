@@ -100,7 +100,7 @@ public:
 
         auto text = std::make_shared<UI::Text>("FPS: ");
         m_Window->SetVSync(true);
-        auto numRenderables = std::make_shared<UI::Slider1i>("Num Renderables", std::array{ 0 }, std::array{ 1000 }, std::array{ 0 });
+        auto numRenderables = std::make_shared<UI::Slider1i>("Num Renderables", std::array{ 0 }, std::array{ 10000 }, std::array{ 0 });
 
         bool vsync = true;
         auto vsyncButton = std::make_shared<UI::Button>("VSync: On");
